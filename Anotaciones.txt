@@ -1,1 +1,8 @@
-- 14-09 - El DER y el UML subidos por el momento son solo un borrador, para completar el DER necesitamos mas asesoramiento.
+26/01/2024 
+	Proyecto resubido a repositorio final. En el presente se encuentra el proyecto Java web
+junto con el correspondiente DER listo para abrir en MySQL Workbench y algunos archivos generados
+durante el proceso de desarrollo de todo este trabajo.
+Aún hay cosas que mejorar y codigo que refactorizar, sin embargo los cambios se verán reflejados 
+en los proximos commit a realizar.
+En un principio el proyecto se realizaría de manera grupal, pero por decisiones tomadas en conjunto
+se opto por la continuación del mismo de manera individual.
