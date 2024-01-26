@@ -6,3 +6,6 @@ Aún hay cosas que mejorar y codigo que refactorizar, sin embargo los cambios se
 en los proximos commit a realizar.
 En un principio el proyecto se realizaría de manera grupal, pero por decisiones tomadas en conjunto
 se opto por la continuación del mismo de manera individual.
+El proyecto está resubido porque en realidad proviene del repositorio "proyecto fake". Sin embargo
+el mismo quedará disponible para que se vean los cambios realizados a lo largo del desarrollo del mismo.
+
