@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Bahiana&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bahiana&family=Bebas+Neue&family=Permanent+Marker&family=Tilt+Prism&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bahiana&family=Barlow+Condensed&family=Bebas+Neue&family=Permanent+Marker&family=Tilt+Prism&display=swap');
+
+body{
+    background-color: black;
+    font-family: 'Bahiana', cursive;
+    margin: 30px;
+    background-size: cover;
+}
+
+.elcontainer {
+    max-width: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: static;
+    margin: auto;
+}
+
+.fuenteMin{
+    background-color:  rgba(28, 28, 28,0.8);
+    font-family: 'Bahiana', cursive;
+    color: rgb(158, 153, 153);
+    font-size: 25px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.fuentePrinc{
+    color: black;
+    font-family: 'Bahiana', cursive;
+
+    font-size: 30px;
+    padding: 10px;
+}
+
+.fuentePrincFondo{
+    background-color:  rgba(206, 5, 5, 0.8);
+    color: black;
+    font-size: 30px;
+    padding: 10px;
+    /*border-radius: 10px;*/
+}
+
+.form-container{
+    display: flex;
+    background-color: grey;
+    border-style: double grey;
+    border-radius: 10px;
+    width: 1000px;
+    height: auto;
+    padding: 15px;
+    position: relative;
+    flex-direction: column;
+}
+
+.centrarEnPag{
+    text-align: center;
+}
+
+.eltitulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    color: white;
+    align-items: center;
+}
+
+.rojo{
+    color: red;
+}
+
+img.logo {
+    height: 60px;
+    width: auto;
+    transition: all 0.3s;
+}
+
+.form-container .centrarEnPag button.botoncin {
+    font-family: 'Bahiana', cursive;
+    font-size: 30px;
+    color: white;
+    padding: 9px 25px;
+    background: #212629;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.form-container .centrarEnPag button:hover.botoncin {
+    background-color: #3e4041;
+    color: #ff0e0e;
+    transform: scale(1.1);
+}
+
+.centrar-contenido{
+    align-items: center;
+    justify-content: center;
+}
+
+.text-box-ajuste{/*ajuste de tamaño de caja de texto acorde al fondo del label y largo de la misma*/
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    padding: 2px;
+    border-radius: 5px;
+    width:23%;
+}
+
+.inter-texto{/*interlineado de los textos*/
+    line-height: 1.7;
+}
