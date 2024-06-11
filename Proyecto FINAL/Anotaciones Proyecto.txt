@@ -1,0 +1,26 @@
+Primer problema: Correr la aplicacion
+
+Procedimiento
+	- Consulte el registro de errores del proyecto a ChatGPT y me sugirió cambiar la version
+de dialecto de Hibernate:
+
+"El error que estás experimentando indica que Hibernate no puede cargar la clase org.hibernate.dialect.MySQL5Dialect. 
+Esto se debe a que parece que la clase no se encuentra en el classpath.
+
+Hay varias cosas que debes verificar y corregir:
+
+1. Dialecto de Hibernate
+A partir de Hibernate 5.3, los dialectos de MySQL fueron renombrados. 
+Si estás utilizando una versión más reciente de Hibernate, deberías 
+usar org.hibernate.dialect.MySQL8Dialect en lugar de org.hibernate.dialect.MySQL5Dialect.
+
+2. Configuración del Dialecto
+Asegúrate de que el dialecto está correctamente configurado en tu application.properties 
+o application.yml.
+
+3. Dependencia de Hibernate
+Verifica que tienes la dependencia correcta de Hibernate en tu pom.xml."
+
+	- Corrección:
+
+En application.properties cambie org.hibernate.dialect.MySQL5Dialect por org.hibernate.dialect.MySQL8Dialect.

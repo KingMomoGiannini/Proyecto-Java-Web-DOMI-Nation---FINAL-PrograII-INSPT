@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Bahiana&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bahiana&family=Bebas+Neue&family=Permanent+Marker&family=Tilt+Prism&display=swap');
+
+/**{
+    box-sizing: border-box;
+}*/
+
+body{
+    max-width: 2000px;
+    margin: auto;
+    background-color: black;
+}
+
+.elcontainer{ 
+    /*display: flex;*/
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: black;
+
+}
+
+.container-inicial{/*container con banner horizontal y titulo de bienvenida*/
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 400px;
+    background-image: url(../img/banner.jpg);
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-attachment: initial;
+
+} 
+
+.container-inicial h1{/*titulo de bienvenida con fondo oscuro*/
+    font-family: 'Bahiana', cursive;
+    font-size: 50px;
+    color: white;
+    text-align: center;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    
+}
+
+.centrarEnPag{
+    text-align: center;
+}
+
+.centrarEnPag button.botoncin {
+    font-family: 'Bahiana', cursive;
+    font-size: 30px;
+    color: white;
+    padding: 9px 25px;
+    background: #212629;
+    border: solid 2px white;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.centrarEnPag button:hover.botoncin {
+    background-color: #3e4041;
+    color: #ff0e0e;
+    transform: scale(1.1);
+}
+
+.elcontainer .mensaje h1{/*Mensaje de error con recuadro rojo*/
+    background-color: rgba(206, 5, 5, 0.8);
+    color: white;
+    font-size: 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    padding: 5px;
+    border-radius: 5px;
+    width: 30%;
+    margin: auto;
+    text-align: center;
+    border: solid 2px white;
+}
+
+.sede-container {
+    width: 30%; /* Ajusta el ancho de cada contenedor según tus preferencias */
+    margin: 10px; /* Espaciado entre cada contenedor de sede */
+    border: 1px solid #ddd; /* Borde alrededor de cada contenedor */
+    border-radius: 5px;
+    padding: 20px; /* Espaciado interno del contenedor */
+    text-align: center;
+    background-color: #212629; /* Fondo del contenedor */
+    color: white; /* Color del texto dentro del contenedor */
+}
+
+.sede-container:hover {
+    background-color: black; /* Cambia el fondo al pasar el mouse sobre el contenedor */
+}
+
+.sedes-row {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los contenedores se envuelvan en la siguiente línea */
+    justify-content: center; /* Centra los contenedores en la línea */
+}
+
+.elcontainer .seccion h1{
+    font-family: 'Bahiana', cursive;
+    background-color:  rgba(206, 5, 5, 0.8);
+    color: black;
+    font-size: 30px;
+    padding: 10px;
+}
