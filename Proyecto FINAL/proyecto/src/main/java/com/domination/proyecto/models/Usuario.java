@@ -1,33 +1,60 @@
 package com.domination.proyecto.models;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 
-
-public class Usuario {
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Usuario {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private int idUsuario;
     
+    @Column(name = "nombre_usuario")
     private String nombreUsuario;
     
+    @Column(name = "nombre")    
     private String nombre;
+    
+    @Column(name = "apellido")    
     private String apellido;
+    
+    @Column(name = "email")    
     private String email;
+    
+    @Column(name = "password")    
     private String password;
+    
+    @Column(name = "celular")    
     private String celular;
     
+    @Column(name = "rol")    
     private String rol;
     
+    
     // Constructor sin parámetros
-    public Usuario() {}
+    
 
-    public Usuario(String nombreUsuario, String nombre, String apellido, String email, String password, String celular, String rol) {
-        this(0, nombreUsuario, nombre, apellido, email, password, celular, rol);
+    public Usuario() {
     }
 
+    public Usuario(String nombreUsuario, String nombre, String apellido, String email, String password, String celular, String rol) {
+        this.nombreUsuario = nombreUsuario;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.password = password;
+        this.celular = celular;
+        this.rol = rol;
+    }
+    
     public Usuario(int idUsuario, String nombreUsuario, String nombre, String apellido, String email, String password, String celular, String rol) {
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
@@ -45,7 +72,7 @@ public class Usuario {
         return idUsuario;
     }
 
-    public String getNomUsuario() {
+    public String getNombreUsuario() {
         return nombreUsuario;
     }
 
@@ -77,7 +104,7 @@ public class Usuario {
         this.idUsuario = idUsuario;
     }
 
-    public void setNomUsuario(String nomUsuario) {
+    public void setNombreUsuario(String nomUsuario) {
         this.nombreUsuario = nomUsuario;
     }
 

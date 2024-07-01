@@ -1,29 +1,35 @@
 package com.domination.proyecto.controllers;
 
+import com.domination.proyecto.models.Cliente;
+import com.domination.proyecto.services.ClienteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 
 @Controller
 public class RegistroController {
-//
+
+    @Autowired
+    private ClienteService usuarioClienteService;
+
 //    @Autowired
-//    private UsuarioClienteService usuarioClienteService;
-//
-//    @Autowired
-//    private UsuarioPrestadorService usuarioPrestadorService;
+//    private PrestadorService usuarioPrestadorService;
 
     @GetMapping("/registrarse")
     public String showRegistrationForm() {
         return "registro"; // Esto devuelve la vista "registro.jsp"
     }
 
-//    @PostMapping("/registrarse")
-//    public String registerUser(@RequestParam String nomCliente, @RequestParam String apeCliente, @RequestParam String celular, 
-//                               @RequestParam String email, @RequestParam String user, @RequestParam String pass, 
-//                               @RequestParam(required = false) String tipoUsuario, Model model) {
-//        try {
+    @PostMapping("/registrarse")
+    public String registerUser(@RequestParam String nomCliente, @RequestParam String apeCliente, @RequestParam String celular, 
+                               @RequestParam String email, @RequestParam String user, @RequestParam String pass, 
+                               @RequestParam(required = false) String tipoUsuario, Model model) {
+        try {
 //            if ("prestador".equals(tipoUsuario)) {
 //                // Si el checkbox se encuentra tildado, crea un usuario de tipo prestador
 //                UsuarioPrestador elPrestador = new UsuarioPrestador(user, nomCliente, apeCliente, email, pass, celular);
@@ -31,16 +37,19 @@ public class RegistroController {
 //                model.addAttribute("elUsuario", elPrestador);
 //            } else {
 //                // Por defecto, se crea un usuario de tipo cliente
-//                UsuarioCliente elUsuario = new UsuarioCliente(user, nomCliente, apeCliente, email, pass, celular);
-//                usuarioClienteService.registerUser(elUsuario);
-//                model.addAttribute("elUsuario", elUsuario);
-//            }
-//            return "felicitacion"; // Esto devuelve la vista "felicitacion.jsp"
-//        } catch (Exception ex) {
-//            model.addAttribute("error", "Hubo un problema con el registro: " + ex.getMessage());
-//            return "error"; // Vista de error (puedes crear una vista error.jsp para manejar esto)
-//        }
-//    }
+                if (tipoUsuario == null) {
+                tipoUsuario = "cliente";
+            }
+                Cliente elUsuario = new Cliente(user, nomCliente, apeCliente, email, pass, celular,tipoUsuario);
+                usuarioClienteService.registerUser(elUsuario);
+                model.addAttribute("elUsuario", elUsuario);
+            
+                return "felicitacion"; // Esto devuelve la vista "felicitacion.jsp"
+        } catch (Exception ex) {
+            model.addAttribute("error", "Hubo un problema con el registro: " + ex.getMessage());
+            return "error"; // Vista de error (puedes crear una vista error.jsp para manejar esto)
+        }
+    }
     
     
 
