@@ -1,13 +1,15 @@
 package com.domination.proyecto.models;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -37,24 +39,14 @@ public abstract class Usuario {
     
     @Column(name = "rol")    
     private String rol;
-    
-    
-    // Constructor sin parámetros
-    
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "administrador_idadministrador",referencedColumnName = "id_administrador")
+    private Administrador administrador;
 
     public Usuario() {
     }
 
-    public Usuario(String nombreUsuario, String nombre, String apellido, String email, String password, String celular, String rol) {
-        this.nombreUsuario = nombreUsuario;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.email = email;
-        this.password = password;
-        this.celular = celular;
-        this.rol = rol;
-    }
-    
     public Usuario(int idUsuario, String nombreUsuario, String nombre, String apellido, String email, String password, String celular, String rol) {
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
@@ -65,9 +57,17 @@ public abstract class Usuario {
         this.celular = celular;
         this.rol = rol;
     }
+    
+    public Usuario(String nombreUsuario, String nombre, String apellido, String email, String password, String celular, String rol) {
+        this.nombreUsuario = nombreUsuario;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.password = password;
+        this.celular = celular;
+        this.rol = rol;
+    }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getIdUsuario() {
         return idUsuario;
     }
@@ -131,4 +131,13 @@ public abstract class Usuario {
     public void setRol(String rol) {
         this.rol = rol;
     }
+
+    public Administrador getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(Administrador administrador) {
+        this.administrador = administrador;
+    }
+
 }

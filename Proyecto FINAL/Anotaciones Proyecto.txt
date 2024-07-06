@@ -24,3 +24,12 @@ Verifica que tienes la dependencia correcta de Hibernate en tu pom.xml."
 	- Corrección:
 
 En application.properties cambie org.hibernate.dialect.MySQL5Dialect por org.hibernate.dialect.MySQL8Dialect.
+
+Segundo problema: Clases y subclases de Usuario y sus tipos ---> Error de mapeo de herencias
+
+Con el agregado de las clases : Usuario y Cliente (Usuario como superclase abstracta y Cliente como subclase)
+tuve un inconveniente en la configuración para mapear a Cliente como subclase, visto que ambas tienen una relación
+de este tipo mediante clave foranea o FK en las distintas tablas de la base de datos.
+Al intentar correr la aplicación, el stack trace me confirmaba que no estaba utilizando bien las etiquetas o annotations
+dentro de la clase Cliente, indagando, pude localizar la falla en el codigo para poder mapear correctamente la relación 
+de herencia que tenian esta clases.
