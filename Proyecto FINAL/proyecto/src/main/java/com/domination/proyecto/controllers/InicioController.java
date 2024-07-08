@@ -22,4 +22,9 @@ public class InicioController {
 
     }
     
+    @GetMapping("/inicio")
+    public String sesionInicio(){
+        return "inicio";
+    }
+    
 }

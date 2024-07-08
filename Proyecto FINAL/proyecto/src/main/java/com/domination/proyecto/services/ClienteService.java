@@ -42,4 +42,8 @@ public class ClienteService {
     public Optional<Cliente> getClienteById(int id) {
         return clienteRepository.findById(id);
     }
+    
+    public Cliente findByNombreUsuarioAndPassword(String nombreUsuario, String password) {
+        return clienteRepository.findByNombreUsuarioAndPassword(nombreUsuario, password);
+    }
 }

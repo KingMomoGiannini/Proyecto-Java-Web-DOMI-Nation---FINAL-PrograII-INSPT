@@ -34,4 +34,8 @@ public class PrestadorService {
     public Optional<Prestador> getPrestadorById(int id) {
         return prestadorRepository.findById(id);
     }
+    
+    public Prestador findByNombreUsuarioAndPassword(String nombreUsuario, String password) {
+        return prestadorRepository.findByNombreUsuarioAndPassword(nombreUsuario, password);
+    }
 }

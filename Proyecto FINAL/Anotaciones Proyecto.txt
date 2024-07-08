@@ -1,8 +1,31 @@
+11/03
 Primer problema: Correr la aplicacion
 
+	En estas instancias la información que poseo es escasa, inclusive consultando videos sobre el tema, por lo cual
+me dispuse a realizar un curso de Spring Boot en el cual se muestra como utilizar annotations para crear API Rest y 
+controladores junto con servicios.
+-----------------------------------------------------------------------------------------------------------------------------------
+11/06
+Primer Logro: Corre el inicio del programa
+	
+	Luego de investigar y ponerme al tanto con el curso que estoy realizando, logré configurar correctamente un proyecto
+Java con Maven utilizando Spring Boot, con las dependencias correspondientes para poder utilizar las annotations que requiera.
+
 Procedimiento
-	- Consulte el registro de errores del proyecto a ChatGPT y me sugirió cambiar la version
-de dialecto de Hibernate:
+	- Cree los packages correspondientes para mantener la estructura del proyecto ordenada, dentro del package "controllers"
+creé el controlador de "inicio" (InicioController.java), el cual solo es una clase que mapea mi JSP de la pagina de inicio a 
+traves de la annotation @GetMapping("/"). Esto vendría a asemejarse a lo que en la versión anterior de mi proyecto era el Servlet
+de inicio "InicioServlet".
+	- En el package "models" ubiqué hasta el momento solo las clases Usuario, Cliente y Prestador, que por ahora no se utilizan.
+	- Decidi implementar ademas de Spring Boot, el framework conocido como Hibernate, para aprender a utilizar con las annotations
+	correspondientes a JPA.
+-----------------------------------------------------------------------------------------------------------------------------------
+18/06
+Segundo Problema: Implementar Hibernate
+Procedimiento
+	- Al agregar los packages de "repositories" y "services" junto con las clases e interfaces para poder proceder con el registro 
+de algun tipo de usuario, aparecieron mas conflictos a la hora de buildear el proyecto. Consulté el registro de errores del proyecto a 
+ChatGPT y me sugirió cambiar la version de dialecto de Hibernate:
 
 "El error que estás experimentando indica que Hibernate no puede cargar la clase org.hibernate.dialect.MySQL5Dialect. 
 Esto se debe a que parece que la clase no se encuentra en el classpath.
@@ -23,13 +46,50 @@ Verifica que tienes la dependencia correcta de Hibernate en tu pom.xml."
 
 	- Corrección:
 
-En application.properties cambie org.hibernate.dialect.MySQL5Dialect por org.hibernate.dialect.MySQL8Dialect.
-
-Segundo problema: Clases y subclases de Usuario y sus tipos ---> Error de mapeo de herencias
+En application.properties cambie org.hibernate.dialect.MySQL5Dialect por org.hibernate.dialect.MySQL8Dialect, verifiqué ademas las dependencias
+correspondientes a Hibernate, y estaban correctamente colocadas dentro del archivo Pom.
+-----------------------------------------------------------------------------------------------------------------------------------
+1/07
+Tercer problema: Clases abstracta Usuario y sus tipos Cliente y Prestador (Subclases) ---> Error de mapeo de herencias
 
 Con el agregado de las clases : Usuario y Cliente (Usuario como superclase abstracta y Cliente como subclase)
 tuve un inconveniente en la configuración para mapear a Cliente como subclase, visto que ambas tienen una relación
 de este tipo mediante clave foranea o FK en las distintas tablas de la base de datos.
 Al intentar correr la aplicación, el stack trace me confirmaba que no estaba utilizando bien las etiquetas o annotations
 dentro de la clase Cliente, indagando, pude localizar la falla en el codigo para poder mapear correctamente la relación 
-de herencia que tenian esta clases.
+de herencia que tenian esta clases. A todo esto, tuve que cambiar la configuración de Hibernate, ya que no solo verificaba las tablas de mi base de 
+datos, sino que ademas las modificaba y agregaba campos extra, esto lo hice dentro de applicationProperties cambiando de:
+
+	spring.jpa.hibernate.ddl-auto=update
+			a
+	spring.jpa.hibernate.ddl-auto=validate.
+
+Procedimiento:
+	- Consulté dos videos sobre mapeo de relaciones con JPA(Java Persistence Api) a través de annotations:
+	links: 
+		https://www.youtube.com/watch?v=hNG8Xq5ypuM&t=1098s
+		https://www.youtube.com/watch?v=g3z9IZukLEI
+
+	A la par tambien consulté con GPT aunque se prestaba mas para confusiones que otra cosa. Gracias a los videos
+pude ilustrarme sobre como hacer el mapeo de herencia correctamente, para poder buildear  y poder correr la aplicación como 
+se debía, cosa que al final pude lograr, y al hacerlo descubri que tenía que corregir varias cosas, como el uso de @PrimaryKeyJoinedColumn
+@Inheritance y los tipos de estrategia(yo utilicé JOINED debido a que utilizo dos tablas para diferenciar el tipo de usuario), el agregado
+de la clase Administrador fue clave, ya que no podía instanciar Usuarios si no existia un administrador, el uso de las annotations 
+@OneToMany y @ManyToOne para las relaciones de administrador con usuarios, @Autowired @Service @Repository @Entity @Column junto con sus
+propiedades.
+
+6/07
+Segundo logro: Registro de Usuarios (Clientes y Prestadores)
+	- Hasta este momento, no podía instanciar un Cliente o Prestador a traves del uso del formulario JSP, y esto se debía a que en el
+controlador de registro, instanciaba Cliente y Prestador, sin antes instanciar un Administrador o buscando el administrador en la base de 
+datos, asi que procedi a instanciar uno para probar a ver si el conflicto desaparecía, y así ocurrió. Una vez que pude por fín instanciar 
+un usuario de esta forma, hice algunos cambios:
+	-Creé un package "configurations" y alli una clase de configuracion inicial llamada "DataInitializer" en la cual a través de las
+annotations @Configuration y @PostConstruct junto con el metodo "init()" verifico si en la base de datos existe algun administrador, y en
+caso de que no, se instancia uno y se guarda en la BDD. De esta forma para instanciar algun Usuario, buscamos solo al admin en la BDD y 
+utilizamos el atributo necesario (segun la clase que lo requiera).
+-----------------------------------------------------------------------------------------------------------------------------------
+08/07
+Tercer Logro: Inicio y Cierre de sesion
+	- A través de un unico controlador, se logró iniciar sesión a partir de un usuario creado y luego cerrar la sesión y volver a la
+pagina de inicio.

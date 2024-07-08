@@ -33,7 +33,7 @@
                     <a class="btn btn-outline-light botoncin" href="/registrarse">Registrarse</a>
                 </c:when>
                 <c:otherwise>
-                    <a class="btn btn-outline-light botoncin" href="#">Cerrar Sesión</a>
+                    <a class="btn btn-outline-light botoncin" href="/logout">Cerrar Sesión</a>
                 </c:otherwise>
             </c:choose>
         </div>

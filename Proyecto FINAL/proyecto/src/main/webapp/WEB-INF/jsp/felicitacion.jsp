@@ -19,7 +19,7 @@
         <br><br>
         <div class="botoncin">
             
-            <a href="${pageContext.request.contextPath}"><button type="submit">Volver al inicio</button></a>&nbsp;&nbsp;
+            <a href="${pageContext.request.contextPath}/"><button type="submit">Volver al inicio</button></a>&nbsp;&nbsp;
             <a href="${pageContext.request.contextPath}/ingresar"><button type="submit">ingresar</button></a>
         </div>
     </div><br>

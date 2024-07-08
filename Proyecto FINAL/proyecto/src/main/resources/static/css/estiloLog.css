@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Bahiana&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bahiana&family=Bebas+Neue&family=Permanent+Marker&family=Tilt+Prism&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bahiana&family=Barlow+Condensed&family=Bebas+Neue&family=Permanent+Marker&family=Tilt+Prism&display=swap');
+
+
+
+body{
+    background-color: black;
+    font-family: 'Bahiana', cursive;
+    margin: auto;
+    background-size: cover;
+}
+
+.elcontainer {
+    max-width: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: static;
+    margin: auto;
+}
+
+.fuenteMin{
+    background-color:  rgba(28, 28, 28,0.8);
+    color: rgb(158, 153, 153);
+    font-size: 25px;
+    padding: 5px;
+    border-radius: 2%;
+}
+
+.fuentePrinc{
+    color: black;
+    font-size: 30px;
+    padding: 10px;
+}
+
+.fuentePrincFondo{
+    background-color:  rgba(206, 5, 5, 0.8);
+    color: black;
+    font-size: 30px;
+    padding: 10px;
+    border-radius: 2%;
+}
+
+.form-container{
+    display: flexbox;
+    background-color: grey;
+    border-style: double grey;
+    border-radius: 2%;
+    width: 1000px;
+    height: auto;
+    padding: 20px;
+    position: relative;
+}
+
+.centrarEnPag{
+    text-align: center;
+}
+
+.eltitulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    color: white;
+    align-items: center;
+}
+
+.rojo{
+    color: red;
+}
+
+img.logo {
+    height: 60px;
+    width: auto;
+    transition: all 0.3s;
+}
+
+.centrarEnPag button.botoncin {
+    font-family: 'Bahiana', cursive;
+    font-size: 30px;
+    color: white;
+    padding: 9px 25px;
+    background: #212629;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.centrarEnPag button:hover.botoncin {
+    background-color: #3e4041;
+    color: #ff0e0e;
+    transform: scale(1.1);
+}
+
+.centrar-contenido{
+    align-items: center;
+    justify-content: center;
+}
+
+.text-box-ajuste{/*ajuste de tamaño de caja de texto acorde al fondo del label*/
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    padding: 5px;
+    border-radius: 5px;
+    width: auto;
+}
+
+.mensajeError h1{/*Mensaje de error con recuadro rojo*/
+    background-color: rgba(206, 5, 5, 0.8);
+    color: white;
+    font-size: 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    padding: 5px;
+    border-radius: 5px;
+    width: 20%;
+    margin: auto;
+    text-align: center;
+    border: solid 2px white;
+}

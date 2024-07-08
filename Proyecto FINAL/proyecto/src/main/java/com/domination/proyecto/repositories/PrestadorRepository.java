@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PrestadorRepository extends JpaRepository<Prestador, Integer> {
-    
+    Prestador findByNombreUsuarioAndPassword(String nombreUsuario, String password);   
 }
