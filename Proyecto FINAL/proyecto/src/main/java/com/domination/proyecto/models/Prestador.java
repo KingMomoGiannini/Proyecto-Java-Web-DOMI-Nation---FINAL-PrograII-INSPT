@@ -1,8 +1,12 @@
 package com.domination.proyecto.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "usuario_idusuario", referencedColumnName = "idUsuario")
@@ -10,7 +14,10 @@ public class Prestador extends Usuario {
     
     @Column(name = "id_prestador")
     private int idPrestador;
-
+    
+    @OneToMany(mappedBy = "prestador", cascade = CascadeType.ALL)
+    private Set<Sucursal> sucursales = new HashSet<>();
+    
     public Prestador(int idPrestador) {
         this.idPrestador = idPrestador;
     }
@@ -31,5 +38,9 @@ public class Prestador extends Usuario {
     public void setIdPrestador(int idPrestador) {
         this.idPrestador = idPrestador;
     }
-        
+
+    public Set<Sucursal> getSucursales() {
+        return sucursales;
+    }
+    
 }
