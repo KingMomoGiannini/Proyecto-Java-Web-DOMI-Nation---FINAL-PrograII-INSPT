@@ -15,7 +15,7 @@ public class DataInitializer {
     @PostConstruct
     public void init() {
         if (administradorRepository.count() == 0) {
-            Administrador admin = new Administrador(1,"admin", "admin");
+            Administrador admin = new Administrador(1,"admin", "admin","administrador");
             administradorRepository.save(admin);
         }
     }

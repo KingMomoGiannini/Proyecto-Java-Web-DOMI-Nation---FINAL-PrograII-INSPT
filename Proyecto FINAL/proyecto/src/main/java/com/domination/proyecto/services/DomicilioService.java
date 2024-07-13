@@ -5,6 +5,7 @@
 package com.domination.proyecto.services;
 
 import com.domination.proyecto.models.Domicilio;
+import com.domination.proyecto.models.Sucursal;
 import com.domination.proyecto.repositories.DomicilioRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AdministradorRepository extends JpaRepository<Administrador, Integer>{
-    
+    Administrador findByNombreUsuarioAndPassword(String nombreUsuario, String password);
 }

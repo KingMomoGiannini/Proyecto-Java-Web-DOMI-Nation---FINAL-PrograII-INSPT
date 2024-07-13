@@ -5,8 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "usuario_idusuario", referencedColumnName = "idUsuario")
@@ -16,7 +15,10 @@ public class Prestador extends Usuario {
     private int idPrestador;
     
     @OneToMany(mappedBy = "prestador", cascade = CascadeType.ALL)
-    private Set<Sucursal> sucursales = new HashSet<>();
+    private List<Sucursal> sucursales;
+
+    public Prestador() {
+    }
     
     public Prestador(int idPrestador) {
         this.idPrestador = idPrestador;
@@ -39,7 +41,7 @@ public class Prestador extends Usuario {
         this.idPrestador = idPrestador;
     }
 
-    public Set<Sucursal> getSucursales() {
+    public List<Sucursal> getSucursales() {
         return sucursales;
     }
     

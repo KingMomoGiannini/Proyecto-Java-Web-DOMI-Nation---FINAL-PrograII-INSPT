@@ -4,6 +4,7 @@
  */
 package com.domination.proyecto.services;
 
+import com.domination.proyecto.models.Prestador;
 import com.domination.proyecto.models.Sucursal;
 import com.domination.proyecto.repositories.SucursalRepository;
 import java.util.List;
@@ -30,5 +31,9 @@ public class SucursalService {
 
     public void deleteById(int id) {
         sucursalRepository.deleteById(id);
+    }
+    
+    public List<Sucursal> findByPrestador(Prestador prestador) {
+        return sucursalRepository.findByPrestador(prestador);
     }
 }

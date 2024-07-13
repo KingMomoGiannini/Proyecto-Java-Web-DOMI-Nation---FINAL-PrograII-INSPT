@@ -33,4 +33,8 @@ public class AdministradorService {
     public Optional<Administrador> getAdminById(int id) {
         return adminRepository.findById(id);
     }
+    
+    public Administrador findByNombreUsuarioAndPassword(String nombreUsuario, String password) {
+        return adminRepository.findByNombreUsuarioAndPassword(nombreUsuario, password);
+    }
 }

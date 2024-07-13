@@ -9,8 +9,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Sucursal {
@@ -40,6 +44,9 @@ public class Sucursal {
     
     @OneToOne(mappedBy = "sucursal", cascade = CascadeType.ALL)
     private Domicilio domicilio;
+    
+    @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL)
+    private List<Sala> salas;
 
     public Sucursal() {
     }
@@ -125,6 +132,14 @@ public class Sucursal {
 
     public void setDomicilio(Domicilio domicilio) {
         this.domicilio = domicilio;
+    }
+
+    public List<Sala> getSalas() {
+        return salas;
+    }
+
+    public void setSalas(List<Sala> salas) {
+        this.salas = salas;
     }
     
 }

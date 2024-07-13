@@ -27,6 +27,9 @@ public class Administrador {
     @Column(name = "password", nullable = false)
     private String password;
     
+    @Column(name = "rol")
+    private String rol;
+    
     @OneToMany(mappedBy = "administrador", cascade = CascadeType.ALL)
     private Set<Usuario> usuarios = new HashSet<>();
     
@@ -38,10 +41,11 @@ public class Administrador {
         this.password = password;
     }
     
-    public Administrador(int idAdministrador, String nombreUsuario, String password) {
+    public Administrador(int idAdministrador, String nombreUsuario, String password,String rol) {
         this.idAdministrador = idAdministrador;
         this.nombreUsuario = nombreUsuario;
         this.password = password;
+        this.rol= rol;
     }
     
     public int getIdAdministrador() {
@@ -71,4 +75,9 @@ public class Administrador {
     public Set<Usuario> getUsuarios() {
         return usuarios;
     }
+
+    public String getRol() {
+        return rol;
+    }
+    
 }
