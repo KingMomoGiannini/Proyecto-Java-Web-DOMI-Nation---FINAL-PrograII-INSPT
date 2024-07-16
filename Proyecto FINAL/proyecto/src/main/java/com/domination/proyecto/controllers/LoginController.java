@@ -69,9 +69,7 @@ public class LoginController {
                     setupPrestadorSessionAttributes(session, (Prestador) elUser);
                 } else if (elUser instanceof Cliente) {
                     setupClienteSessionAttributes(session, (Cliente) elUser);
-                } //else if ("admin".equals(user)) {
-//                    setupAdminSessionAttributes(session);
-//                }
+                }
                 return "redirect:/inicio";
             }
             else if (elAdmin != null) {

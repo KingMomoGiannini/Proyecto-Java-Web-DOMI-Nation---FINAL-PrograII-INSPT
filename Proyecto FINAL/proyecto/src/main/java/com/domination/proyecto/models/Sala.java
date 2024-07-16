@@ -1,5 +1,6 @@
 package com.domination.proyecto.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 public class Sala {
@@ -25,6 +28,9 @@ public class Sala {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sucursal_idsucursal", referencedColumnName = "idSucursal")
     private Sucursal sucursal;
+    
+    @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Reserva> reservas;
 
     public Sala() {
     }
@@ -72,6 +78,10 @@ public class Sala {
 
     public void setSucursal(Sucursal sucursal) {
         this.sucursal = sucursal;
+    }
+
+    public List<Reserva> getReservas() {
+        return reservas;
     }
     
 }
