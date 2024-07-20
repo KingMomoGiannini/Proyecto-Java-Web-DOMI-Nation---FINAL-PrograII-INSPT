@@ -31,11 +31,15 @@ public class PrestadorService {
         prestadorRepository.deleteById(id);
     }
 
-    public Optional<Prestador> getPrestadorById(int id) {
-        return prestadorRepository.findById(id);
+    public Optional<Prestador> getPrestadorById(int idPrestador) {
+        return prestadorRepository.findById(idPrestador);
     }
     
     public Prestador findByNombreUsuarioAndPassword(String nombreUsuario, String password) {
         return prestadorRepository.findByNombreUsuarioAndPassword(nombreUsuario, password);
+    }
+    
+    public Optional<Prestador> findByIdPrestador(int idPrestador){
+        return prestadorRepository.findByIdPrestador(idPrestador);
     }
 }

@@ -29,7 +29,7 @@ public class Sala {
     @JoinColumn(name = "sucursal_idsucursal", referencedColumnName = "idSucursal")
     private Sucursal sucursal;
     
-    @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Reserva> reservas;
 
     public Sala() {

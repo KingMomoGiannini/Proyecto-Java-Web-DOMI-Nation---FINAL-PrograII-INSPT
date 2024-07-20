@@ -93,3 +93,20 @@ utilizamos el atributo necesario (segun la clase que lo requiera).
 Tercer Logro: Inicio y Cierre de sesion
 	- A través de un unico controlador, se logró iniciar sesión a partir de un usuario creado y luego cerrar la sesión y volver a la
 pagina de inicio.
+
+18/07
+Cuarto Logro: Se crea y se almacena una sucursal
+	Se agregaron JSP que incluyen el formulario para controlar Sucursales y el form para cotrolar Salas. Se refactoreó el código perte-
+neciente a la clase LoginController, y se configuró para cargar información pertinente luego de iniciar sesión, ademas agregamos el contro-
+lador para Sucursales, en el cual se encuentran los algoritmos pertenecientes al CRUD de las mismas, hasta ahora pudimos lograr crear una 
+'sucursal' e ingresarla en la base de datos, no sin antes resolver bastantes cuestiones.
+
+Luego de muchas pruebas intentando crear através del formulario una sucursal, probe la busqueda por ID de una entidad dentro de la base de 
+datos, en particular la de un Prestador, haciendo unos cambios en el repositorio y servicios de Prestador. El metodo que debería buscar el 
+Prestador por ID, devuelve Optional<Prestador> o sea, practicamente me devuelve el prestador o null, la cuestion fue que Hibernate por defec
+to, buscaba el Prestador por ID pero se basaba en el ID de Usuario, ya que la herencia se entiende de esa manera por como estan mapeadas las
+entidades, por lo cual tuve que modificar la solicitud SQL mediante la annotation @Query que Spring framework provee, esto permite realizar
+otra solicitud que nosotros querramos, alli la configuré para que busque al Prestador por su propia ID 
+ "SELECT p FROM Prestador p WHERE p.idPrestador = :idPrestador"
+De esta manera, realizando esos cambios y agregando excepciones a la hora de realizar el llamado a la funcion que realiza la busqueda por ID
+pude recorrer mejor la BDD para buscar el dato que necesitaba para la creación de la Sucursal.

@@ -6,7 +6,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @PrimaryKeyJoinColumn(name= "usuario_idusuario",referencedColumnName = "idUsuario")
@@ -15,7 +17,7 @@ public class Cliente extends Usuario {
     @Column(name = "id_cliente")
     private int idCliente; 
     
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Reserva> reservas;
     
     public Cliente() {

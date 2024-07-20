@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
@@ -49,6 +50,15 @@ public class Sucursal {
     private List<Sala> salas;
 
     public Sucursal() {
+    }
+
+    public Sucursal(String nombre, int cantSalas, LocalTime horaInicio, LocalTime horaFin, String telefono, Prestador prestador) {
+        this.nombre = nombre;
+        this.cantSalas = cantSalas;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
+        this.telefono = telefono;
+        this.prestador = prestador;
     }
 
     public Sucursal(int idSucursal, String nombre, int cantSalas, LocalTime horaInicio, LocalTime horaFin, String telefono) {

@@ -8,6 +8,7 @@ import com.domination.proyecto.models.Prestador;
 import com.domination.proyecto.models.Sucursal;
 import com.domination.proyecto.repositories.SucursalRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +22,8 @@ public class SucursalService {
         return sucursalRepository.findAll();
     }
 
-    public Sucursal findById(int id) {
-        return sucursalRepository.findById(id).orElse(null);
+    public Optional<Sucursal> findByIdSucursal(int idSucursal) {
+        return sucursalRepository.findByIdSucursal(idSucursal);
     }
 
     public Sucursal save(Sucursal sucursal) {

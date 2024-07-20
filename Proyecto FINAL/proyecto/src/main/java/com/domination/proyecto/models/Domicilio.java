@@ -38,6 +38,15 @@ public class Domicilio {
     public Domicilio() {
     }
 
+    public Domicilio(String calle, String altura, String localidad, String partido, String provincia, Sucursal sucursal) {
+        this.calle = calle;
+        this.altura = altura;
+        this.localidad = localidad;
+        this.partido = partido;
+        this.provincia = provincia;
+        this.sucursal = sucursal;
+    }
+    
     public Domicilio(int idDomicilio, String calle, String altura, String localidad, String partido, String provincia) {
         this.idDomicilio = idDomicilio;
         this.calle = calle;
