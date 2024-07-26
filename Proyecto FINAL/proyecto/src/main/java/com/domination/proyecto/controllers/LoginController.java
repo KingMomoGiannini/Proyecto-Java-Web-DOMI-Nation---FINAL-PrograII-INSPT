@@ -54,22 +54,22 @@ public class LoginController {
     @Autowired
     private ReservaService reservaService;
 
-    @GetMapping("/ingresar")
+    @GetMapping("/login")
     public String mostrarLoginForm() {
         return "login"; // Esto devuelve la vista "login.jsp"
     }
 
     @PostMapping("/ingresar")
-    public String loginUser(@RequestParam String user, @RequestParam String pass, Model model, HttpSession session) {
+    public String loginUser(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
         Usuario elUser = null;
         Administrador elAdmin = null;
         try {
-            if ("admin".equals(user)) {
-                elAdmin = adminService.findByNombreUsuarioAndPassword(user, pass);
+            if ("admin".equals(username)) {
+                elAdmin = adminService.findByNombreUsuarioAndPassword(username, password);
             } else {
-                elUser = prestadorService.findByNombreUsuarioAndPassword(user, pass);
+                elUser = prestadorService.findByNombreUsuarioAndPassword(username, password);
                 if (elUser == null) {
-                    elUser = clienteService.findByNombreUsuarioAndPassword(user, pass);
+                    elUser = clienteService.findByNombreUsuarioAndPassword(username, password);
                 }
             }
 

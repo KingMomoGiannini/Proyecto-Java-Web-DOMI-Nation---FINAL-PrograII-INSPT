@@ -66,8 +66,8 @@
                                                         </c:choose>
                                                     </c:forEach> 
                                                 </c:if>
-                                                <a class="botoncin" href="sedes/delete?id=${sede.getIdSede()}&idDom=${elDomPag.getId()}"><button>Eliminar Sede</button></a>
-                                                <a class="botoncin" href="salas/salasDisponibles?idSede=${sede.getIdSede()}"><button>Ver Salas</button></a>
+                                                <a class="botoncin" href="sedes/delete?id=${sede.getIdSucursal()}&idDom=${elDomPag.getIdDomicilio()}"><button>Eliminar Sede</button></a>
+                                                <a class="botoncin" href="salas/salasDisponibles?idSede=${sede.getIdSucursal()}"><button>Ver Salas</button></a>
                                             </div>
                                         </div>
 

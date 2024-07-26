@@ -19,12 +19,12 @@
         </div>
     </c:if>
 
-    <form action="ingresar" method="post" >
+    <form action="<c:url value='/ingresar'/>" method="post" >
         <div class= "centrarEnPag" >
 
-            <label class="fuenteMin" for="user">Usuario:</label> <input type="text" id="user" name="user">
+            <label class="fuenteMin" for="username">Usuario:</label> <input type="text" id="username" name="username">
             <br/><br/>
-            <label class="fuenteMin" for="pass">Clave:</label> <input type="password" id="pass" name="pass">
+            <label class="fuenteMin" for="password">Clave:</label> <input type="password" id="password" name="password">
             <br/><br/>
             <button class="botoncin" type="submit" >Enviar</button></a>
         </div>

@@ -110,3 +110,24 @@ otra solicitud que nosotros querramos, alli la configuré para que busque al Pre
  "SELECT p FROM Prestador p WHERE p.idPrestador = :idPrestador"
 De esta manera, realizando esos cambios y agregando excepciones a la hora de realizar el llamado a la funcion que realiza la busqueda por ID
 pude recorrer mejor la BDD para buscar el dato que necesitaba para la creación de la Sucursal.
+Otra complicación que se tuvo, fue que luego de crear una Sucursal, intente editarla y eliminarla, pero esto resulto trabajoso de resolver.
+Analicé una y otra vez el CRUD dentro de SucursalController realizado pura y exclusivamente con @GetMapping y @PathVariable, refactoricé varias
+veces el controlador y obtuve errores 500, 404 y 405. Finalmente verifiqué el JSP que realizaba la consulta hacia este controlador y entendí 
+que la Query String no se debía enviar como lo hacía cuando utilizaba servlets, sino que debía apuntar al mapeo del controlador y enviar direc-
+tamente el numero de id de la sucursal que necesitaba modificar.
+
+22/07
+Quinto Logro: implementación de Spring Security - Encriptado de passwords 
+Una vez ya terminado el controlador de sucursales, me dispuse a refactorear el controlador de inicio para poder actualizar la lista de recursos 
+requerida por cada tipo de usuario, ya que una vez creada una sucursal hasta no volver a iniciar sesión, no volvía a actualizarse la lista en 
+la pagina de inicio. Al mismo tiempo tambien me di cuenta que sin iniciar sesión podía acceder a ciertos controladores mapeados vía URL, por lo
+cual busque información sobre autenticación de usuarios para restringir el acceso a los mismos sin haber antes iniciado sesión con algun tipo de
+usuario, consulté con chatGPT y me sugirió utilizar Authentication de Spring Security, que recopila los datos del nombre de usuario, con ese 
+dato busco al usuario y seteo los atributos que necesite. Por otro lado, tambien busque videos informativos en los que se realizaban estos proce
+dimientos:
+-"https://www.youtube.com/watch?v=AImMo4QFiqE"
+-"https://www.youtube.com/watch?v=bgKmkgVuek8"
+y en ellos tambien descubrí que para implementar la autenticación debía crear una configuración de seguridad, y en ella el gestor de la autentica
+ción en cuestión, alli se le presentan los detalles del usuario a autenticar (Por convención se utilizan el nombre de usuario, su password y su 
+autoridad/rol) la clase mapeada como configuración la llamé SecurityConfig, donde hay metodos mapeados como beans que se encargan de realizar el
+trabajo de permitir o autorizar ciertos mapeos y acceso a determinadas rutas del proyecto anteriores a la autenticación del usuario.

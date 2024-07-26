@@ -29,7 +29,7 @@
         <div class="ml-auto botones-container">
             <c:choose>
                 <c:when test="${userLogueado == null}">
-                    <a class="btn btn-outline-light botoncin" href="/ingresar">Ingresar</a>
+                    <a class="btn btn-outline-light botoncin" href="/login">Ingresar</a>
                     <a class="btn btn-outline-light botoncin" href="/registrarse">Registrarse</a>
                 </c:when>
                 <c:otherwise>

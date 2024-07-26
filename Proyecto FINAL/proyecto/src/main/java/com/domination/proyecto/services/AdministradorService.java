@@ -37,4 +37,8 @@ public class AdministradorService {
     public Administrador findByNombreUsuarioAndPassword(String nombreUsuario, String password) {
         return adminRepository.findByNombreUsuarioAndPassword(nombreUsuario, password);
     }
+    
+    public Administrador findByNombreUsuario(String nombreUsuario){
+        return adminRepository.findByNombreUsuario(nombreUsuario);
+    }
 }
