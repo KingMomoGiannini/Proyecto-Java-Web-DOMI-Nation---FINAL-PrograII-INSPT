@@ -31,8 +31,10 @@ public class SecurityConfig  {
                 authorizeRequests
                     .requestMatchers("/", "/login", "/registrarse","/css/**", "/js/**", "/img/**", "/public/**", "/pages/**", "/WEB-INF/jsp/**").permitAll()
                     .requestMatchers("/inicio").hasAnyRole("administrador", "cliente","prestador") // Permitir a administradores, clientes y prestadores
-                    .requestMatchers("/inicio","/salas/**","/reservas/**","/usuario/edit/**").hasRole("cliente")
-                    .requestMatchers("/inicio","/sedes/**","/salas/**","/reservas/**","/usuario/edit/**").hasRole("prestador")
+                    .requestMatchers("/salas/salasDisponibles/**").hasAnyRole("cliente", "prestador","administrador") // Permitir a clientes y prestadores
+                    .requestMatchers("/inicio","/sedes/**","/salas/**","/reservas/**","/usuario/edit/**").hasAnyRole("prestador","administrador")
+                    .requestMatchers("/inicio","/reservas/**","/usuario/edit/**").hasRole("cliente")
+                    //.requestMatchers("/inicio","/sedes/**","/salas/**","/reservas/**","/usuario/edit/**").hasRole("prestador")
                     .requestMatchers("/inicio","/sedes/**","/salas/**","/reservas/**","/usuario/**").hasRole("administrador")
 
                     .anyRequest().authenticated()
@@ -53,16 +55,7 @@ public class SecurityConfig  {
             .csrf().disable(); 
         return http.build();
     }
-//    
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user = User.builder()
-//            .username("username")
-//            .password(passwordEncoder().encode("password"))
-//            .roles("USER")
-//            .build();
-//        return new InMemoryUserDetailsManager(user);
-//    }
+    
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)

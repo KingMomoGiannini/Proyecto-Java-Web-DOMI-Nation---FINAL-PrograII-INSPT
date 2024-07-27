@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface ReservaRepository extends JpaRepository<Reserva,Integer>{
     List<Reserva> findByCliente(Cliente cliente);
     List<Reserva> findBySala(Sala sala);
+
+    public void deleteAllBySala(Sala sala);
 }

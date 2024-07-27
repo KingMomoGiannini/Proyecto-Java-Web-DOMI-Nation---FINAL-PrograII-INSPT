@@ -49,5 +49,9 @@ public class ReservaService {
     public List<Reserva> findAll(){
         return reservaRepository.findAll();
     }
+
+    public void deleteReservasBySala(Sala sala) {
+        reservaRepository.deleteAllBySala(sala);
+    }
     
 }

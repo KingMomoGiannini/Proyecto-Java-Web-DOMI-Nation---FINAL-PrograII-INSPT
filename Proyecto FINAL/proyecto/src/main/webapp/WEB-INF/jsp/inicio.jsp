@@ -66,8 +66,8 @@
                                                         </c:choose>
                                                     </c:forEach> 
                                                 </c:if>
-                                                <a class="botoncin" href="sedes/delete?id=${sede.getIdSucursal()}&idDom=${elDomPag.getIdDomicilio()}"><button>Eliminar Sede</button></a>
-                                                <a class="botoncin" href="salas/salasDisponibles?idSede=${sede.getIdSucursal()}"><button>Ver Salas</button></a>
+                                                <a class="botoncin" href="sedes/delete/${sede.getIdSucursal()}"><button>Eliminar Sede</button></a>
+                                                <a class="botoncin" href="salas/salasDisponibles/${sede.getIdSucursal()}"><button>Ver Salas</button></a>
                                             </div>
                                         </div>
 
@@ -156,7 +156,7 @@
                                                             </c:choose>
                                                         </c:forEach> 
                                                     </c:if>
-                                                    <a class="botoncin" href="salas/salasDisponibles?idSucursal=${sede.getIdSucursal()}"><button>Ver Salas</button></a>
+                                                    <a class="botoncin" href="salas/salasDisponibles/${sede.getIdSucursal()}"><button>Ver Salas</button></a>
                                                     <a class="botoncin" href="sedes/update/${sede.getIdSucursal()}"><button>Editar Sede</button></a>
                                                     <a class="botoncin" href="sedes/delete/${sede.getIdSucursal()}"><button>Eliminar Sede</button></a>
                                                 </div>
@@ -221,7 +221,7 @@
                                                     </c:choose>
                                                 </c:forEach> 
                                             </c:if>
-                                            <a class="botoncin" href="salas/salasDisponibles?idSede=${sede.getIdSucursal()}"><button>Ver Salas</button></a>
+                                            <a class="botoncin" href="salas/salasDisponibles/${sede.getIdSucursal()}"><button>Ver Salas</button></a>
                                         </div>
                                     </div>
                                     <c:if test = "${empty domiciliosDeSedes}">

@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Editar/Eliminar salas</title>
+        <title>Crear/Editar/Eliminar Sala</title>
         <link rel="stylesheet" href="/css/formSede.css"/>
     </head>
     <body>
@@ -14,65 +14,56 @@
                 <h1>Creación - Edición - Eliminación de salas</h1>
             </div>
             <br><br><br>
-            <form action="salas" method="post">
-                <input type="hidden" name="idSala" value="${laSala.getIdSala()}">
-                <input type="hidden" name="action" value="${action}">
-                <input type="hidden" name="Exito" value=false>
-                <c:choose>
-                    <c:when test="${action eq 'create'}">
-                        <%-- acá ponemos todo el form de creación --%>
-                        <input class="text-box-ajuste" type="text" value="Nombre de la sede:  ${laSede.nombre}" readonly>
-                        <input class="text-box-ajuste" type="text" value="ID de la sede:  ${laSede.getIdSede()}" readonly>
-                        <label class="fuenteMin" for="numeroSala">Numero de sala:<input class="text-box-ajuste" type="text" name="numSala" required></label>
-                        <label class="fuenteMin" for="numeroSala">Valor por hora:<input class="text-box-ajuste" type="text" name="monto" pattern="^\d+(\.\d+)?$" required></label>
-
-                        <input type="hidden" name="idSede" value="${laSede.getIdSede()}">
-
+            <c:choose>
+                <c:when test="${action eq 'create'}">
+                    <form action="${pageContext.request.contextPath}/salas/create" method="post">
+                        <input type="hidden" name="sucursal.idSucursal" value="${sucursal.idSucursal}">
+                        <label class="fuenteMin" for="numSala">Numero de sala:
+                            <input class="text-box-ajuste" type="text" name="numSala" required>
+                        </label>
+                        <label class="fuenteMin" for="valorHora">Valor por hora:
+                            <input class="text-box-ajuste" type="text" name="valorHora" pattern="^\d+(\.\d+)?$" required>
+                        </label>
                         <br><br>
                         <div class="centrarEnPag">
-                            <button class="botoncin" type="submit" name="confirmDelete" value="true">Crear</button>
-                            <button class="botoncin" type="submit" name="cancelDelete" value="true">Cancelar</button>
+                            <button class="botoncin" type="submit">Crear</button>
+                            <a class="botoncin" href="/salas/salasDisponibles/${sucursal.idSucursal}">Cancelar</a>
                         </div>
-
-                    </c:when>
-                    <c:when test="${action eq 'update'}">
-                        <%-- acá ponemos todo el form de edicion --%>
-                        <input class="text-box-ajuste" type="text" value="Nombre de la sede:  ${laSede.nombre}" readonly>
-                        <input type="hidden" name="idSede" value="${laSede.getIdSede()}">
-                        <input class="text-box-ajuste" type="text" value="ID de la sede:  ${laSede.getIdSede()}" readonly>
-                        <input type="hidden" name="idSala" value="${laSala.getIdSala()}">
-                        <label class="fuenteMin" for="numeroSala">Numero de sala:<input class="text-box-ajuste" type="text" name="numSala" value="${laSala.getNumSala()}" required></label>
-                        <label class="fuenteMin" for="numeroSala">Valor por hora:<input class="text-box-ajuste" type="text" name="monto" pattern="^\d+(\.\d+)?$" value="${laSala.getValorHora()}"></label>
-
+                    </form>
+                </c:when>
+                <c:when test="${action eq 'update'}">
+                    <form action="${pageContext.request.contextPath}/salas/update" method="post">
+                        <input type="hidden" name="idSala" value="${sala.idSala}">
+                        <input type="hidden" name="idSucursal" value="${sucursal.idSucursal}">
+                        <label class="fuenteMin" for="numSala">Numero de sala:
+                            <input class="text-box-ajuste" type="text" name="numSala" value="${sala.numSala}" required>
+                        </label>
+                        <label class="fuenteMin" for="valorHora">Valor por hora:
+                            <input class="text-box-ajuste" type="text" name="valorHora" pattern="^\d+(\.\d+)?$" value="${sala.valorHora}" required>
+                        </label>
                         <br><br>
                         <div class="centrarEnPag">
-                            <button class="botoncin" type="submit" name="confirmDelete" value="true">Editar</button>
-                            <button class="botoncin" type="submit" name="cancelDelete" value="true">Cancelar</button>
+                            <button class="botoncin" type="submit">Editar</button>
+                            <a class="botoncin" href="/salas/salasDisponibles/${sucursal.idSucursal}">Cancelar</a>
                         </div>
-                        
-                    </c:when>
-                    <c:when test="${action eq 'delete'}">
-                        <%-- acá ponemos la confirmación o cancelación de delete --%>
-                        <div class="inter-texto">
-                            <label class="fuenteMin" for="usuario">Sala a eliminar:</label>
-                            <input class="text-box-ajuste" type="text" value="Numero de sala:  ${laSala.getNumSala()}" readonly>
-                            <input class="text-box-ajuste" type="text" name="idSala" value="ID de la sala:  ${laSala.getIdSala()}" readonly>
-                            <input class="text-box-ajuste" type="text" value="Nombre de la sede:  ${laSede.nombre}" readonly>
-                            <input class="text-box-ajuste" type="text" value="ID de la sede:  ${laSede.getIdSede()}" readonly>
-
-                            <br>
-                            <h3 class="fuentePrincFondo">¿Está seguro que desea eliminar esta sala?</h3>
-                        </div>
-                            <br><br>
+                    </form>
+                </c:when>
+                <c:when test="${action eq 'delete'}">
+                    <form action="${pageContext.request.contextPath}/salas/delete" method="post">
+                        <input type="hidden" name="idSala" value="${sala.idSala}">
+                        <input type="hidden" name="idSucursal" value="${sucursal.idSucursal}">
+                        <p class="fuenteMin">Numero de sala: ${sala.numSala}</p>
+                        <p class="fuenteMin">Nombre de la sede: ${sucursal.nombre}</p>
+                        <h3 class="fuentePrincFondo">¿Está seguro que desea eliminar esta sala?</h3>
+                        <br><br>
                         <div class="centrarEnPag">
-                            <button class="botoncin" type="submit" name="confirmDelete" value="true">Eliminar</button>
-                            <button class="botoncin" type="submit" name="cancelDelete" value="true">Cancelar</button>
+                            <button class="botoncin" type="submit">Eliminar</button>
+                            <a class="botoncin" href="/salas/salasDisponibles/${sucursal.idSucursal}">Cancelar</a>
                         </div>
-                        </div>
-                    </c:when>
-                </c:choose>
-            </form>
+                    </form>
+                </c:when>
+            </c:choose>
         </div>
-        <c:import url ="footer.jsp" />
+        <c:import url="footer.jsp"/>
     </body>
 </html>

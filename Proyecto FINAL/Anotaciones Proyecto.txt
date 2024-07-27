@@ -130,4 +130,17 @@ dimientos:
 y en ellos tambien descubrí que para implementar la autenticación debía crear una configuración de seguridad, y en ella el gestor de la autentica
 ción en cuestión, alli se le presentan los detalles del usuario a autenticar (Por convención se utilizan el nombre de usuario, su password y su 
 autoridad/rol) la clase mapeada como configuración la llamé SecurityConfig, donde hay metodos mapeados como beans que se encargan de realizar el
-trabajo de permitir o autorizar ciertos mapeos y acceso a determinadas rutas del proyecto anteriores a la autenticación del usuario.
+trabajo de permitir o autorizar ciertos mapeos y acceso a determinadas rutas del proyecto anteriores a la autenticación del usuario, e incluso 
+posteriores, ya que tambien se configuran las rutas a las cuales determinados tipos de usuarios tienen acceso o no segun su rol. El rol/autoridad
+de cada usuario tambien se pudo configurar dentro de SecurityConfig y CustomUserDetailsService (Clase nueva que extiende de UserDetailsService
+que utilizo para configurar el objeto de tipo User necesario para realizar una autenticación como se debe) de esta manera, teniendo lo requerido
+ya se puede iniciar sesión con cualquiera de los usuarios registrados de manera segura, con encriptado y codificado de password.<-- Commit 26/07.
+
+27/07
+Sexto Logro: CRUD de Salas de ensayo completo
+Se agregó el controlador para la clase Sala, en él está configurado el CRUD personalizado para la visualización de las salas de ensayo acorde a
+la sucursal que se seleccionó, y para usuarios cuyos roles son Prestador o Administrador, la creación, edición y eliminación de las mismas.
+Lo laborioso en este caso fue ajustar los atributos de modelo y peticiones en los botones y links de los JSP correspondientes a las consultas 
+mapeadas para el controlador mismo, ya que para algunos casos utilicé @PathVariable y en otros @RequestParam, a futuro me gustaría cambiar en 
+todos los controladores el uso de @PathVariable por @RequestParam, ya que se adecuaba mejor a lo aprendido sobre QueryString durante las clases
+referidas al proyecto en la segunda parte de la cursada de esta asignatura.

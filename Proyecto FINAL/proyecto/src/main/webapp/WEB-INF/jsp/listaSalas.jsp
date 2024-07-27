@@ -15,7 +15,7 @@
             </div>
 
                 <c:choose>
-                    <c:when test = "${not empty lasSalas}">
+                    <c:when test = "${not empty salas}">
                         <c:if test = "${Exito==true}">
                             <div class="mensaje">
                                 <h1>${mensajeExito}</h1>
@@ -26,24 +26,24 @@
                             <h1 >Sucursales</h1>
                         </div>
                         <div class="sedes-row">
-                            <c:forEach items ="${lasSalas}" var="sala">
+                            <c:forEach items ="${salas}" var="sala">
                                 <div class="sede-container">
                                     <div style="color:white">
                                         <h1 style = "font-size:30px">Sucursal</h1>
-                                        <h2 style = "color:red;font-size:20px ">${laSede.nombre}</h2>
+                                        <h2 style = "color:red;font-size:20px ">${sucursal.nombre}</h2>
                                         <p><strong style = "font-size:14px;text-decoration:underline">ID de Sala:</strong> ${sala.getIdSala()}</p>
                                         <p><strong style = "font-size:14px;text-decoration:underline">Numero de Sala:</strong> ${sala.getNumSala()}</p>
                                         <p><strong style = "font-size:14px;text-decoration:underline">Valor por hora:</strong> $ ${sala.getValorHora()}</p>
                                         <c:choose>
                                             <c:when test="${userLogueado.rol eq 'cliente'}">
                                                 <br><br>
-                                                <a class="botoncin" href="${pageContext.request.contextPath}/reservas/create?idSala=${sala.getIdSala()}"><button>Alquilar sala</button></a>
+                                                <a class="botoncin" href="${pageContext.request.contextPath}/reservas/create/${sala.getIdSala()}"><button>Alquilar sala</button></a>
                                                 <br><br>
                                             </c:when>
                                             <c:otherwise>
                                                 <br><br>
-                                                <a class="botoncin" href="${pageContext.request.contextPath}/salas/delete?idSala=${sala.getIdSala()}&idSede=${laSede.getIdSede()}"><button>Eliminar sala</button></a>
-                                                <a class="botoncin" href="${pageContext.request.contextPath}/salas/edit?idSala=${sala.getIdSala()}&idSede=${laSede.getIdSede()}"><button>Editar sala</button></a>
+                                                <a class="botoncin" href="${pageContext.request.contextPath}/salas/delete/${sala.getIdSala()}/${sucursal.getIdSucursal()}"><button>Eliminar sala</button></a>
+                                                <a class="botoncin" href="${pageContext.request.contextPath}/salas/edit/${sala.getIdSala()}/${sucursal.getIdSucursal()}"><button>Editar sala</button></a>
                                                 <br><br>
                                             </c:otherwise>
                                         </c:choose>
@@ -54,16 +54,15 @@
                         </div>
                         <c:if test="${userLogueado.rol eq 'prestador'}">
                             <div class="centrarEnPag">
-                                <a class="botoncin" href="${pageContext.request.contextPath}/salas/create?idSede=${laSede.getIdSede()}"><button>Crear sala</button></a>
+                                <a class="botoncin" href="${pageContext.request.contextPath}/salas/create/${sucursal.getIdSucursal()}"><button>Crear sala</button></a>
                                 <br><br><br>
                             </div>
                         </c:if>
                     </c:when>
-                    <c:when test= "${empty lasSalas}">
+                    <c:when test= "${empty salas}">
                         <div class="mensaje">
                             <br><br><br>
                             <h1>No hay salas disponibles</h1>
-                            
                         </div>
                         <c:if test="${userLogueado.rol eq 'prestador'}">
                             <div class="seccion centrarEnPag">
@@ -72,7 +71,7 @@
                             </div>
                             <br><br><br>
                             <div class="centrarEnPag">
-                                <a class="botoncin" href="${pageContext.request.contextPath}/salas/create?idSede=${laSede.getIdSede()}"><button>Crear sala</button></a>
+                                <a class="botoncin" href="${pageContext.request.contextPath}/salas/create?idSucursal=${sucursal.getIdSucursal()}"><button>Crear sala</button></a>
                                 <br><br><br>
                                 
                             </div>

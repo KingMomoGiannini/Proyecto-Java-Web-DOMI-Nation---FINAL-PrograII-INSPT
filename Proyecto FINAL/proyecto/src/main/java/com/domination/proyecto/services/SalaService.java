@@ -5,8 +5,10 @@
 package com.domination.proyecto.services;
 
 import com.domination.proyecto.models.Sala;
+import com.domination.proyecto.models.Sucursal;
 import com.domination.proyecto.repositories.SalaRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +22,8 @@ public class SalaService {
         return salaRepository.findAll();
     }
 
-    public Sala findById(int id) {
-        return salaRepository.findById(id).orElse(null);
+    public Optional<Sala> findById(int id) {
+        return salaRepository.findById(id);
     }
 
     public Sala save(Sala sala) {
@@ -30,5 +32,9 @@ public class SalaService {
 
     public void deleteById(int id) {
         salaRepository.deleteById(id);
+    }
+    
+    public List<Sala> findSalasBySucursal(Sucursal sucursal){
+        return salaRepository.findSalasBySucursal(sucursal);
     }
 }
