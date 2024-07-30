@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9ac1f657-a0b7-495c-9f86-0947af232a87" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/DER y BDD/derDOMI.mwb" beforeDir="false" afterPath="$PROJECT_DIR$/DER y BDD/derDOMI.mwb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DER y BDD/derDOMI.mwb.bak" beforeDir="false" afterPath="$PROJECT_DIR$/DER y BDD/derDOMI.mwb.bak" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proyecto/src/main/java/com/domination/proyecto/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/proyecto/src/main/java/com/domination/proyecto/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proyecto/src/main/java/com/domination/proyecto/controllers/InicioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/proyecto/src/main/java/com/domination/proyecto/controllers/InicioController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proyecto/src/main/java/com/domination/proyecto/controllers/SalaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/proyecto/src/main/java/com/domination/proyecto/controllers/SalaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proyecto/src/main/java/com/domination/proyecto/models/Reserva.java" beforeDir="false" afterPath="$PROJECT_DIR$/proyecto/src/main/java/com/domination/proyecto/models/Reserva.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proyecto/src/main/java/com/domination/proyecto/repositories/ClienteRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/proyecto/src/main/java/com/domination/proyecto/repositories/ClienteRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proyecto/src/main/java/com/domination/proyecto/repositories/ReservaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/proyecto/src/main/java/com/domination/proyecto/repositories/ReservaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proyecto/src/main/java/com/domination/proyecto/services/ClienteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/proyecto/src/main/java/com/domination/proyecto/services/ClienteService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proyecto/src/main/java/com/domination/proyecto/services/ReservaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/proyecto/src/main/java/com/domination/proyecto/services/ReservaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proyecto/src/main/webapp/WEB-INF/jsp/formSedes.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/proyecto/src/main/webapp/WEB-INF/jsp/formSedes.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proyecto/src/main/webapp/WEB-INF/jsp/listaSalas.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/proyecto/src/main/webapp/WEB-INF/jsp/listaSalas.jsp" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 0
+}]]></component>
+  <component name="ProjectId" id="2jwQMFn0SKXZHMJdxssyYcw7ohJ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/giann/Desktop/Proy Final Progra II/Proyecto-Java-Web-DOMI-Nation---FINAL-PrograII-INSPT/Proyecto FINAL/proyecto"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9ac1f657-a0b7-495c-9f86-0947af232a87" name="Changes" comment="" />
+      <created>1722295609339</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1722295609339</updated>
+    </task>
+    <servers />
+  </component>
+</project>

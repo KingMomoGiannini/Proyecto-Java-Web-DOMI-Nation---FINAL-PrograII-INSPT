@@ -31,7 +31,7 @@ public class SecurityConfig  {
                 authorizeRequests
                     .requestMatchers("/", "/login", "/registrarse","/css/**", "/js/**", "/img/**", "/public/**", "/pages/**", "/WEB-INF/jsp/**").permitAll()
                     .requestMatchers("/inicio").hasAnyRole("administrador", "cliente","prestador") // Permitir a administradores, clientes y prestadores
-                    .requestMatchers("/salas/salasDisponibles/**").hasAnyRole("cliente", "prestador","administrador") // Permitir a clientes y prestadores
+                    .requestMatchers("/salas/salasDisponibles/**","/reservas/**").hasAnyRole("cliente", "prestador","administrador") // Permitir a clientes y prestadores
                     .requestMatchers("/inicio","/sedes/**","/salas/**","/reservas/**","/usuario/edit/**").hasAnyRole("prestador","administrador")
                     .requestMatchers("/inicio","/reservas/**","/usuario/edit/**").hasRole("cliente")
                     //.requestMatchers("/inicio","/sedes/**","/salas/**","/reservas/**","/usuario/edit/**").hasRole("prestador")

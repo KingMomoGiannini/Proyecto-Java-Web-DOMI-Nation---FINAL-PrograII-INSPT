@@ -144,3 +144,31 @@ Lo laborioso en este caso fue ajustar los atributos de modelo y peticiones en lo
 mapeadas para el controlador mismo, ya que para algunos casos utilicé @PathVariable y en otros @RequestParam, a futuro me gustaría cambiar en 
 todos los controladores el uso de @PathVariable por @RequestParam, ya que se adecuaba mejor a lo aprendido sobre QueryString durante las clases
 referidas al proyecto en la segunda parte de la cursada de esta asignatura.
+
+30/07
+Septimo Logro: CRUD de Reservas completo
+Se agregó el controlador para la clase Reserva, donde configuré el CRUD tambien personalizado para poder visualizar reservas realizadas por cli
+entes mediante un jsp preparado para ver lo necesario de cada tipo de usuario. Estas reservas pueden ser creadas/modificadas/eliminadas por 
+Clientes (solo las suyas), Prestadores (solo reservas hechas en alguna de sus sucursales), y el Administrador. Acá tambien hubo que ajustar los
+atributos de modelo de los jsp pero no las peticiones, ya que en los métodos con @GetMapping utilicé @RequestParam. 
+Mi mayor conflicto para lograr que el controller funcione en su totalidad, fue dentro del metodo mapeado con @PostMapping "deleteReserva", en el
+cual se obtenía por request el id de la reserva realizada y con ese dato realizaba la peticion de eliminación con el service creado para Reserva
+asi mismo, dentro del service se usaba el repository con los metodos disponibles para crear, editar, eliminar u obtener todas las entidades, en
+este caso empecé utilizando "deleteById" pero despues de varias pruebas Hibernate no realizaba la petición a la base de datos. Luego probé rea
+lizando otro método "deleteByIdReserva" tanto en el service como en el repository pero allí el log de Spring generaba un error que no pude 
+terminar de entender, asi que decidi averiguar como configurar el metodo del repository para cambiar/forzar la utilización de la consulta que ne
+cesito, antes lo había logrado solo con @Query, pero en esta ocación no funcionó, por lo cual decidi buscar mas información y encontré dos videos:
+
+-"https://www.youtube.com/watch?v=RNmiRbWvFRc"
+-"https://www.youtube.com/watch?v=Z6p0RkHPwmY"
+
+Con la información que obtuve de los videos, decidí utilizar las annotations @Modifying que indica que la consulta es una operacion de modificación
+(INSERT,UPDATE,DELETE), @Transactional marca a las acciones del método para que se ejecuten como una transacción, @Query que especifica la consulta 
+JPQL(Java Persistence Query Languaje) para eliminar la reserva con el id que se proporciona y @Param dentro del argumento del método para vincular 
+el parámetro de la @Query al método creado. De esta forma refactoricé esa porción del repository, y luego volvi a correr la aplicación y a loguear
+me como cliente, alli realicé una reserva correctamente, la pude editar luego, y finalmente pude eliminarla del registro, el log de hibernate mostró
+la ejecución de la query "DELETE" como se debía.
+Adicionalmente, dentro de la base de datos edite las relaciones mediante FK entre las entidades o tablas, para que se actualicen o eliminen en cas
+cada, de esta forma por ejemplo al eliminar una sucursal, se eliminaran respectivamente todas las reservas realizadas en la sucursal, y todas las
+salas de ensayo dentro de la sucursal, esto evita de cierta forma tener que realizar codigo extra e iteraciones para eliminar recursos dentro de
+otros recursos.

@@ -7,7 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 public class Reserva {
@@ -46,6 +48,15 @@ public class Reserva {
         this.monto = monto;
     }
 
+    public Reserva(double duracion, LocalDateTime horaInicio, LocalDateTime horaFin, double monto, Sala sala, Cliente cliente) {
+        this.duracion = duracion;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
+        this.monto = monto;
+        this.sala = sala;
+        this.cliente = cliente;
+    }
+    
     public int getIdReserva() {
         return idReserva;
     }
@@ -102,4 +113,15 @@ public class Reserva {
         this.cliente = cliente;
     }
     
+    public LocalTime getHoraMinutoInicio(){
+        return this.horaInicio.toLocalTime();
+    }
+    
+    public LocalTime getHoraMinutoFin(){
+        return this.horaFin.toLocalTime();
+    }
+    
+    public LocalDate getSoloFecha(){
+        return this.horaInicio.toLocalDate();
+    }
 }

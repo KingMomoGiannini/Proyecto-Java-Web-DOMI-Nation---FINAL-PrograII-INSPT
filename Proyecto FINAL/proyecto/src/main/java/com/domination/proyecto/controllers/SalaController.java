@@ -79,7 +79,10 @@ public class SalaController {
     }
 
     @PostMapping("/update")
-    public String updateSala(@ModelAttribute Sala sala, Model model) {
+    public String updateSala(@RequestParam("idSucursal") int idSucursal,@ModelAttribute Sala sala, Model model) {
+        Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
+                                           .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
+        sala.setSucursal(sucursal);
         salaService.save(sala);
         model.addAttribute("message", "La sala ha sido actualizada exitosamente");
         return "redirect:/salas/salasDisponibles/"+ sala.getSucursal().getIdSucursal();
@@ -89,7 +92,7 @@ public class SalaController {
     public String deleteSala(@RequestParam("idSala") int idSala, Model model) {
         Sala sala = salaService.findById(idSala)
                                .orElseThrow(() -> new ObjectNotFoundException("Sala no encontrada con id: " + idSala));
-        reservaService.deleteReservasBySala(sala); // Si hay reservas relacionadas
+ //       reservaService.deleteReservasBySala(sala); // Si hay reservas relacionadas
         salaService.deleteById(idSala);
         model.addAttribute("message", "La sala ha sido eliminada exitosamente");
         return "redirect:/salas/salasDisponibles/" + sala.getSucursal().getIdSucursal();

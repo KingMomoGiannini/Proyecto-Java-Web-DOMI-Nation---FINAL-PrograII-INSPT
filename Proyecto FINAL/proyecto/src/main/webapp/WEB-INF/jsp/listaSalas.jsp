@@ -18,7 +18,7 @@
                     <c:when test = "${not empty salas}">
                         <c:if test = "${Exito==true}">
                             <div class="mensaje">
-                                <h1>${mensajeExito}</h1>
+                                <h1>${message}</h1>
                                 <br><br><br>
                             </div>
                         </c:if>
@@ -37,7 +37,7 @@
                                         <c:choose>
                                             <c:when test="${userLogueado.rol eq 'cliente'}">
                                                 <br><br>
-                                                <a class="botoncin" href="${pageContext.request.contextPath}/reservas/create/${sala.getIdSala()}"><button>Alquilar sala</button></a>
+                                                <a class="botoncin" href="${pageContext.request.contextPath}/reservas/create?idSala=${sala.getIdSala()}"><button>Alquilar sala</button></a>
                                                 <br><br>
                                             </c:when>
                                             <c:otherwise>
@@ -54,7 +54,7 @@
                         </div>
                         <c:if test="${userLogueado.rol eq 'prestador'}">
                             <div class="centrarEnPag">
-                                <a class="botoncin" href="${pageContext.request.contextPath}/salas/create/${sucursal.getIdSucursal()}"><button>Crear sala</button></a>
+                                <a class="botoncin" href="${pageContext.request.contextPath}/salas/create?idSucursal=${sucursal.getIdSucursal()}"><button>Crear sala</button></a>
                                 <br><br><br>
                             </div>
                         </c:if>

@@ -35,7 +35,7 @@
                 <c:when test="${action eq 'delete'}">
                     <div class="inter-texto">
                         <label class="fuenteMin" for="sede">Sede a eliminar:</label>
-                        <input class="text-box-ajuste" type="text" value="${laSede.getNombre()}" readonly>
+                        <input class="text-box-ajuste" type="text" value="${laSede.nombre}" readonly>
                         <input class="text-box-ajuste" type="text" value="${laSede.getIdSucursal()}" readonly>
                         <label class="fuenteMin" for="sede">Usuario al que le pertenece:</label>
                         <input class="text-box-ajuste" type="text" value="id de Prestador: ${elPrestador.getIdPrestador()}" readonly>
@@ -54,7 +54,7 @@
                     <h3 class="fuentePrincFondo">Datos de la sede</h3>
                     <div class="inter-texto">
                         <label class="fuenteMin" for="nomSede">Nombre del local:</label>
-                        <input class="text-box-ajuste" type="text" name="nomSede" id="nombre" value="${laSede.getNombre()}">
+                        <input class="text-box-ajuste" type="text" name="nomSede" id="nombre" value="${laSede.nombre}">
                         <label class="fuenteMin" for="cantSalas">Cantidad de salas:</label>
                         <select name="salas" id="salas">
                             <c:forEach var="i" begin="1" end="10">

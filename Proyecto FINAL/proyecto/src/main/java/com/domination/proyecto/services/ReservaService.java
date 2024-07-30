@@ -1,5 +1,6 @@
 package com.domination.proyecto.services;
 
+import com.domination.proyecto.exceptions.ObjectNotFoundException;
 import com.domination.proyecto.models.Cliente;
 import com.domination.proyecto.models.Reserva;
 import com.domination.proyecto.models.Sala;
@@ -19,17 +20,25 @@ public class ReservaService {
 
     @Autowired
     private ClienteRepository clienteRepository;
+    
+    @Autowired
+    private ClienteService clienteService;
 
     @Autowired
     private SalaRepository salaRepository;
+    
+    @Autowired
+    private SalaService salaService;
 
     public List<Reserva> getReservasByCliente(int clienteId) {
-        Cliente cliente = clienteRepository.findById(clienteId).orElse(null);
+        Cliente cliente = clienteService.getClienteById(clienteId)
+                                        .orElseThrow(() -> new ObjectNotFoundException("Cliente no encontrado con id: " + clienteId));
         return reservaRepository.findByCliente(cliente);
     }
 
     public List<Reserva> getReservasBySala(int salaId) {
-        Sala sala = salaRepository.findById(salaId).orElse(null);
+        Sala sala = salaService.findById(salaId)
+                                                .orElseThrow(() -> new ObjectNotFoundException("Sala no encontrada con id: " + salaId));
         return reservaRepository.findBySala(sala);
     }
 
@@ -41,11 +50,6 @@ public class ReservaService {
         reservaRepository.delete(reserva);
     }
     
-    public void deleteReservaById(int idReserva){
-        Reserva laReserva = reservaRepository.findById(idReserva).orElse(null);
-        reservaRepository.delete(laReserva);
-    }
-    
     public List<Reserva> findAll(){
         return reservaRepository.findAll();
     }
@@ -54,4 +58,15 @@ public class ReservaService {
         reservaRepository.deleteAllBySala(sala);
     }
     
+    public Optional<Reserva> findByIdReserva(int idReserva){
+        return reservaRepository.findById(idReserva);
+    }
+    
+    public void deleteByIdReserva(int idReserva){
+        reservaRepository.deleteByIdReserva(idReserva);
+    }
+    
+    public void deleteById(int id){
+        reservaRepository.deleteById(id);
+    }
 }

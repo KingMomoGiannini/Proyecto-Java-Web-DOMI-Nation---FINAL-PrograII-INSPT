@@ -90,7 +90,7 @@ public class InicioController {
                 Cliente elCliente = (Cliente)userLogueado;
                 model.addAttribute("sedesDelUsuario", sucursalService.findAll());
                 model.addAttribute("domiciliosDeSedes", domicilioService.findAll());
-                model.addAttribute("lasReservas", reservaService.getReservasByCliente(elCliente.getIdCliente()));
+                model.addAttribute("lasReservas", elCliente.getReservas());
             }
         }
         else if (adminLogueado != null) {
@@ -132,6 +132,7 @@ public class InicioController {
 //                break;
 //        }  CAMBIÉ ESTO DEBIDO A QUE
 
+        model.addAttribute("mensajeExito", false);
         return "inicio";
     }
 }
