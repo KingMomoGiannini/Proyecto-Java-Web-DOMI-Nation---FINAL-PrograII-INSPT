@@ -5,7 +5,9 @@
 package com.domination.proyecto.services;
 
 import com.domination.proyecto.models.Prestador;
+import com.domination.proyecto.models.Reserva;
 import com.domination.proyecto.models.Sucursal;
+import com.domination.proyecto.repositories.ReservaRepository;
 import com.domination.proyecto.repositories.SucursalRepository;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +19,9 @@ public class SucursalService {
     
     @Autowired
     private SucursalRepository sucursalRepository;
+
+    @Autowired
+    private ReservaRepository reservaRepository;
 
     public List<Sucursal> findAll() {
         return sucursalRepository.findAll();
@@ -36,5 +41,9 @@ public class SucursalService {
     
     public List<Sucursal> findByPrestador(Prestador prestador) {
         return sucursalRepository.findByPrestador(prestador);
+    }
+
+    public List<Reserva> findReservasBySucursal(Sucursal sucursal) {
+        return reservaRepository.findBySalaSucursal(sucursal);
     }
 }

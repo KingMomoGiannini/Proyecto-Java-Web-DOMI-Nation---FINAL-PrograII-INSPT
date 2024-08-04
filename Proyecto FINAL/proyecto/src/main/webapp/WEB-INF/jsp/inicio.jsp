@@ -26,7 +26,7 @@
                     </c:if>
                     <c:if test="${not empty lasReservas}">
                         <div class="centrarEnPag">
-                            <a class="botoncin" href="reservas/listaReservas"><button>Ver Reservas</button></a>
+                            <a class="botoncin" href="reservas/admin/listaReservas?idAdministrador=${userLogueado.getIdAdministrador()}"><button>Ver Reservas</button></a>
                             <br><br><br>
                         </div>
                     </c:if>
@@ -119,7 +119,7 @@
                         </c:if>
                         <c:if test="${not empty lasReservas}">
                             <div class="centrarEnPag">
-                                <a class="botoncin" href="reservas/listaReservas"><button>Ver Reservas</button></a>
+                                <a class="botoncin" href="reservas/listaReservas?idPrestador=${userLogueado.getIdPrestador()}"><button>Ver Reservas</button></a>
                                 <br><br><br>
                             </div>
                         </c:if>

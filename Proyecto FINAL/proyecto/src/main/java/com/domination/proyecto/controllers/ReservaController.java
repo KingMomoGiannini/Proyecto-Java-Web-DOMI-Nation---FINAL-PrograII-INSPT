@@ -1,19 +1,17 @@
 package com.domination.proyecto.controllers;
 
 import com.domination.proyecto.exceptions.ObjectNotFoundException;
-import com.domination.proyecto.models.Cliente;
-import com.domination.proyecto.models.Reserva;
-import com.domination.proyecto.models.Sala;
-import com.domination.proyecto.models.Sucursal;
-import com.domination.proyecto.services.ClienteService;
-import com.domination.proyecto.services.ReservaService;
-import com.domination.proyecto.services.SalaService;
-import com.domination.proyecto.services.SucursalService;
+import com.domination.proyecto.models.*;
+import com.domination.proyecto.repositories.PrestadorRepository;
+import com.domination.proyecto.services.*;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedList;
 import java.util.List;
+
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,13 +30,15 @@ public class ReservaController {
     private final SucursalService sucursalService;
     private final SalaService salaService;
     private final ClienteService clienteService;
+    private final PrestadorService prestadorService;
 
     @Autowired
-    public ReservaController(ReservaService reservaService, SucursalService sucursalService, SalaService salaService, ClienteService clienteService) {
+    public ReservaController(ReservaService reservaService, SucursalService sucursalService, SalaService salaService, ClienteService clienteService, PrestadorService prestadorService) {
         this.reservaService = reservaService;
         this.sucursalService = sucursalService;
         this.salaService = salaService;
         this.clienteService = clienteService;
+        this.prestadorService = prestadorService;
     }
     
     @GetMapping("/create")
@@ -52,7 +52,34 @@ public class ReservaController {
         model.addAttribute("action", "create");
         return "formReservas";
     }
-    
+
+    @GetMapping("/listaReservas")// lista de reservas hechas en las sucursales del prestador
+    public String listReservasSucursal(@RequestParam("idPrestador") int idPrestador, HttpSession sesion, Model model) {
+
+        Prestador prestador = prestadorService.findByIdPrestador(idPrestador)
+                                    .orElseThrow(() -> new ObjectNotFoundException("Prestador no encontrado"));
+        List<Reserva> reservas = new LinkedList<>();
+        List<Sucursal> sucursales = prestador.getSucursales();
+        for (Sucursal sucursal : sucursales) {
+            List<Sala> salas = sucursal.getSalas();
+            for (Sala sala : salas) {
+                for (Reserva reserva : sala.getReservas()) {
+                    reservas.add(reserva);
+                }
+            }
+        }
+        model.addAttribute("reservas", reservas);
+        return "listaReservas";
+    }
+
+    @GetMapping("/admin/listaReservas")// lista de todas las reservas
+    public String listReservasTotales(@RequestParam("idAdministrador") int idAdministrador, Model model) {
+        List<Reserva> reservas = reservaService.findAll();
+        model.addAttribute("reservas", reservas);
+        return "listaReservas";
+    }
+
+
     @GetMapping("/misReservas")
     public String listReservasCliente(@RequestParam("idCliente") int idCliente, Model model) {
         Cliente cliente = clienteService.getClienteById(idCliente)

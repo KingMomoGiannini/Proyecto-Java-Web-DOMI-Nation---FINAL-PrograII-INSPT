@@ -16,11 +16,16 @@
                 <c:choose>
                     <c:when test="${userLogueado.rol eq 'cliente'}">
                         <h1>Mis reservas</h1>
-                        <input type="hidden" name="idCliente" value="${userLoguedo.getIdCliente()}">
+                        <input type="hidden" name="idCliente" value="${userLogueado.getIdCliente()}">
                     </c:when>
-                    <c:otherwise>
+                    <c:when test="${userLogueado.rol eq 'prestador'}">
                         <h1>Lista de reservas</h1>
-                    </c:otherwise>
+                        <input type="hidden" name="idPrestador" value="${userLogueado.getIdPrestador()}">
+                    </c:when>
+                    <c:when test="${userLogueado.rol eq 'administrador'}">
+                        <h1>Lista de reservas</h1>
+                        <input type="hidden" name="idAdministrador" value="${userLogueado.getIdAdministrador()}">
+                    </c:when>
                 </c:choose>
             </div>
 
