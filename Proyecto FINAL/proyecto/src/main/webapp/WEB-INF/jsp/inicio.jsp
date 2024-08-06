@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -19,14 +19,17 @@
                 <c:when test="${userLogueado.getRol() == 'administrador'}">
                     <br><br><br>
                     <c:if test = "${Exito==true}">
+                        <br><br>
                         <div class="mensaje">
                             <h1>${mensajeExito}</h1>
                             <br><br><br>
                         </div>
                     </c:if>
+                    <c:remove var="mensajeExito" scope="session"/>
+                    <c:remove var="Exito" scope="session"/>
                     <c:if test="${not empty lasReservas}">
                         <div class="centrarEnPag">
-                            <a class="botoncin" href="reservas/admin/listaReservas?idAdministrador=${userLogueado.getIdAdministrador()}"><button>Ver Reservas</button></a>
+                            <a href="reservas/admin/listaReservas?idAdministrador=${userLogueado.getIdAdministrador()}"><button class="botoncin">Ver Reservas</button></a>
                             <br><br><br>
                         </div>
                     </c:if>
@@ -66,8 +69,8 @@
                                                         </c:choose>
                                                     </c:forEach> 
                                                 </c:if>
-                                                <a class="botoncin" href="sedes/delete/${sede.getIdSucursal()}"><button>Eliminar Sede</button></a>
-                                                <a class="botoncin" href="salas/salasDisponibles/${sede.getIdSucursal()}"><button>Ver Salas</button></a>
+                                                <a href="sedes/delete/${sede.getIdSucursal()}"><button class="botoncin">Eliminar Sede</button></a>
+                                                <a href="salas/salasDisponibles/${sede.getIdSucursal()}"><button class="botoncin">Ver Salas</button></a>
                                             </div>
                                         </div>
 
@@ -99,7 +102,7 @@
                                             
                                             <br><br>
 
-                                            <a class="botoncin" href="usuarios/delete?id=${elUserPag.getIdUsuario()}"><button>Eliminar Usuario</button></a>
+                                            <a href="usuarios/delete?id=${elUserPag.getIdUsuario()}"><button class="botoncin">Eliminar Usuario</button></a>
                                         </div>
                                     </div>
 
@@ -111,15 +114,18 @@
                 <c:when test="${userLogueado.getRol() == 'prestador'}">
                     <br><br><br>
                     <div>
-                        <c:if test = "${Exito==true}">
+                        <c:if test = "${sessionScope.Exito == true}">
+                            <br><br>
                             <div class="mensaje">
-                                <h1>${mensajeExito}</h1>
+                                <h1>${sessionScope.mensajeExito}</h1>
                                 <br><br><br>
                             </div>
                         </c:if>
+                        <c:remove var="mensajeExito" scope="session"/>
+                        <c:remove var="Exito" scope="session"/>
                         <c:if test="${not empty lasReservas}">
                             <div class="centrarEnPag">
-                                <a class="botoncin" href="reservas/listaReservas?idPrestador=${userLogueado.getIdPrestador()}"><button>Ver Reservas</button></a>
+                                <a href="reservas/listaReservas?idPrestador=${userLogueado.getIdPrestador()}"><button class="botoncin">Ver Reservas</button></a>
                                 <br><br><br>
                             </div>
                         </c:if>
@@ -156,9 +162,9 @@
                                                             </c:choose>
                                                         </c:forEach> 
                                                     </c:if>
-                                                    <a class="botoncin" href="salas/salasDisponibles/${sede.getIdSucursal()}"><button>Ver Salas</button></a>
-                                                    <a class="botoncin" href="sedes/update/${sede.getIdSucursal()}"><button>Editar Sede</button></a>
-                                                    <a class="botoncin" href="sedes/delete/${sede.getIdSucursal()}"><button>Eliminar Sede</button></a>
+                                                    <a href="salas/salasDisponibles/${sede.getIdSucursal()}"><button class="botoncin">Ver Salas</button></a>
+                                                    <a href="sedes/update/${sede.getIdSucursal()}"><button class="botoncin">Editar Sede</button></a>
+                                                    <a href="sedes/delete/${sede.getIdSucursal()}"><button class="botoncin">Eliminar Sede</button></a>
                                                 </div>
                                             </div>
                                         </c:when>
@@ -171,7 +177,7 @@
                             </div>
                         </c:if>
                         <div class="centrarEnPag">
-                            <a class="botoncin centrarEnPag" href="sedes/create"><button>Crear Sede</button></a>
+                            <a class="centrarEnPag" href="sedes/create"><button class="botoncin">Crear Sede</button></a>
                         </div>      
                     </div>
                     <br><br><br>
@@ -179,14 +185,17 @@
                 <c:when test="${userLogueado.getRol() == 'cliente'}">
                     <br><br><br>
                         <c:if test = "${Exito==true}">
+                            <br><br>
                             <div class="mensaje">
                                 <h1>${mensajeExito}</h1>
                                 <br><br><br>
                             </div>
                         </c:if>
+                        <c:remove var="mensajeExito" scope="session"/>
+                        <c:remove var="Exito" scope="session"/>
                         <c:if test="${not empty lasReservas}">
                             <div class="centrarEnPag">
-                                <a class="botoncin" href="reservas/misReservas?idCliente=${userLogueado.getIdCliente()}"><button>Ver mis Reservas</button></a>
+                                <a href="reservas/misReservas?idCliente=${userLogueado.getIdCliente()}"><button class="botoncin">Ver mis Reservas</button></a>
                                 <br><br><br>
                             </div>
                         </c:if>
@@ -221,7 +230,7 @@
                                                     </c:choose>
                                                 </c:forEach> 
                                             </c:if>
-                                            <a class="botoncin" href="salas/salasDisponibles/${sede.getIdSucursal()}"><button>Ver Salas</button></a>
+                                            <a href="salas/salasDisponibles/${sede.getIdSucursal()}"><button class="botoncin">Ver Salas</button></a>
                                         </div>
                                     </div>
                                     <c:if test = "${empty domiciliosDeSedes}">

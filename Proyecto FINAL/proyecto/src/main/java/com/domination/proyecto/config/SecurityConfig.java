@@ -1,6 +1,9 @@
 package com.domination.proyecto.config;
 
 import com.domination.proyecto.services.CustomUserDetailsService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,14 +11,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -44,7 +47,7 @@ public class SecurityConfig  {
                     .loginPage("/login")
                     .loginProcessingUrl("/ingresar")
                     .defaultSuccessUrl("/inicio", true)
-                    .failureUrl("/login?error=true")
+                    .failureHandler(customAuthenticationFailureHandler())//failureUrl("/login?error=true")
                     .permitAll()
             )
             .logout(logout ->
@@ -52,7 +55,7 @@ public class SecurityConfig  {
                     .logoutUrl("/logout")
                     .permitAll()
             )
-            .csrf().disable(); 
+            .csrf(csrf -> csrf.disable());
         return http.build();
     }
     
@@ -64,6 +67,20 @@ public class SecurityConfig  {
                 .and()
                 .build();
     }
+
+    @Bean
+    public AuthenticationFailureHandler customAuthenticationFailureHandler() {
+        return new SimpleUrlAuthenticationFailureHandler() {
+            @Override
+            public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+                request.getSession().setAttribute("hayError", true);
+                request.getSession().setAttribute("mensajeError", "Usuario o contraseña incorrectos.");
+                super.setDefaultFailureUrl("/login?error=true");
+                super.onAuthenticationFailure(request, response, exception);
+            }
+        };
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

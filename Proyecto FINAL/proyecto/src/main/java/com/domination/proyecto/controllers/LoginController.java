@@ -91,12 +91,11 @@ public class LoginController {
                 return "redirect:/inicio";
             }
             else {
-                model.addAttribute("hayError", true);
-                model.addAttribute("mensajeError", "Usuario o contraseña incorrectos.");
                 return "login";
             }
         } catch (Exception ex) {
-            model.addAttribute("error", "Hubo un problema con el login: " + ex.getMessage());
+            session.setAttribute("hayError", true);
+            session.setAttribute("mensajeError", "Hubo un problema con el login: " + ex.getMessage());
             return "login";
         }
     }
@@ -128,13 +127,9 @@ public class LoginController {
         List<Sucursal> sucursales = sucursalService.findAll();
         List<Domicilio> domicilios = domicilioService.findAll();
         List<Reserva> reservasCliente = cliente.getReservas();
-//        Domicilio dom = null;
-//        Sucursal sucu = null;
         session.setAttribute("sedesDelUsuario", sucursales);
         session.setAttribute("domiciliosDeSedes", domicilios);
         session.setAttribute("lasReservas", reservasCliente);
-//        session.setAttribute("elDom", dom);
-//        session.setAttribute("laSede", sucu);
     }
 
     private void setupAdminSessionAttributes(HttpSession session) {

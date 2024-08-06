@@ -11,14 +11,14 @@
 <body>
     <c:import url ="navbar.jsp" />
     <br><br><br>
-    <c:if test="${hayError == true }">
-        <div class="mensajeError">
-            
-            <h1>${mensajeError}</h1>
+    <c:if test="${sessionScope.hayError == true }">
+            <div class="mensajeError">
+            <h1>${sessionScope.mensajeError}</h1>
             <br><br><br>
         </div>
     </c:if>
-
+    <c:remove var="mensajeError" scope="session"/>
+    <c:remove var="hayError" scope="session"/>
     <form action="<c:url value='/ingresar'/>" method="post" >
         <div class= "centrarEnPag" >
 

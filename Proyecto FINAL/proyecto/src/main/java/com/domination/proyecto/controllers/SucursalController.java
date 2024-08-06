@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/sedes")
@@ -93,7 +94,8 @@ public class SucursalController {
                              @RequestParam String partido,
                              @RequestParam String calle,
                              @RequestParam String altura,
-                             HttpSession session) {
+                             HttpSession session,
+                             RedirectAttributes redirectAttributes) {
         try {
             System.out.println("el id del prestador es " + idPrestador);
             Prestador elPrestador = prestadorService.findByIdPrestador(idPrestador)
@@ -103,13 +105,16 @@ public class SucursalController {
             sucursalService.save(laSede);
             Domicilio elDom = obtenerDomicilioDesdeRequest(provincia, localidad, partido, calle, altura, laSede);
             domicilioService.save(elDom);
-            setAttributesForSuccess(session, "La sede ha sido creada exitosamente", laSede, elDom);
+            session.setAttribute("Exito", true);
+            session.setAttribute("mensajeExito", "La sucursal ha sido creada exitosamente");
+            setAttributesForSuccess(session, laSede, elDom);
+            return "redirect:/inicio";
         } catch (Exception e) {
             e.printStackTrace();
-            session.setAttribute("Exito", false);
-            session.setAttribute("mensajeExito", "Error al crear la sede.");
+            session.setAttribute("Exito", true);
+            session.setAttribute("mensajeExito", "Error al crear la sucursal");
+            return "redirect:/inicio";
         }
-        return "redirect:/inicio";
     }
 
     @PostMapping("/update")
@@ -126,7 +131,8 @@ public class SucursalController {
                              @RequestParam String partido,
                              @RequestParam String calle,
                              @RequestParam String altura,
-                             HttpSession session) {
+                             HttpSession session,
+                             RedirectAttributes redirectAttributes) {
         try {
             Prestador elPrestador = prestadorService.findByIdPrestador(idPrestador)
                                                     .orElseThrow(() -> new ObjectNotFoundException("Prestador no encontrado con id: " + idPrestador));
@@ -136,18 +142,21 @@ public class SucursalController {
             Domicilio elDom = obtenerDomicilioDesdeRequest(provincia, localidad, partido, calle, altura, laSede);
             elDom.setIdDomicilio(idDom);
             domicilioService.save(elDom);
-            setAttributesForSuccess(session, "La sede ha sido actualizada exitosamente", laSede, elDom);
+            session.setAttribute("Exito", true);
+            session.setAttribute("mensajeExito", "La sucursal ha sido actualizada exitosamente");
+            setAttributesForSuccess(session, laSede, elDom);
+            return "redirect:/inicio";
         } catch (Exception e) {
             e.printStackTrace();
-            session.setAttribute("Exito", false);
-            session.setAttribute("mensajeExito", "Error al actualizar la sede.");
+            session.setAttribute("Exito", true);
+            session.setAttribute("mensajeExito", "Error al actualizar la sucursal");
+            return "redirect:/inicio";
         }
-        return "redirect:/inicio";
     }
 
     @PostMapping("/delete")
     public String deleteSede(@RequestParam int idSede,
-                             HttpSession session) {
+                             HttpSession session,RedirectAttributes redirectAttributes) {
         try {
             Sucursal laSucu = sucursalService.findByIdSucursal(idSede)
                                              .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSede));
@@ -159,11 +168,13 @@ public class SucursalController {
             }
             domicilioService.deleteById(laSucu.getDomicilio().getIdDomicilio());
             sucursalService.deleteById(idSede);
-            setAttributesForSuccess(session, "La sede ha sido eliminada exitosamente", null, null);
+            session.setAttribute("Exito", true);
+            session.setAttribute("mensajeExito", "La sucursal ha sido eliminada exitosamente");
+            setAttributesForSuccess(session, null, null);
         } catch (Exception e) {
             e.printStackTrace();
-            session.setAttribute("Exito", false);
-            session.setAttribute("mensajeExito", "Error al eliminar la sede.");
+            session.setAttribute("Exito", true);
+            session.setAttribute("mensajeExito", "Error al eliminar la sucursal.");
         }
         return "redirect:/inicio";
     }
@@ -179,13 +190,13 @@ public class SucursalController {
         return new Domicilio(calle, altura, localidad, partido, provincia, sucursal);
     }
 
-    private void setAttributesForSuccess(HttpSession session, String mensaje, Sucursal laSede, Domicilio elDom) {
-        session.setAttribute("Exito", true);
-        session.setAttribute("mensajeExito", mensaje);
+    private void setAttributesForSuccess(HttpSession session, Sucursal laSede, Domicilio elDom) {
+
         session.setAttribute("sede", laSede);
         session.setAttribute("domicilio", elDom);
         session.setAttribute("sedesDelUsuario", sucursalService.findAll());
         session.setAttribute("domiciliosDeSedes", domicilioService.findAll());
         session.setAttribute("lasReservas", reservaService.findAll());
+
     }
 }

@@ -13,9 +13,12 @@ import com.domination.proyecto.services.DomicilioService;
 import com.domination.proyecto.services.ReservaService;
 import com.domination.proyecto.services.SucursalService;
 import com.domination.proyecto.services.UsuarioService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.catalina.filters.ExpiresFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,9 +54,9 @@ public class InicioController {
     }
 
     @GetMapping("/inicio")
-    public String inicio(HttpSession session, Model model) {
+    public String inicio(HttpSession session, Model model, HttpServletRequest req) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        
+
         // Obtén el nombre de usuario autenticado
         String username = authentication.getName();
 
@@ -99,40 +102,6 @@ public class InicioController {
             model.addAttribute("usuarios", usuarioService.findAll());
             model.addAttribute("lasReservas", reservaService.findAll());
         }
-        
-        
-//        switch (userLogueado.getRol()||adminLogueado.getRol()) {
-//            case "administrador":
-//                model.addAttribute("sedesDelUsuario", sucursalService.findAll());
-//                model.addAttribute("domiciliosDeSedes", domicilioService.findAll());
-//                model.addAttribute("usuarios", usuarioService.findAll());
-//                model.addAttribute("lasReservas", reservaService.findAll());
-//                break;
-//            case "prestador":
-//                Prestador elPrestador = (Prestador)userLogueado;
-//                model.addAttribute("sedesDelUsuario", sucursalService.findByPrestador(elPrestador));
-//                List<Reserva> reservasHechas = new LinkedList<>();
-//                List<Domicilio> domSucursales = new LinkedList<>();
-//                for (Sucursal sucursal : elPrestador.getSucursales()) {
-//                    domSucursales.add(sucursal.getDomicilio());
-//                    for (Sala sala : sucursal.getSalas()) {
-//                        for (Reserva reserva : sala.getReservas()) {
-//                            reservasHechas.add(reserva);
-//                        }
-//                    }
-//                }
-//                model.addAttribute("domiciliosDeSedes", domSucursales);
-//                model.addAttribute("lasReservas", reservasHechas);
-//                break;
-//            case "cliente":
-//                Cliente elCliente = (Cliente)userLogueado;
-//                model.addAttribute("sedesDelUsuario", sucursalService.findAll());
-//                model.addAttribute("domiciliosDeSedes", domicilioService.findAll());
-//                model.addAttribute("lasReservas", reservaService.getReservasByCliente(elCliente.getIdCliente()));
-//                break;
-//        }  CAMBIÉ ESTO DEBIDO A QUE
-
-        model.addAttribute("mensajeExito", false);
         return "inicio";
     }
 }

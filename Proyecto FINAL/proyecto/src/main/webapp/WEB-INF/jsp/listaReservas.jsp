@@ -28,63 +28,63 @@
                     </c:when>
                 </c:choose>
             </div>
-
-                <c:choose>
-                    <c:when test = "${not empty reservas}">
-                        <c:if test = "${Exito==true}">
-                            <div class="mensaje">
-                                <h1>${message}</h1>
-                                <br><br><br>
-                            </div>
-                        </c:if>
-                        <div class="seccion">
-                            <h1 >Reservas</h1>
-                        </div>
-                        <div class="sedes-row">
-                            <c:forEach items ="${reservas}" var="reserva">
-                                <div class="sede-container">
-                                    <div style="color:white">
-                                        <h1 style = "font-size:30px">Reserva</h1>
-                                        <h2 style = "color:red;font-size:20px ">ID de Reserva: ${reserva.getIdReserva()}</h2>
-                                        <p><strong style = "font-size:14px;text-decoration:underline">ID de Cliente:</strong> ${reserva.getCliente().getIdCliente()}</p>
-                                        <p><strong style = "font-size:14px;text-decoration:underline">ID de Sala:</strong> ${reserva.getSala().getIdSala()}</p>
-                                        <p><strong style = "font-size:14px;text-decoration:underline">Hora de entrada:</strong> ${reserva.getHoraInicio()}</p>
-                                        <p><strong style = "font-size:14px;text-decoration:underline">Hora de salida:</strong> ${reserva.getHoraFin()}</p>
-                                        <p><strong style = "font-size:14px;text-decoration:underline">Monto a pagar: $</strong> ${reserva.getMonto()}</p>
-                                        <p><strong style = "font-size:14px;text-decoration:underline">Duración: </strong> ${reserva.getDuracion()}Hs</p>
-                                        <br><br>
-                                        <a class="botoncin" href="${pageContext.request.contextPath}/reservas/edit?idReserva=${reserva.getIdReserva()}"><button>Editar Reserva</button></a>
-                                    
-                                        <br><br>
-                                        <a class="botoncin" href="${pageContext.request.contextPath}/reservas/delete?idReserva=${reserva.getIdReserva()}"><button>Eliminar Reserva</button></a>
-                                        <br><br>
-                                        
-                                    </div>
-                                </div>
-                            </c:forEach>
-                            <br><br><br>
-                        </div>
-                        
-                    </c:when>
-                    <c:when test= "${empty reservas}">
+            <c:choose>
+                <c:when test = "${not empty reservas}">
+                    <c:if test = "${Exito==true}">
+                        <br><br>
                         <div class="mensaje">
+                            <h1>${mensaje}</h1>
                             <br><br><br>
-                            <h1>No hay reservas disponibles</h1>
-                            
                         </div>
-                        <c:if test="${userLogueado.rol eq 'cliente'}">
-                            <div class="seccion centrarEnPag">
-                                <br><br><br>
-                                <h1 >¿Desea realizar una Reserva??</h1>
+                    </c:if>
+                    <c:remove var="mensaje" scope="session"/>
+                    <c:remove var="Exito" scope="session"/>
+                    <div class="seccion">
+                        <h1 >Reservas</h1>
+                    </div>
+                    <div class="sedes-row">
+                        <c:forEach items ="${reservas}" var="reserva">
+                            <div class="sede-container">
+                                <div style="color:white">
+                                    <h1 style = "font-size:30px">Reserva</h1>
+                                    <h2 style = "color:red;font-size:20px ">ID de Reserva: ${reserva.getIdReserva()}</h2>
+                                    <p><strong style = "font-size:14px;text-decoration:underline">ID de Cliente:</strong> ${reserva.getCliente().getIdCliente()}</p>
+                                    <p><strong style = "font-size:14px;text-decoration:underline">ID de Sala:</strong> ${reserva.getSala().getIdSala()}</p>
+                                    <p><strong style = "font-size:14px;text-decoration:underline">Hora de entrada:</strong> ${reserva.getHoraInicio()}</p>
+                                    <p><strong style = "font-size:14px;text-decoration:underline">Hora de salida:</strong> ${reserva.getHoraFin()}</p>
+                                    <p><strong style = "font-size:14px;text-decoration:underline">Monto a pagar: $</strong> ${reserva.getMonto()}</p>
+                                    <p><strong style = "font-size:14px;text-decoration:underline">Duración: </strong> ${reserva.getDuracion()}Hs</p>
+                                    <br><br>
+                                    <a href="${pageContext.request.contextPath}/reservas/edit?idReserva=${reserva.getIdReserva()}"><button class="botoncin">Editar Reserva</button></a>
+
+                                    <br><br>
+                                    <a href="${pageContext.request.contextPath}/reservas/delete?idReserva=${reserva.getIdReserva()}"><button class="botoncin">Eliminar Reserva</button></a>
+                                    <br><br>
+
+                                </div>
                             </div>
+                        </c:forEach>
+                        <br><br><br>
+                    </div>
+                </c:when>
+                <c:when test= "${empty reservas}">
+                    <div class="mensaje">
+                        <br><br><br>
+                        <h1>No hay reservas disponibles</h1>
+                    </div>
+                    <c:if test="${userLogueado.rol eq 'cliente'}">
+                        <div class="seccion centrarEnPag">
                             <br><br><br>
-                            <div class="centrarEnPag">
-                                <a class="botoncin" href="${pageContext.request.contextPath}/inicio"><button>Alquilar sala</button></a>
-                                <br><br><br>
-                            </div>
-                        </c:if>
-                    </c:when>
-                </c:choose>
+                            <h1 >¿Desea realizar una Reserva??</h1>
+                        </div>
+                        <br><br><br>
+                        <div class="centrarEnPag">
+                            <a href="${pageContext.request.contextPath}/inicio"><button class="botoncin">Alquilar sala</button></a>
+                            <br><br><br>
+                        </div>
+                    </c:if>
+                </c:when>
+            </c:choose>
         </div>
         <c:import url ="footer.jsp" />
     </body>

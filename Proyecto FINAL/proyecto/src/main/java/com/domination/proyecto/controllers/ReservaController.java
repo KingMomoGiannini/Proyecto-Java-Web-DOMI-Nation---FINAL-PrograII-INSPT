@@ -2,7 +2,6 @@ package com.domination.proyecto.controllers;
 
 import com.domination.proyecto.exceptions.ObjectNotFoundException;
 import com.domination.proyecto.models.*;
-import com.domination.proyecto.repositories.PrestadorRepository;
 import com.domination.proyecto.services.*;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Duration;
@@ -16,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -121,30 +118,50 @@ public class ReservaController {
     }
     
     @PostMapping("/create")
-    public String createReserva(HttpServletRequest req, Model model) throws Exception {
-        Reserva reserva = obtenerReservaDesdeRequest(req);
-        System.out.println("id de cliente: "+reserva.getCliente().getIdCliente());
-        System.out.println("duracion: "+ reserva.getDuracion());
-        System.out.println("hora inicio: "+reserva.getHoraInicio());
-        System.out.println("hora fin: "+ reserva.getHoraFin());
-        System.out.println("monto: "+ reserva.getMonto());
-        System.out.println("");
-        reservaService.saveReserva(reserva);
-        return "redirect:/reservas/misReservas?idCliente=" + reserva.getCliente().getIdCliente();
+    public String createReserva(HttpSession session, HttpServletRequest req, Model model) throws Exception {
+        try {
+            Reserva reserva = obtenerReservaDesdeRequest(req);
+            reservaService.saveReserva(reserva);
+            session.setAttribute("Exito", true);
+            session.setAttribute("mensaje", "La reserva ha sido creada exitosamente");
+            return "redirect:/reservas/misReservas?idCliente=" + reserva.getCliente().getIdCliente();
+        } catch (Exception e) {
+            session.setAttribute("Exito", true);
+            session.setAttribute("mensaje", "Error al crear la reserva");
+            model.addAttribute("error", e.getMessage());
+            return "redirect:/reservas/create";
+        }
     }
 
     @PostMapping("/update")
-    public String updateReserva(HttpServletRequest req, Model model) throws Exception {
-        Reserva reserva = obtenerReservaDesdeRequest(req);
-        reservaService.saveReserva(reserva);
-        return "redirect:/reservas/misReservas?idCliente=" + reserva.getCliente().getIdCliente();
+    public String updateReserva(HttpSession session, HttpServletRequest req, Model model) throws Exception {
+        try {
+            Reserva reserva = obtenerReservaDesdeRequest(req);
+            reservaService.saveReserva(reserva);
+            session.setAttribute("Exito", true);
+            session.setAttribute("mensaje", "La reserva ha sido actualizada exitosamente");
+            return "redirect:/reservas/misReservas?idCliente=" + reserva.getCliente().getIdCliente();
+        } catch (Exception e) {
+            session.setAttribute("Exito", true);
+            session.setAttribute("mensaje", "Error al actualizar la reserva");
+            model.addAttribute("error", e.getMessage());
+            return "redirect:/reservas/edit?idReserva=" + req.getParameter("idReserva");
+        }
     }
 
     @PostMapping("/delete")
-    public String deleteReserva(@RequestParam("idReserva") int idReserva,@RequestParam("idCliente") int idCliente ,Model model) {
-        reservaService.deleteByIdReserva(idReserva);
-        model.addAttribute("message", "La reserva ha sido eliminada exitosamente");
-        return "redirect:/reservas/misReservas?idCliente="+ idCliente;
+    public String deleteReserva(HttpSession session, @RequestParam("idReserva") int idReserva,@RequestParam("idCliente") int idCliente ,Model model) {
+        try {
+            reservaService.deleteByIdReserva(idReserva);
+            session.setAttribute("Exito", true);
+            session.setAttribute("mensaje", "La reserva ha sido eliminada exitosamente");
+            return "redirect:/reservas/misReservas?idCliente="+ idCliente;
+        } catch (Exception e) {
+            session.setAttribute("Exito", true);
+            session.setAttribute("mensaje", "Error al eliminar la reserva");
+            model.addAttribute("error", e.getMessage());
+            return "redirect:/reservas/delete?idReserva=" + idReserva;
+        }
     }
     
     private Reserva obtenerReservaDesdeRequest(HttpServletRequest req) throws Exception {

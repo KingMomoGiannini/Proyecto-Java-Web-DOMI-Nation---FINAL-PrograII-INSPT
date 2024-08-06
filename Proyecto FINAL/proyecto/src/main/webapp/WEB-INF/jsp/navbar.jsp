@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/navbar.css"/>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -33,7 +33,7 @@
                     <a class="btn btn-outline-light botoncin" href="/registrarse">Registrarse</a>
                 </c:when>
                 <c:otherwise>
-                    <a class="btn btn-outline-light botoncin" href="/logout">Cerrar Sesión</a>
+                    <a class="btn btn-outline-light botoncin" href="/logout">Cerrar Sesiï¿½n</a>
                 </c:otherwise>
             </c:choose>
         </div>

@@ -17,11 +17,14 @@
                 <c:choose>
                     <c:when test = "${not empty salas}">
                         <c:if test = "${Exito==true}">
+                            <br><br>
                             <div class="mensaje">
-                                <h1>${message}</h1>
+                                <h1>${mensaje}</h1>
                                 <br><br><br>
                             </div>
                         </c:if>
+                        <c:remove var="mensaje" scope="session"/>
+                        <c:remove var="Exito" scope="session"/>
                         <div class="seccion">
                             <h1 >Sucursales</h1>
                         </div>
@@ -37,13 +40,13 @@
                                         <c:choose>
                                             <c:when test="${userLogueado.rol eq 'cliente'}">
                                                 <br><br>
-                                                <a class="botoncin" href="${pageContext.request.contextPath}/reservas/create?idSala=${sala.getIdSala()}"><button>Alquilar sala</button></a>
+                                                <a href="${pageContext.request.contextPath}/reservas/create?idSala=${sala.getIdSala()}"><button class="botoncin">Alquilar sala</button></a>
                                                 <br><br>
                                             </c:when>
                                             <c:otherwise>
                                                 <br><br>
-                                                <a class="botoncin" href="${pageContext.request.contextPath}/salas/delete/${sala.getIdSala()}/${sucursal.getIdSucursal()}"><button>Eliminar sala</button></a>
-                                                <a class="botoncin" href="${pageContext.request.contextPath}/salas/edit/${sala.getIdSala()}/${sucursal.getIdSucursal()}"><button>Editar sala</button></a>
+                                                <a href="${pageContext.request.contextPath}/salas/delete/${sala.getIdSala()}/${sucursal.getIdSucursal()}"><button class="botoncin">Eliminar sala</button></a>
+                                                <a href="${pageContext.request.contextPath}/salas/edit/${sala.getIdSala()}/${sucursal.getIdSucursal()}"><button class="botoncin">Editar sala</button></a>
                                                 <br><br>
                                             </c:otherwise>
                                         </c:choose>
@@ -54,7 +57,7 @@
                         </div>
                         <c:if test="${userLogueado.rol eq 'prestador'}">
                             <div class="centrarEnPag">
-                                <a class="botoncin" href="${pageContext.request.contextPath}/salas/create?idSucursal=${sucursal.getIdSucursal()}"><button>Crear sala</button></a>
+                                <a href="${pageContext.request.contextPath}/salas/create?idSucursal=${sucursal.getIdSucursal()}"><button class="botoncin">Crear sala</button></a>
                                 <br><br><br>
                             </div>
                         </c:if>
@@ -71,7 +74,7 @@
                             </div>
                             <br><br><br>
                             <div class="centrarEnPag">
-                                <a class="botoncin" href="${pageContext.request.contextPath}/salas/create?idSucursal=${sucursal.getIdSucursal()}"><button>Crear sala</button></a>
+                                <a href="${pageContext.request.contextPath}/salas/create?idSucursal=${sucursal.getIdSucursal()}"><button class="botoncin">Crear sala</button></a>
                                 <br><br><br>
                                 
                             </div>
