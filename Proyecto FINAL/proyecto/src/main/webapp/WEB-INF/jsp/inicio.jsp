@@ -18,10 +18,10 @@
             <c:choose>
                 <c:when test="${userLogueado.getRol() == 'administrador'}">
                     <br><br><br>
-                    <c:if test = "${Exito==true}">
+                    <c:if test = "${sessionScope.Exito == true}">
                         <br><br>
                         <div class="mensaje">
-                            <h1>${mensajeExito}</h1>
+                            <h1>${sessionScope.mensajeExito}</h1>
                             <br><br><br>
                         </div>
                     </c:if>
@@ -29,7 +29,7 @@
                     <c:remove var="Exito" scope="session"/>
                     <c:if test="${not empty lasReservas}">
                         <div class="centrarEnPag">
-                            <a href="reservas/admin/listaReservas?idAdministrador=${userLogueado.getIdAdministrador()}"><button class="botoncin">Ver Reservas</button></a>
+                            <a href="/reservas/admin/listaReservas?idAdministrador=${userLogueado.getIdAdministrador()}"><button class="botoncin">Ver Reservas</button></a>
                             <br><br><br>
                         </div>
                     </c:if>
@@ -102,11 +102,15 @@
                                             
                                             <br><br>
 
-                                            <a href="usuarios/delete?id=${elUserPag.getIdUsuario()}"><button class="botoncin">Eliminar Usuario</button></a>
+                                            <a href="usuarios/delete?idUsuario=${user.getIdUsuario()}"><button class="botoncin">Eliminar Usuario</button></a>
                                         </div>
                                     </div>
 
                             </c:forEach>
+                            <br><br>
+                        </div>
+                        <div class="centrarEnPag">
+                            <a href="usuarios/create"><button class="botoncin">Crear Usuario</button></a>
                         </div>
                     </c:if>
                     
@@ -184,10 +188,10 @@
                 </c:when> <%-- --%>   
                 <c:when test="${userLogueado.getRol() == 'cliente'}">
                     <br><br><br>
-                        <c:if test = "${Exito==true}">
+                        <c:if test = "${sessionScope.Exito == true}">
                             <br><br>
                             <div class="mensaje">
-                                <h1>${mensajeExito}</h1>
+                                <h1>${sessionScope.mensajeExito}</h1>
                                 <br><br><br>
                             </div>
                         </c:if>

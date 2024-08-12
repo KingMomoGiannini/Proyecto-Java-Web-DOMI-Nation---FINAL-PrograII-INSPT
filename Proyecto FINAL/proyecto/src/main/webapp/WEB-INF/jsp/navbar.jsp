@@ -1,4 +1,5 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/navbar.css"/>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -33,7 +34,10 @@
                     <a class="btn btn-outline-light botoncin" href="/registrarse">Registrarse</a>
                 </c:when>
                 <c:otherwise>
-                    <a class="btn btn-outline-light botoncin" href="/logout">Cerrar Sesi�n</a>
+                    <c:if test="${userLogueado.rol != 'administrador'}">
+                        <a class="btn btn-outline-light botoncin" href="/usuarios/MiCuenta/edit?idUsuario=${userLogueado.getIdUsuario()}">Editar cuenta</a>
+                    </c:if>
+                        <a class="btn btn-outline-light botoncin" href="/logout">Cerrar Sesión</a>
                 </c:otherwise>
             </c:choose>
         </div>
