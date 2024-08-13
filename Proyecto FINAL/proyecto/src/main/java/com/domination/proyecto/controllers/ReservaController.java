@@ -6,6 +6,7 @@ import com.domination.proyecto.services.*;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
@@ -114,13 +115,16 @@ public class ReservaController {
         model.addAttribute("sucursal", sucursal);
         model.addAttribute("cliente", cliente);
         model.addAttribute("action", "delete");
-        return "formReservas"; // Asegúrate de que esta vista maneje la confirmación de eliminación
+        return "formReservas";
     }
     
     @PostMapping("/create")
     public String createReserva(HttpSession session, HttpServletRequest req, Model model) throws Exception {
         try {
             Reserva reserva = obtenerReservaDesdeRequest(req);
+            Sala sala = reserva.getSala();
+            Sucursal sucursal = sala.getSucursal();
+            validarReserva(reserva, sucursal);
             reservaService.saveReserva(reserva);
             session.setAttribute("Exito", true);
             session.setAttribute("mensaje", "La reserva ha sido creada exitosamente");
@@ -128,8 +132,8 @@ public class ReservaController {
         } catch (Exception e) {
             session.setAttribute("Exito", true);
             session.setAttribute("mensaje", "Error al crear la reserva");
-            model.addAttribute("error", e.getMessage());
-            return "redirect:/reservas/create";
+            session.setAttribute("error", e.getMessage());
+            return "redirect:/reservas/create?idSala=" + req.getParameter("idSala");
         }
     }
 
@@ -137,6 +141,9 @@ public class ReservaController {
     public String updateReserva(HttpSession session, HttpServletRequest req, Model model) throws Exception {
         try {
             Reserva reserva = obtenerReservaDesdeRequest(req);
+            Sala sala = reserva.getSala();
+            Sucursal sucursal = sala.getSucursal();
+            validarReserva(reserva, sucursal);
             reservaService.saveReserva(reserva);
             session.setAttribute("Exito", true);
             session.setAttribute("mensaje", "La reserva ha sido actualizada exitosamente");
@@ -144,7 +151,7 @@ public class ReservaController {
         } catch (Exception e) {
             session.setAttribute("Exito", true);
             session.setAttribute("mensaje", "Error al actualizar la reserva");
-            model.addAttribute("error", e.getMessage());
+            session.setAttribute("error", e.getMessage());
             return "redirect:/reservas/edit?idReserva=" + req.getParameter("idReserva");
         }
     }
@@ -159,7 +166,7 @@ public class ReservaController {
         } catch (Exception e) {
             session.setAttribute("Exito", true);
             session.setAttribute("mensaje", "Error al eliminar la reserva");
-            model.addAttribute("error", e.getMessage());
+            session.setAttribute("error", e.getMessage());
             return "redirect:/reservas/delete?idReserva=" + idReserva;
         }
     }
@@ -178,7 +185,7 @@ public class ReservaController {
         //pasamos la duración a minutos
         long minutos = duracionReserva.toMinutes();
         double duracion = (double) minutos / 60;
-//        double duracion = duracionReserva.toHours();
+        //double duracion = duracionReserva.toHours();
 
         //Seguimos obteniendo datos del formulario
         int idSala = Integer.parseInt(req.getParameter("idSala"));
@@ -195,6 +202,31 @@ public class ReservaController {
             reserva.setIdReserva(idReserva);
         }
         return reserva;
+    }
+
+    public void validarReserva(Reserva reserva, Sucursal sucursal) throws Exception {
+        LocalTime horaApertura = sucursal.getHoraInicio();
+        LocalTime horaCierre = sucursal.getHoraFin();
+        if (reserva.getHoraInicio().isAfter(reserva.getHoraFin())) {
+            throw new Exception("La hora de inicio no puede ser posterior a la hora de fin");
+        }
+        if (reserva.getHoraInicio().isBefore(LocalDateTime.now())) {
+            throw new Exception("La fecha y hora de inicio no puede ser anterior a la hora actual");
+        }
+        if (reserva.getHoraInicio().toLocalTime().isBefore(horaApertura) || reserva.getHoraFin().toLocalTime().isAfter(horaCierre)) {
+            throw new Exception("La hora de inicio y fin deben estar dentro del horario de atención de la sucursal");
+        }
+        //tengo que tener acceso a todas las reservas de la sala para verificar si hay una en el horario que quiero reservar
+        List<Reserva> reservasExistentes = reserva.getSala().getReservas();
+
+        // buscamos entre todas las reservas de la sala
+        for (Reserva reservaExistente : reservasExistentes) {
+            // si la nueva reserva se hace en un horario que se solapa con los horarios de una reserva existente, mandamos una excepción
+            if ((reserva.getHoraInicio().isAfter(reservaExistente.getHoraInicio()) && reserva.getHoraInicio().isBefore(reservaExistente.getHoraFin())) ||
+                    (reserva.getHoraFin().isAfter(reservaExistente.getHoraInicio()) && reserva.getHoraFin().isBefore(reservaExistente.getHoraFin()))) {
+                throw new Exception("La reserva se solapa con una reserva existente");
+            }
+        }
     }
 
 }

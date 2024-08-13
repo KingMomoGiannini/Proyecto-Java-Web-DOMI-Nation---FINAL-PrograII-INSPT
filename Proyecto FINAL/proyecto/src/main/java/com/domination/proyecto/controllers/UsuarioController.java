@@ -19,15 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashSet;
-
 @RequestMapping("/usuarios")
 @Controller
 public class UsuarioController {
-    /*este controlador se utlilizará para la edición o eliminación de usuarios existentes
-    y para la creación de nuevos usuarios por parte de un administrador.*/
 
-    //Atributos
     private UsuarioService usuarioService;
     private PrestadorService prestadorService;
     private ClienteService clienteService;
@@ -35,7 +30,7 @@ public class UsuarioController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    //Métodos
+
     @Autowired
     public UsuarioController(UsuarioService usuarioService, PrestadorService prestadorService, ClienteService clienteService, AdministradorService administradorService) {
         this.usuarioService = usuarioService;
@@ -44,14 +39,12 @@ public class UsuarioController {
         this.administradorService = administradorService;
     }
 
-    //Método para mostrar el formulario de creación de un nuevo usuario
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("action", "create");
         return "formUsuarios";
     }
 
-    //Método para mostrar el formulario de edición de un usuario existente
     @GetMapping("/MiCuenta/edit")
     public String showEditForm(@RequestParam("idUsuario") int idUsuario, Model model) {
 
@@ -63,7 +56,6 @@ public class UsuarioController {
         return "formUsuarios";
     }
 
-    //Método para mostrar el formulario de eliminación de un usuario existente
     @GetMapping("/delete")
     public String showDeleteForm(@RequestParam("idUsuario") int idUsuario, Model model) {
 
@@ -75,7 +67,6 @@ public class UsuarioController {
         return "formUsuarios";
     }
 
-    //Método post para la creación de un nuevo usuario
     @PostMapping("/create")
     public String crearUser(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String email,
                             @RequestParam String nombreUsuario, @RequestParam String password, @RequestParam(required = false) String tipoUsuario,
@@ -100,7 +91,6 @@ public class UsuarioController {
         return "redirect:/inicio";
     }
 
-    //Método post para la edición de un usuario existente
     @PostMapping("/edit")
     public String editarUser(@RequestParam("idUsuario") int idUsuario, @RequestParam String nombre, @RequestParam String apellido,
                              @RequestParam String email, @RequestParam String nombreUsuario, @RequestParam String password,
@@ -130,7 +120,6 @@ public class UsuarioController {
         return "redirect:/inicio";
     }
 
-    //Método post para la eliminación de un usuario existente
     @PostMapping("/delete")
     public String eliminarUser(@RequestParam("idUsuario") int idUsuario, Model model, HttpSession session) {
         try {
@@ -146,6 +135,7 @@ public class UsuarioController {
         }
         return "redirect:/inicio";
     }
+
     private void setearFormAttributes(Usuario usuario, String action, Model model){
         model.addAttribute("elUsuario", usuario);
         model.addAttribute("action", action);

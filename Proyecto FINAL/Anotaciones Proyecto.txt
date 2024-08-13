@@ -172,3 +172,27 @@ Adicionalmente, dentro de la base de datos edite las relaciones mediante FK entr
 cada, de esta forma por ejemplo al eliminar una sucursal, se eliminaran respectivamente todas las reservas realizadas en la sucursal, y todas las
 salas de ensayo dentro de la sucursal, esto evita de cierta forma tener que realizar codigo extra e iteraciones para eliminar recursos dentro de
 otros recursos.
+
+03/08
+Octavo Logro: Listas de reservas especifica para Administrador y para Prestador
+Dentro del controlador de Reserva, cree dos metodos que utilizan @GetMapping para la visualización de las listas de reservas. En el caso de los pres
+tadores verán las que se hayan realizado en alguna de las salas de sus sucursales, y en el caso del Administrador, verán las reservas totales reali
+zadas en todas las sucursales.
+
+06/08
+Personalización de mensajes de error o de proceso exitoso completa.
+
+11/08
+Noveno Logro: CRUD de Usuarios completo
+Estaba buscando darle una vuelta mas de rosca al proyecto, asi que a diferencia de la versión anterior, en donde los usuarios solo podían visualizarse
+y eliminarse, decidí agregar la posibilidad de que cada usuario (salvo el Administrador, por ahora) puedan editar sus atributos (menos el ID), para
+eso cree el controlador UsuarioController, en donde se encuentran los metodos que se encargan de crear y eliminar (para los Administradores), y editar
+usuarios. Se refactoreó la navbar agregando un botón "Editar Cuenta" para poder acceder al controlador y realizar el Update para las entidades.
+
+12/08
+Décimo Logro: Validación de Reservas
+Teniendo completo el CRUD de reservas hace ya unos días, decidi ultimar detalles como validaciones para el final, por si llegaban a ocurrir problemas o
+confusiones. Asi que en cuanto terminé con el grueso, me enfoqué en la lógica para realizar los 'throw exception' si se cumplian determinadas condiciones
+al tener acceso a todos los objetos que se relacionan, fue sencillo esta vez pensar bajo qué concepto una reserva puede existir, asi que dicté los termi
+nos para mandar excepciones. Luego hice el llamado a esta función en los métodos @PostMapping correspondientes ("/edit","/create"), de esta manera, antes 
+de realizar la reserva, la misma se valida y si todo esta bien, se realiza correctamente, sino, las excepciones se haran vigentes en el jsp de reservas.

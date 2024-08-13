@@ -5,12 +5,12 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Inicia Sesión</title>
-        <link rel="stylesheet" href="/css/estiloLog.css">
+        <link rel="stylesheet" href="/css/formSede.css">
     </head>
 
-<body>
+<body style="background-color: black" >
     <c:import url ="navbar.jsp" />
-    <br><br><br>
+    <br><br>
     <c:if test="${sessionScope.hayError == true }">
             <div class="mensajeError">
             <h1>${sessionScope.mensajeError}</h1>
@@ -19,16 +19,25 @@
     </c:if>
     <c:remove var="mensajeError" scope="session"/>
     <c:remove var="hayError" scope="session"/>
-    <form action="<c:url value='/ingresar'/>" method="post" >
-        <div class= "centrarEnPag" >
+    <div class="elcontainer">
+        <br>
+        <form action= "<c:url value='/ingresar'/>"  method="post">
+         <div class="centrarEnPag">
+                <div class="inter-texto">
+                    <label class="fuenteMin" for="username">Username:
+                    <input type="text" class="form-control fuente-mas-grande" id="username" name="username" required>
+                    </label><br>
+                    <label class="fuenteMin" for="password">Password:
+                    <input type="password" class="form-control fuente-mas-grande" id="password" name="password" required>
+                    </label>
+                </div>
+            </div>
+            <div class="centrarEnPag"><br><br><br>
+                <button class="botoncin" type="submit" >Enviar</button></a>
+            </div>
+        </form>
+    </div>
 
-            <label class="fuenteMin" for="username">Usuario:</label> <input type="text" id="username" name="username">
-            <br/><br/>
-            <label class="fuenteMin" for="password">Clave:</label> <input type="password" id="password" name="password">
-            <br/><br/>
-            <button class="botoncin" type="submit" >Enviar</button></a>
-        </div>
-    </form>
     <br><br><br>
     <c:import url="footer.jsp"/>
 </body>

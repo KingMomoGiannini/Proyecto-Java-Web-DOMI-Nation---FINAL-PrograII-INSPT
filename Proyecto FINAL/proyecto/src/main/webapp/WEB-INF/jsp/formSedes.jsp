@@ -11,7 +11,7 @@
     <title>Registrar/Editar/Eliminar Sede</title>
     <link rel="stylesheet" href="/css/formSede.css"/>
 </head>
-<body>
+<body style="background-color: black">
     <c:import url="navbar.jsp"/>
     <div class="elcontainer">
         <div class="container-inicial">
@@ -47,7 +47,7 @@
                     <br><br>
                     <div class="centrarEnPag">
                         <button class="botoncin" type="submit" name="confirmDelete" value="true">Eliminar</button>
-                        <button class="botoncin" type="submit" name="cancelDelete" value="true">Cancelar</button>
+                        <a class="botoncin" href="/inicio">Cancelar</a>
                     </div>
                 </c:when>
                 <c:otherwise>
@@ -86,7 +86,7 @@
                     <div class="centrarEnPag">
                         <button class="botoncin" type="submit">Enviar</button>
                         <button class="botoncin" type="reset">Limpiar Formulario</button>
-                        <button class="botoncin" type="submit" name="cancelDelete" value="true">Cancelar</button>
+                        <a class="botoncin" href="/inicio">Cancelar</a>
                     </div>
                     <br>
                 </c:otherwise>

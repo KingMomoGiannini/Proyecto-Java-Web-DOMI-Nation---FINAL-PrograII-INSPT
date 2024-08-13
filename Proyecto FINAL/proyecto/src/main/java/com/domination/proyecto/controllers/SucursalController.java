@@ -160,12 +160,12 @@ public class SucursalController {
         try {
             Sucursal laSucu = sucursalService.findByIdSucursal(idSede)
                                              .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSede));
-            for (Sala sala : laSucu.getSalas()) {
+            /*for (Sala sala : laSucu.getSalas()) {
                 for (Reserva reserva : reservaService.getReservasBySala(sala.getIdSala())) {
                     reservaService.deleteReserva(reserva);
                 }
                 salaService.deleteById(sala.getIdSala());
-            }
+            }*/
             domicilioService.deleteById(laSucu.getDomicilio().getIdDomicilio());
             sucursalService.deleteById(idSede);
             session.setAttribute("Exito", true);

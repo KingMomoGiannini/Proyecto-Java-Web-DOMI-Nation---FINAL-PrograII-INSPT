@@ -8,7 +8,7 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="../css/formSede.css"/>
+        <link rel="stylesheet" href="/css/formSede.css"/>
         <title>Reservas</title>
     </head>
     <body style="background-color: black">
@@ -18,7 +18,24 @@
             <div class="container-inicial">
                 <h1>Formulario de Reserva</h1>
             </div>
+            <div class="mensaje">
                 <br><br><br>
+                <c:if test="${sessionScope.Exito == true}">
+                    <div class="mensaje">
+                        <h1>${sessionScope.mensaje}</h1>
+                    </div>
+                </c:if>
+                <br>
+                <c:if test="${error != null}">
+                    <div class="mensaje">
+                        <h1>${sessionScope.error}</h1>
+                    </div>
+                </c:if>
+                <c:remove var="mensaje" scope="session"/>
+                <c:remove var="Exito" scope="session"/>
+                <c:remove var="error" scope="session"/>
+                <br><br>
+            </div>
                 <form action= "${pageContext.request.contextPath}/reservas/${action}" method="post">
                     <input type="hidden" name="action" value="${action}">
                     <c:choose>
@@ -40,8 +57,7 @@
                             </div>
                             <div class="centrarEnPag"><br><br><br>
                                 <button class="botoncin" type="submit" name="confirmCreate" value="true">Reservar</button>
-                                <button class="botoncin" type="submit" name="cancelCreate" value="true">Cancelar</button>
-                            </div>
+                                <a class="botoncin" href="/inicio">Cancelar</a>                            </div>
                         </c:when>
                         <c:when test="${action eq 'delete'}">
                             <input type="hidden" name="idReserva" value="${reserva.getIdReserva()}">
@@ -64,7 +80,7 @@
                             <br><br>
                             <div class="centrarEnPag">
                                 <button class="botoncin" type="submit" name="confirmDelete" value="true">Eliminar</button>
-                                <button class="botoncin" type="submit" name="cancelDelete" value="true">Cancelar</button>
+                                <a class="botoncin" href="/inicio">Cancelar</a>
                             </div>
                         </c:when>
                         <c:when test="${action eq 'update'}">
@@ -85,7 +101,7 @@
                             </div>
                             <div class="centrarEnPag"><br><br><br>
                                 <button class="botoncin" type="submit" name="confirmDelete" value="true">Editar</button>
-                                <button class="botoncin" type="submit" name="cancelDelete" value="true">Cancelar</button>
+                                <a class="botoncin" href="/inicio">Cancelar</a>
                             </div>
                         </c:when>
                     </c:choose> 

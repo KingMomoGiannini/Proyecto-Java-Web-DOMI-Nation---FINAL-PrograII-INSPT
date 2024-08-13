@@ -26,7 +26,7 @@
                         <c:remove var="mensaje" scope="session"/>
                         <c:remove var="Exito" scope="session"/>
                         <div class="seccion">
-                            <h1 >Sucursales</h1>
+                            <h1 >Salas de Ensayo</h1>
                         </div>
                         <div class="sedes-row">
                             <c:forEach items ="${salas}" var="sala">

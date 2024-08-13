@@ -7,7 +7,7 @@
         <title>Crear/Editar/Eliminar Sala</title>
         <link rel="stylesheet" href="/css/formSede.css"/>
     </head>
-    <body>
+    <body style="background-color: black">
         <c:import url="navbar.jsp"/>
         <div class="elcontainer">
             <div class="container-inicial">

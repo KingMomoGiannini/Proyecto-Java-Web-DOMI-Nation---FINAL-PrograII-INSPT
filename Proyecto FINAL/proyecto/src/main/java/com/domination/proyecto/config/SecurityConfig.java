@@ -34,11 +34,10 @@ public class SecurityConfig  {
                 authorizeRequests
                     .requestMatchers("/", "/login", "/registrarse","/css/**", "/js/**", "/img/**", "/public/**", "/pages/**", "/WEB-INF/jsp/**").permitAll()
                     .requestMatchers("/inicio").hasAnyRole("administrador", "cliente","prestador") // Permitir a administradores, clientes y prestadores
-                    .requestMatchers("/salas/salasDisponibles/**","/reservas/**").hasAnyRole("cliente", "prestador","administrador") // Permitir a clientes y prestadores
-                    .requestMatchers("/inicio","/sedes/**","/salas/**","/reservas/**","/usuario/edit/**").hasAnyRole("prestador","administrador")
-                    .requestMatchers("/inicio","/reservas/**","/usuario/edit/**").hasRole("cliente")
-                    //.requestMatchers("/inicio","/sedes/**","/salas/**","/reservas/**","/usuario/edit/**").hasRole("prestador")
-                    .requestMatchers("/inicio","/sedes/**","/salas/**","/reservas/**","/usuario/**").hasRole("administrador")
+                    .requestMatchers("/salas/salasDisponibles/**","/reservas/**","/usuarios/**").hasAnyRole("cliente", "prestador","administrador") // Permitir a clientes y prestadores
+                    .requestMatchers("/inicio","/sedes/**","/salas/**","/reservas/**","/usuarios/**").hasAnyRole("prestador","administrador")
+                    .requestMatchers("/inicio","/reservas/**","/usuarios/Micuenta/**").hasRole("cliente")
+                    .requestMatchers("/inicio","/sedes/**","/salas/**","/reservas/**","/usuarios/**").hasRole("administrador")
 
                     .anyRequest().authenticated()
             )
@@ -47,7 +46,7 @@ public class SecurityConfig  {
                     .loginPage("/login")
                     .loginProcessingUrl("/ingresar")
                     .defaultSuccessUrl("/inicio", true)
-                    .failureHandler(customAuthenticationFailureHandler())//failureUrl("/login?error=true")
+                    .failureHandler(customAuthenticationFailureHandler())
                     .permitAll()
             )
             .logout(logout ->
@@ -58,7 +57,7 @@ public class SecurityConfig  {
             .csrf(csrf -> csrf.disable());
         return http.build();
     }
-    
+
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
