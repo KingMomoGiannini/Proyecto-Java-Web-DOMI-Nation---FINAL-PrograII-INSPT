@@ -8,7 +8,7 @@
         <title>inicio</title>
     </head>
 
-<body>
+<body style="background-color: black">
     <c:import url ="navbar.jsp" />
     <div class="elcontainer">
         <div class="container-inicial">

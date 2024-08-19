@@ -12,8 +12,15 @@
     <body style="background-color: black">
         <c:import url="navbar.jsp" />
         <div class="elcontainer">
+            <c:if test="${not empty error}">
+                <div class="mensaje">
+                    <h1><c:out value="${error}"/></h1>
+                </div>
+            <br><br>
+            </c:if>
+            <c:remove var="error"/>
             <div class="form-container"> 
-            
+
             <form action="registrarse" method="POST" >
                 <h2 class="fuentePrinc">Registrate completando los datos solicitados</h2>
                 <h3 class="fuentePrincFondo">Datos Personales</h3>

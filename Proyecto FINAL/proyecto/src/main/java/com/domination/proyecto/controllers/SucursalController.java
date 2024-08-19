@@ -57,28 +57,45 @@ public class SucursalController {
     }
 
     @GetMapping("/update/{idSucursal}")
-    public String showEditForm(@PathVariable int idSucursal, Model model) {
-        Sucursal laSede = sucursalService.findByIdSucursal(idSucursal)
-                                         .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
-        Domicilio elDom = laSede.getDomicilio();
-        Prestador elPrestador = laSede.getPrestador();
-        model.addAttribute("elPrestador", elPrestador);
-        model.addAttribute("laSede", laSede);
-        model.addAttribute("elDom", elDom);
-        model.addAttribute("action", "update");
-        return "formSedes";
+    public String showEditForm(@PathVariable int idSucursal, Model model, HttpSession session) throws Exception, ObjectNotFoundException{
+        try {
+            Sucursal laSede = sucursalService.findByIdSucursal(idSucursal)
+                    .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
+            Domicilio elDom = laSede.getDomicilio();
+            Prestador elPrestador = laSede.getPrestador();
+            model.addAttribute("elPrestador", elPrestador);
+            model.addAttribute("laSede", laSede);
+            model.addAttribute("elDom", elDom);
+            model.addAttribute("action", "update");
+            return "formSedes";
+        }
+        catch (ObjectNotFoundException e) {
+            session.setAttribute("Error",true);
+            session.setAttribute("mensajeError",e.getMessage());
+            return "redirect:/inicio";
+        }
+        catch (Exception e){
+            session.setAttribute("Error",true);
+            session.setAttribute("mensajeError",e.getMessage());
+            return "redirect:/inicio";
+        }
     }
 
     @GetMapping("/delete/{id}")
     public String showDeleteForm(@PathVariable("id") int idSucursal, Model model) {
-        Sucursal laSede = sucursalService.findByIdSucursal(idSucursal)
-                                         .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
-        Domicilio elDom = laSede.getDomicilio();
-        Prestador elPrestador = laSede.getPrestador();
-        model.addAttribute("elPrestador",elPrestador);
-        model.addAttribute("laSede", laSede);
-        model.addAttribute("elDom", elDom);
-        model.addAttribute("action", "delete");
+        try{
+            Sucursal laSede = sucursalService.findByIdSucursal(idSucursal)
+                                             .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
+            Domicilio elDom = laSede.getDomicilio();
+            Prestador elPrestador = laSede.getPrestador();
+            model.addAttribute("elPrestador",elPrestador);
+            model.addAttribute("laSede", laSede);
+            model.addAttribute("elDom", elDom);
+            model.addAttribute("action", "delete");
+        }
+        catch (Exception e) {
+            model.addAttribute("mensaje",e.getMessage());
+        }
         return "formSedes";
     }
 

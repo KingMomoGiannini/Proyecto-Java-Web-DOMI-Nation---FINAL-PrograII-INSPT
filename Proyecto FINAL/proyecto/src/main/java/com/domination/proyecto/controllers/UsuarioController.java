@@ -10,6 +10,7 @@ import com.domination.proyecto.services.ClienteService;
 import com.domination.proyecto.services.PrestadorService;
 import com.domination.proyecto.services.UsuarioService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,8 +47,12 @@ public class UsuarioController {
     }
 
     @GetMapping("/MiCuenta/edit")
-    public String showEditForm(@RequestParam("idUsuario") int idUsuario, Model model) {
-
+    public String showEditForm(@RequestParam("idUsuario") int idUsuario, Model model, HttpSession session){
+        Usuario usuarioSesion = (Usuario) session.getAttribute("userLogueado");
+        int idUsuarioSesion = usuarioSesion.getIdUsuario();
+        if (idUsuario != idUsuarioSesion) {
+            return "redirect:/usuarios/MiCuenta/edit?idUsuario=" + idUsuarioSesion;
+        }
         Usuario usuario = usuarioService.findById(idUsuario)
                                         .orElseThrow(() -> new ObjectNotFoundException("Usuario no encontrado"));
         if(usuario != null) {
@@ -84,6 +89,10 @@ public class UsuarioController {
             }
             setearSuccessAttributes("Usuario creado con éxito", session);
         }
+        catch (DataIntegrityViolationException ex) {
+            session.setAttribute("Error", ex.getMessage());
+            return "formUsuarios"; // Devuelve al formulario de registro
+        }
         catch (Exception e) {
             session.setAttribute("Error", true);
             session.setAttribute("mensajeError", e.getMessage());
@@ -113,7 +122,12 @@ public class UsuarioController {
                     prestadorService.registerUser((Prestador) usuario);
                 setearSuccessAttributes("Usuario editado con éxito", session);
             }
-        } catch (ObjectNotFoundException e) {
+        }
+        catch (DataIntegrityViolationException ex) {
+            session.setAttribute("Error", ex.getMessage());
+            return "formUsuarios"; // Devuelve al formulario de registro
+        }
+        catch (ObjectNotFoundException e) {
             session.setAttribute("Error", true);
             session.setAttribute("mensajeError", e.getMessage());
         }

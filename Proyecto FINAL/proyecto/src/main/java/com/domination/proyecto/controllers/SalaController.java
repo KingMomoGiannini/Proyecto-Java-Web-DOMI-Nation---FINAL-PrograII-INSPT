@@ -29,29 +29,43 @@ public class SalaController {
     private ReservaService reservaService;
 
     @GetMapping("/create")
-    public String showCreateForm(@RequestParam("idSucursal") int idSucursal, Model model) {
-        Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
-                                           .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
-        model.addAttribute("sucursal", sucursal);
-        model.addAttribute("sala", new Sala());
-        model.addAttribute("action", "create");
-        return "formSalas";
+    public String showCreateForm(@RequestParam("idSucursal") int idSucursal, Model model, HttpSession session ) {
+        try {
+            Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
+                    .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada" ));
+            model.addAttribute("sucursal", sucursal);
+            model.addAttribute("sala", new Sala());
+            model.addAttribute("action", "create");
+            return "formSalas";
+        } catch (ObjectNotFoundException e) {
+            session.setAttribute("Exito", true);
+            session.setAttribute("mensajeExito", e.getMessage());
+            return "redirect:/inicio";
+        }
     }
 
     @GetMapping("/salasDisponibles/{idSucursal}")
-    public String listSalasDisponibles(@PathVariable("idSucursal") int idSucursal, Model model) {
-        Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
-                                           .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
-        List<Sala> salas = salaService.findSalasBySucursal(sucursal);
-        model.addAttribute("sucursal", sucursal);
-        model.addAttribute("salas", salas);
-        return "listaSalas";
+    public String listSalasDisponibles(@PathVariable("idSucursal") int idSucursal, Model model, HttpSession session) {
+        try{
+            Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
+                    .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada."));
+
+            List<Sala> salas = salaService.findSalasBySucursal(sucursal);
+            model.addAttribute("sucursal", sucursal);
+            model.addAttribute("salas", salas);
+            return "listaSalas";
+        }
+        catch (ObjectNotFoundException e) {
+            session.setAttribute("Exito", true);
+            session.setAttribute("mensajeExito", e.getMessage());
+            return "redirect:/inicio" ;
+        }
     }
 
     @GetMapping("/edit/{idSala}/{idSucursal}")
     public String showEditForm(@PathVariable("idSala") int idSala, @PathVariable("idSucursal") int idSucursal, Model model) {
         Sala sala = salaService.findById(idSala)
-                               .orElseThrow(() -> new ObjectNotFoundException("Sala no encontrada con id: " + idSala));
+                               .orElseThrow(() -> new ObjectNotFoundException("Sala no encontrada"));
         Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
                                            .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
         model.addAttribute("sala", sala);

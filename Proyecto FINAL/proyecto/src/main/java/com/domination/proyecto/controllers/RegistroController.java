@@ -7,6 +7,7 @@ import com.domination.proyecto.services.AdministradorService;
 import com.domination.proyecto.services.ClienteService;
 import com.domination.proyecto.services.PrestadorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,14 +55,17 @@ public class RegistroController {
                 if (tipoUsuario == null) {
                     tipoUsuario = "cliente";
                 }
-                
+
                 Cliente elUsuario = new Cliente(user, nomCliente, apeCliente, email, pass, celular, "cliente");
                 elUsuario.setAdministrador(administrador);
                 usuarioClienteService.registerUser(elUsuario);
                 model.addAttribute("elUsuario", elUsuario);
             }
-            
+
             return "felicitacion"; // Esto devuelve la vista "felicitacion.jsp"
+        } catch (DataIntegrityViolationException ex) {
+            model.addAttribute("error", "El nombre de usuario ya existe. Por favor, elige otro.");
+            return "registro"; // Devuelve al formulario de registro
         } catch (Exception ex) {
             model.addAttribute("error", "Hubo un problema con el registro: " + ex.getMessage());
             return "error"; // Vista de error (puedes crear una vista error.jsp para manejar esto)

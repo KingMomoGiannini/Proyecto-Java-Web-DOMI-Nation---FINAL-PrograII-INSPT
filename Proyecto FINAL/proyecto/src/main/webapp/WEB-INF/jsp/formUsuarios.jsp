@@ -11,13 +11,21 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>Registrar/Editar/Eliminar Usuario</title>
 </head>
-<body>
+<body style="background-color: black">
     <c:import url="navbar.jsp"/>
     <div class="elcontainer">
         <div class="container-inicial">
             <h1>Registro/Edición/Eliminación de Usuario</h1>
         </div>
+
         <br><br><br>
+        <c:if test="${not empty error}">
+            <div class="mensaje">
+                <h1><c:out value="${error}"/></h1>
+            </div>
+        <br><br>
+        </c:if>
+        <c:remove var="error"/>
         <form action="${pageContext.request.contextPath}/usuarios/${action}" method="post">
             <input type="hidden" name="idUsuario" value="${elUsuario.getIdUsuario()}">
             <input type="hidden" name="action" value="${action}">
@@ -36,7 +44,7 @@
                     <br><br>
                     <div class="centrarEnPag">
                         <button class="botoncin" type="submit" name="confirmDelete" value="true">Eliminar</button>
-                        <button class="botoncin" type="submit" name="cancelDelete" value="true">Cancelar</button>
+                        <a class="botoncin" href="/inicio">Cancelar</a>
                     </div>
                 </c:when>
                 <c:otherwise>
@@ -79,7 +87,7 @@
                     <br><br>
                     <div class="centrarEnPag">
                         <button class="botoncin" type="submit" name="confirm" value="true">Confirmar</button>
-                        <button class="botoncin" type="submit" name="cancel" value="true">Cancelar</button>
+                        <a href="/inicio" class="botoncin">Cancelar</a>
                     </div>
                 </c:otherwise>
             </c:choose>
