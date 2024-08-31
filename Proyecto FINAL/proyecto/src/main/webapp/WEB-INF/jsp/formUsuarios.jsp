@@ -18,13 +18,21 @@
             <h1>Registro/Edición/Eliminación de Usuario</h1>
         </div>
 
-        <br><br><br>
-        <c:if test="${not empty error}">
-            <div class="mensaje">
-                <h1><c:out value="${error}"/></h1>
-            </div>
         <br><br>
-        </c:if>
+        <c:choose>
+            <c:when test="${Exito == true}">
+                <div class="mensaje-success">
+                    <h1><c:out value="${mensaje}"/></h1>
+                </div>
+                <br><br>
+            </c:when>
+            <c:when test="${Exito == false}">
+                <div class="mensaje">
+                    <h1><c:out value="${mensaje}"/></h1>
+                </div>
+                <br><br>
+            </c:when>
+        </c:choose>
         <c:remove var="error"/>
         <form action="${pageContext.request.contextPath}/usuarios/${action}" method="post">
             <input type="hidden" name="idUsuario" value="${elUsuario.getIdUsuario()}">

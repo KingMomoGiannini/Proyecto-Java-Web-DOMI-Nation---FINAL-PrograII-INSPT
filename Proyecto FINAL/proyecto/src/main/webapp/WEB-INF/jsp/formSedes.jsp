@@ -18,12 +18,18 @@
             <h1>Registro/Edición/Eliminación de Sede</h1>
         </div>
         <br><br><br>
-        <c:if test="${not empty mensaje}">
-            <div class="mensaje">
-                <h1><c:out value="${mensaje}"/></h1>
-            </div>
-            <br><br>
-        </c:if>
+        <c:choose>
+            <c:when test="${Exito eq 'true'}">
+                <div class="mensaje-success">
+                    <h1><c:out value="${mensaje}"/></h1>
+                </div>
+            </c:when>
+            <c:when test="${Exito eq 'false'}">
+                <div class="mensaje">
+                    <h1><c:out value="${mensaje}"/></h1>
+                </div>
+            </c:when>
+        </c:choose>
         <c:remove var="mensaje"/>
         <form action="${pageContext.request.contextPath}/sedes/${action}" method="post">
             <c:choose>

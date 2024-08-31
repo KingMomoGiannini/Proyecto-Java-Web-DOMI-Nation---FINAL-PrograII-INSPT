@@ -2,16 +2,11 @@ package com.domination.proyecto.controllers;
 
 import com.domination.proyecto.exceptions.ObjectNotFoundException;
 import com.domination.proyecto.models.Domicilio;
-import com.domination.proyecto.models.Reserva;
-import com.domination.proyecto.models.Sala;
 import com.domination.proyecto.models.Sucursal;
-import com.domination.proyecto.models.Usuario;
 import com.domination.proyecto.models.Prestador;
 import com.domination.proyecto.services.DomicilioService;
 import com.domination.proyecto.services.ReservaService;
-import com.domination.proyecto.services.SalaService;
 import com.domination.proyecto.services.SucursalService;
-import com.domination.proyecto.services.UsuarioService;
 import com.domination.proyecto.services.PrestadorService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PathVariable;
-
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/sedes")
@@ -38,13 +30,7 @@ public class SucursalController {
     private DomicilioService domicilioService;
 
     @Autowired
-    private UsuarioService usuarioService;
-
-    @Autowired
     private PrestadorService prestadorService;
-
-    @Autowired
-    private SalaService salaService;
 
     @Autowired
     private ReservaService reservaService;
@@ -56,8 +42,8 @@ public class SucursalController {
         return "formSedes";
     }
 
-    @GetMapping("/update/{idSucursal}")
-    public String showEditForm(@PathVariable int idSucursal, Model model, HttpSession session) throws Exception, ObjectNotFoundException{
+    @GetMapping("/update")
+    public String showEditForm(@RequestParam("idSucursal") int idSucursal, Model model, HttpSession session) throws Exception, ObjectNotFoundException{
         try {
             Sucursal laSede = sucursalService.findByIdSucursal(idSucursal)
                     .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
@@ -70,19 +56,14 @@ public class SucursalController {
             return "formSedes";
         }
         catch (ObjectNotFoundException e) {
-            session.setAttribute("Error",true);
-            session.setAttribute("mensajeError",e.getMessage());
-            return "redirect:/inicio";
-        }
-        catch (Exception e){
-            session.setAttribute("Error",true);
+            session.setAttribute("Error",false);
             session.setAttribute("mensajeError",e.getMessage());
             return "redirect:/inicio";
         }
     }
 
-    @GetMapping("/delete/{id}")
-    public String showDeleteForm(@PathVariable("id") int idSucursal, Model model) {
+    @GetMapping("/delete")
+    public String showDeleteForm(@RequestParam("idSucursal") int idSucursal, Model model, HttpSession session) {
         try{
             Sucursal laSede = sucursalService.findByIdSucursal(idSucursal)
                                              .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
@@ -93,8 +74,10 @@ public class SucursalController {
             model.addAttribute("elDom", elDom);
             model.addAttribute("action", "delete");
         }
-        catch (Exception e) {
-            model.addAttribute("mensaje",e.getMessage());
+        catch (ObjectNotFoundException e) {
+            session.setAttribute("Exito", false);
+            session.setAttribute("mensajeExito",e.getMessage());
+            return "redirect:/inicio";
         }
         return "formSedes";
     }
@@ -111,8 +94,7 @@ public class SucursalController {
                              @RequestParam String partido,
                              @RequestParam String calle,
                              @RequestParam String altura,
-                             HttpSession session,
-                             RedirectAttributes redirectAttributes) {
+                             HttpSession session) {
         try {
             System.out.println("el id del prestador es " + idPrestador);
             Prestador elPrestador = prestadorService.findByIdPrestador(idPrestador)
@@ -126,9 +108,9 @@ public class SucursalController {
             session.setAttribute("mensajeExito", "La sucursal ha sido creada exitosamente");
             setAttributesForSuccess(session, laSede, elDom);
             return "redirect:/inicio";
-        } catch (Exception e) {
+        } catch (ObjectNotFoundException e) {
             e.printStackTrace();
-            session.setAttribute("Exito", true);
+            session.setAttribute("Exito", false);
             session.setAttribute("mensajeExito", "Error al crear la sucursal");
             return "redirect:/inicio";
         }
@@ -148,8 +130,7 @@ public class SucursalController {
                              @RequestParam String partido,
                              @RequestParam String calle,
                              @RequestParam String altura,
-                             HttpSession session,
-                             RedirectAttributes redirectAttributes) {
+                             HttpSession session) {
         try {
             Prestador elPrestador = prestadorService.findByIdPrestador(idPrestador)
                                                     .orElseThrow(() -> new ObjectNotFoundException("Prestador no encontrado con id: " + idPrestador));
@@ -163,9 +144,9 @@ public class SucursalController {
             session.setAttribute("mensajeExito", "La sucursal ha sido actualizada exitosamente");
             setAttributesForSuccess(session, laSede, elDom);
             return "redirect:/inicio";
-        } catch (Exception e) {
+        } catch (ObjectNotFoundException e) {
             e.printStackTrace();
-            session.setAttribute("Exito", true);
+            session.setAttribute("Exito", false);
             session.setAttribute("mensajeExito", "Error al actualizar la sucursal");
             return "redirect:/inicio";
         }
@@ -173,7 +154,7 @@ public class SucursalController {
 
     @PostMapping("/delete")
     public String deleteSede(@RequestParam int idSede,
-                             HttpSession session,RedirectAttributes redirectAttributes) {
+                             HttpSession session) {
         try {
             Sucursal laSucu = sucursalService.findByIdSucursal(idSede)
                                              .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSede));
@@ -188,9 +169,9 @@ public class SucursalController {
             session.setAttribute("Exito", true);
             session.setAttribute("mensajeExito", "La sucursal ha sido eliminada exitosamente");
             setAttributesForSuccess(session, null, null);
-        } catch (Exception e) {
+        } catch (ObjectNotFoundException e) {
             e.printStackTrace();
-            session.setAttribute("Exito", true);
+            session.setAttribute("Exito", false);
             session.setAttribute("mensajeExito", "Error al eliminar la sucursal.");
         }
         return "redirect:/inicio";

@@ -16,13 +16,20 @@
 
                 <c:choose>
                     <c:when test = "${not empty salas}">
-                        <c:if test = "${Exito==true}">
-                            <br><br>
-                            <div class="mensaje">
-                                <h1>${mensaje}</h1>
-                                <br><br><br>
-                            </div>
-                        </c:if>
+                        <c:choose>
+                            <c:when test="${Exito == true}">
+                                <div class="mensaje-success">
+                                    <h1>${mensaje}</h1>
+                                </div>
+                                <br><br>
+                            </c:when>
+                            <c:when test="${Exito == false}">
+                                <div class="mensaje">
+                                    <h1>${mensaje}</h1>
+                                </div>
+                                <br><br>
+                            </c:when>
+                        </c:choose>
                         <c:remove var="mensaje" scope="session"/>
                         <c:remove var="Exito" scope="session"/>
                         <div class="seccion">
@@ -32,11 +39,11 @@
                             <c:forEach items ="${salas}" var="sala">
                                 <div class="sede-container">
                                     <div style="color:white">
-                                        <h1 style = "font-size:30px">Sucursal</h1>
-                                        <h2 style = "color:red;font-size:20px ">${sucursal.nombre}</h2>
-                                        <p><strong style = "font-size:14px;text-decoration:underline">ID de Sala:</strong> ${sala.getIdSala()}</p>
-                                        <p><strong style = "font-size:14px;text-decoration:underline">Numero de Sala:</strong> ${sala.getNumSala()}</p>
-                                        <p><strong style = "font-size:14px;text-decoration:underline">Valor por hora:</strong> $ ${sala.getValorHora()}</p>
+                                        <h1 class="new-amsterdam-font">Sucursal</h1>
+                                        <h2 class="new-amsterdam-font-roja">${sucursal.nombre}</h2>
+                                        <p class="new-amsterdam-font-pmax">ID de Sala:</strong> ${sala.getIdSala()}</p>
+                                        <p class="new-amsterdam-font-pmax">Numero de Sala:</strong> ${sala.getNumSala()}</p>
+                                        <p class="new-amsterdam-font-pmax">Valor por hora:</strong> $ ${sala.getValorHora()}</p>
                                         <c:choose>
                                             <c:when test="${userLogueado.rol eq 'cliente'}">
                                                 <br><br>

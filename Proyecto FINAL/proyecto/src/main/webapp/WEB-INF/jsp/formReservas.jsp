@@ -18,6 +18,18 @@
             <div class="container-inicial">
                 <h1>Formulario de Reserva</h1>
             </div>
+            <c:choose>
+                <c:when test="${Exito eq 'true'}">
+                    <div class="mensaje-success">
+                        <h1><c:out value="${mensaje}"/></h1>
+                    </div>
+                </c:when>
+                <c:when test="${Exito eq 'false'}">
+                    <div class="mensaje">
+                        <h1><c:out value="${mensaje}"/></h1>
+                    </div>
+                </c:when>
+            </c:choose>
             <div class="mensaje">
                 <br><br><br>
                 <c:if test="${sessionScope.Exito == true}">

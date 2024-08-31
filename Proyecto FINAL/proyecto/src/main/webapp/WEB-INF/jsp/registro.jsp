@@ -43,7 +43,7 @@
                 <br><br>
             
                 <div class="centrarEnPag">
-                    <button class ="botoncin" type="submit" >Enviar</button>
+                    <button class ="botoncin-submit" type="submit" >Enviar</button>
                     <button class ="botoncin" type="reset" >Limpiar Formulario</button>
                 </div>  <br>
                 </form> 

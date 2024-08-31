@@ -1,7 +1,6 @@
 package com.domination.proyecto.controllers;
 
 import com.domination.proyecto.exceptions.ObjectNotFoundException;
-import com.domination.proyecto.models.Administrador;
 import com.domination.proyecto.models.Cliente;
 import com.domination.proyecto.models.Prestador;
 import com.domination.proyecto.models.Usuario;
@@ -62,13 +61,24 @@ public class UsuarioController {
     }
 
     @GetMapping("/delete")
-    public String showDeleteForm(@RequestParam("idUsuario") int idUsuario, Model model) {
-
-        Usuario usuario = usuarioService.findById(idUsuario)
-                                        .orElseThrow(() -> new ObjectNotFoundException("Usuario no encontrado"));
-        if(usuario != null) {
-            setearFormAttributes(usuario, "delete", model);
+    public String showDeleteForm(@RequestParam("idUsuario") int idUsuario, Model model, HttpSession session) {
+        try{
+            Usuario usuario = usuarioService.findById(idUsuario)
+                                            .orElseThrow(() -> new ObjectNotFoundException("Usuario no encontrado"));
+            if(usuario != null) {
+                setearFormAttributes(usuario, "delete", model);
+            }
         }
+        catch (DataIntegrityViolationException ex) {
+                session.setAttribute("Exito", false);
+                session.setAttribute("mensaje", ex.getMessage());
+            }
+        catch (Exception e) {
+                session.setAttribute("Exito", false);
+                session.setAttribute("mensajeExito", e.getMessage());
+                return "redirect:/inicio";
+            }
+
         return "formUsuarios";
     }
 
@@ -90,11 +100,12 @@ public class UsuarioController {
             setearSuccessAttributes("Usuario creado con éxito", session);
         }
         catch (DataIntegrityViolationException ex) {
-            session.setAttribute("Error", ex.getMessage());
+            session.setAttribute("Exito", false);
+            session.setAttribute("mensaje", ex.getMessage());
             return "formUsuarios"; // Devuelve al formulario de registro
         }
         catch (Exception e) {
-            session.setAttribute("Error", true);
+            session.setAttribute("Exito", false);
             session.setAttribute("mensajeError", e.getMessage());
         }
         return "redirect:/inicio";
@@ -124,11 +135,12 @@ public class UsuarioController {
             }
         }
         catch (DataIntegrityViolationException ex) {
-            session.setAttribute("Error", ex.getMessage());
+            session.setAttribute("Exito", false);
+            session.setAttribute("mensaje", ex.getMessage());
             return "formUsuarios"; // Devuelve al formulario de registro
         }
-        catch (ObjectNotFoundException e) {
-            session.setAttribute("Error", true);
+        catch (Exception e) {
+            session.setAttribute("Exito", false);
             session.setAttribute("mensajeError", e.getMessage());
         }
         return "redirect:/inicio";
@@ -144,7 +156,7 @@ public class UsuarioController {
                 setearSuccessAttributes("Usuario eliminado con éxito", session);
             }
         } catch (ObjectNotFoundException e) {
-            session.setAttribute("Error", true);
+            session.setAttribute("Exito", false);
             session.setAttribute("mensajeError", e.getMessage());
         }
         return "redirect:/inicio";

@@ -30,13 +30,20 @@
             </div>
             <c:choose>
                 <c:when test = "${not empty reservas}">
-                    <c:if test = "${Exito==true}">
-                        <br><br>
-                        <div class="mensaje">
-                            <h1>${mensaje}</h1>
-                            <br><br><br>
-                        </div>
-                    </c:if>
+                    <c:choose>
+                        <c:when test="${Exito == true}">
+                            <div class="mensaje-success">
+                                <h1>${mensaje}</h1>
+                            </div>
+                            <br><br>
+                        </c:when>
+                        <c:when test="${Exito == false}">
+                            <div class="mensaje">
+                                <h1>${mensaje}</h1>
+                            </div>
+                            <br><br>
+                        </c:when>
+                    </c:choose>
                     <c:remove var="mensaje" scope="session"/>
                     <c:remove var="Exito" scope="session"/>
                     <div class="seccion">
@@ -46,14 +53,14 @@
                         <c:forEach items ="${reservas}" var="reserva">
                             <div class="sede-container">
                                 <div style="color:white">
-                                    <h1 style = "font-size:30px">Reserva</h1>
-                                    <h2 style = "color:red;font-size:20px ">ID de Reserva: ${reserva.getIdReserva()}</h2>
-                                    <p><strong style = "font-size:14px;text-decoration:underline">ID de Cliente:</strong> ${reserva.getCliente().getIdCliente()}</p>
-                                    <p><strong style = "font-size:14px;text-decoration:underline">ID de Sala:</strong> ${reserva.getSala().getIdSala()}</p>
-                                    <p><strong style = "font-size:14px;text-decoration:underline">Hora de entrada:</strong> ${reserva.getHoraInicio()}</p>
-                                    <p><strong style = "font-size:14px;text-decoration:underline">Hora de salida:</strong> ${reserva.getHoraFin()}</p>
-                                    <p><strong style = "font-size:14px;text-decoration:underline">Monto a pagar: $</strong> ${reserva.getMonto()}</p>
-                                    <p><strong style = "font-size:14px;text-decoration:underline">Duración: </strong> ${reserva.getDuracion()}Hs</p>
+                                    <h1 class="new-amsterdam-font">Reserva</h1>
+                                    <h2 class="new-amsterdam-font-roja">ID de Reserva: ${reserva.getIdReserva()}</h2>
+                                    <p class="new-amsterdam-font-pmax">ID de Cliente:</strong> ${reserva.getCliente().getIdCliente()}</p>
+                                    <p class="new-amsterdam-font-pmax">ID de Sala:</strong> ${reserva.getSala().getIdSala()}</p>
+                                    <p class="new-amsterdam-font-pmax">Hora de entrada:</strong> ${reserva.getHoraInicio()}</p>
+                                    <p class="new-amsterdam-font-pmax">Hora de salida:</strong> ${reserva.getHoraFin()}</p>
+                                    <p class="new-amsterdam-font-pmax">Monto a pagar: $</strong> ${reserva.getMonto()}</p>
+                                    <p class="new-amsterdam-font-pmax">Duración: </strong> ${reserva.getDuracion()}Hs</p>
                                     <br><br>
                                     <a href="${pageContext.request.contextPath}/reservas/edit?idReserva=${reserva.getIdReserva()}"><button class="boton-estilo">Editar Reserva</button></a>
 
