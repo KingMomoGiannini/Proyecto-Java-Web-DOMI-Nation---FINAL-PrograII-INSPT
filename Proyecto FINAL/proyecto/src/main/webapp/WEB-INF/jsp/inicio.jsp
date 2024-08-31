@@ -29,7 +29,7 @@
                     <c:remove var="Exito" scope="session"/>
                     <c:if test="${not empty lasReservas}">
                         <div class="centrarEnPag">
-                            <a href="/reservas/admin/listaReservas?idAdministrador=${userLogueado.getIdAdministrador()}"><button class="botoncin">Ver Reservas</button></a>
+                            <a href="/reservas/admin/listaReservas?idAdministrador=${userLogueado.getIdAdministrador()}"><button class="boton-estilo">Ver Reservas</button></a>
                             <br><br><br>
                         </div>
                     </c:if>
@@ -69,8 +69,8 @@
                                                         </c:choose>
                                                     </c:forEach> 
                                                 </c:if>
-                                                <a href="sedes/delete/${sede.getIdSucursal()}"><button class="botoncin">Eliminar Sede</button></a>
-                                                <a href="salas/salasDisponibles/${sede.getIdSucursal()}"><button class="botoncin">Ver Salas</button></a>
+                                                <a href="sedes/delete/${sede.getIdSucursal()}"><button class="boton-estilo">Eliminar Sede</button></a>
+                                                <a href="salas/salasDisponibles/${sede.getIdSucursal()}"><button class="boton-estilo">Ver Salas</button></a>
                                             </div>
                                         </div>
 
@@ -102,7 +102,7 @@
                                             
                                             <br><br>
 
-                                            <a href="usuarios/delete?idUsuario=${user.getIdUsuario()}"><button class="botoncin">Eliminar Usuario</button></a>
+                                            <a href="usuarios/delete?idUsuario=${user.getIdUsuario()}"><button class="boton-estilo">Eliminar Usuario</button></a>
                                         </div>
                                     </div>
 
@@ -110,7 +110,7 @@
                             <br><br>
                         </div>
                         <div class="centrarEnPag">
-                            <a href="usuarios/create"><button class="botoncin">Crear Usuario</button></a>
+                            <a href="usuarios/create"><button class="boton-estilo">Crear Usuario</button></a>
                         </div>
                     </c:if>
                     
@@ -129,7 +129,7 @@
                         <c:remove var="Exito" scope="session"/>
                         <c:if test="${not empty lasReservas}">
                             <div class="centrarEnPag">
-                                <a href="reservas/listaReservas?idPrestador=${userLogueado.getIdPrestador()}"><button class="botoncin">Ver Reservas</button></a>
+                                <a href="reservas/listaReservas?idPrestador=${userLogueado.getIdPrestador()}"><button class="boton-estilo">Ver Reservas</button></a>
                                 <br><br><br>
                             </div>
                         </c:if>
@@ -166,9 +166,9 @@
                                                             </c:choose>
                                                         </c:forEach> 
                                                     </c:if>
-                                                    <a href="salas/salasDisponibles/${sede.getIdSucursal()}"><button class="botoncin">Ver Salas</button></a>
-                                                    <a href="sedes/update/${sede.getIdSucursal()}"><button class="botoncin">Editar Sede</button></a>
-                                                    <a href="sedes/delete/${sede.getIdSucursal()}"><button class="botoncin">Eliminar Sede</button></a>
+                                                    <a href="salas/salasDisponibles/${sede.getIdSucursal()}"><button class="boton-estilo">Ver Salas</button></a>
+                                                    <a href="sedes/update/${sede.getIdSucursal()}"><button class="boton-estilo">Editar Sede</button></a>
+                                                    <a href="sedes/delete/${sede.getIdSucursal()}"><button class="boton-estilo">Eliminar Sede</button></a>
                                                 </div>
                                             </div>
                                         </c:when>
@@ -181,7 +181,7 @@
                             </div>
                         </c:if>
                         <div class="centrarEnPag">
-                            <a class="centrarEnPag" href="sedes/create"><button class="botoncin">Crear Sede</button></a>
+                            <a class="centrarEnPag" href="sedes/create"><button class="boton-estilo">Crear Sede</button></a>
                         </div>      
                     </div>
                     <br><br><br>
@@ -199,7 +199,7 @@
                         <c:remove var="Exito" scope="session"/>
                         <c:if test="${not empty lasReservas}">
                             <div class="centrarEnPag">
-                                <a href="reservas/misReservas?idCliente=${userLogueado.getIdCliente()}"><button class="botoncin">Ver mis Reservas</button></a>
+                                <a href="reservas/misReservas?idCliente=${userLogueado.getIdCliente()}"><button class="boton-estilo">Ver mis Reservas</button></a>
                                 <br><br><br>
                             </div>
                         </c:if>
@@ -207,26 +207,25 @@
                             <div class="sedes-row">
                                 <c:forEach items ="${sedesDelUsuario}" var="sede">
                                     <div class="sede-container">
-                                        <div style="color:white">
-                                            <h1 style = "font-size:30px">Sucursal</h1>
-                                            <h2 style = "color:red;font-size:20px ">${sede.nombre}</h2>
-                                            <p><strong style = "font-size:14px;text-decoration:underline">ID de Sede:</strong> ${sede.getIdSucursal()}</p>
-                                            <p><strong style = "font-size:14px;text-decoration:underline">Cantidad de Salas:</strong> ${sede.cantSalas}</p>
-                                            <p><strong style = "font-size:14px;text-decoration:underline">Hora de Inicio:</strong> ${sede.horaInicio} hs</p>
-                                            <p><strong style = "font-size:14px;text-decoration:underline">Hora de Fin:</strong> ${sede.horaFin} hs</p>
-                                            <p><strong style = "font-size:14px;text-decoration:underline">Teléfono:</strong> ${sede.telefono}</p>
+                                        <div>
+                                            <h1 class="new-amsterdam-font">Sucursal</h1>
+                                            <h2 class="new-amsterdam-font-roja">${sede.nombre}</h2>
+                                            <p class="new-amsterdam-font-pmax">Cantidad de Salas: ${sede.cantSalas}</p>
+                                            <p class="new-amsterdam-font-pmax">Hora de Inicio: ${sede.horaInicio} hs</p>
+                                            <p class="new-amsterdam-font-pmax">Hora de Fin: ${sede.horaFin} hs</p>
+                                            <p class="new-amsterdam-font-pmax">Teléfono: ${sede.telefono}</p>
 
                                             <c:if test = "${not empty domiciliosDeSedes}">
                                                 <c:forEach items ="${domiciliosDeSedes}" var="dom">
                                                     <c:choose>
                                                         <c:when test= "${dom.getSucursal().getIdSucursal() == sede.getIdSucursal()}">
-                                                            <div style="color:white">
-                                                                <h1 style = "font-size:30px">Dirección</h1>
-                                                                <p><strong style = "font-size:14px;text-decoration:underline">Provincia:</strong> ${dom.provincia}</p>
-                                                                <p><strong style = "font-size:14px;text-decoration:underline">Localidad:</strong> ${dom.localidad}</p>
-                                                                <p><strong style = "font-size:14px;text-decoration:underline">Partido:</strong> ${dom.partido}</p>
-                                                                <p><strong style = "font-size:14px;text-decoration:underline">Calle:</strong> ${dom.calle}</p>
-                                                                <p><strong style = "font-size:14px;text-decoration:underline">Altura:</strong> ${dom.altura}</p>
+                                                            <div>
+                                                                <h1 class="new-amsterdam-font">Dirección</h1>
+                                                                <p class="new-amsterdam-font-pmax">Provincia: ${dom.provincia}</p>
+                                                                <p class="new-amsterdam-font-pmax">Localidad: ${dom.localidad}</p>
+                                                                <p class="new-amsterdam-font-pmax">Partido: ${dom.partido}</p>
+                                                                <p class="new-amsterdam-font-pmax">Calle: ${dom.calle}</p>
+                                                                <p class="new-amsterdam-font-pmax">Altura: ${dom.altura}</p>
                                                                 <br><br><br>
                                                             </div>
 
@@ -234,7 +233,7 @@
                                                     </c:choose>
                                                 </c:forEach> 
                                             </c:if>
-                                            <a href="salas/salasDisponibles/${sede.getIdSucursal()}"><button class="botoncin">Ver Salas</button></a>
+                                            <a href="salas/salasDisponibles/${sede.getIdSucursal()}"><button class="boton-estilo">Ver Salas</button></a>
                                         </div>
                                     </div>
                                     <c:if test = "${empty domiciliosDeSedes}">

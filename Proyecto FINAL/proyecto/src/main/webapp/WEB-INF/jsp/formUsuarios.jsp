@@ -44,7 +44,7 @@
                     <br><br>
                     <div class="centrarEnPag">
                         <button class="botoncin" type="submit" name="confirmDelete" value="true">Eliminar</button>
-                        <a class="botoncin" href="/inicio">Cancelar</a>
+                        <a class="botoncin-cancel" href="/inicio">Cancelar</a>
                     </div>
                 </c:when>
                 <c:otherwise>
@@ -86,8 +86,8 @@
                     </div>
                     <br><br>
                     <div class="centrarEnPag">
-                        <button class="botoncin" type="submit" name="confirm" value="true">Confirmar</button>
-                        <a href="/inicio" class="botoncin">Cancelar</a>
+                        <button class="botoncin-submit" type="submit" name="confirm" value="true">Confirmar</button>
+                        <a href="/inicio" class="botoncin-cancel">Cancelar</a>
                     </div>
                 </c:otherwise>
             </c:choose>

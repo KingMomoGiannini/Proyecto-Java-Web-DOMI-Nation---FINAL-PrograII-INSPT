@@ -9,6 +9,60 @@ body {
     background-color: black;
 }
 
+.botoncin {
+    font-family: 'Bahiana', cursive;
+    font-size: 35px;
+    color: white;
+    padding: 9px 25px;
+    background: #212629;
+    border: solid 2px white;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.botoncin:hover {
+    background-color: #3e4041;
+    color: black;
+    transform: scale(1.1);
+}
+
+.botoncin-cancel {
+    font-family: 'Bahiana', cursive;
+    font-size: 35px;
+    color: white;
+    padding: 9px 25px;
+    background: red;
+    border: solid 2px white;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.botoncin-cancel:hover {
+    background-color: red;
+    color: black;
+    transform: scale(1.1);
+}
+
+.botoncin-submit {/* fondo verde*/
+    font-family: 'Bahiana', cursive;
+    font-size: 35px;
+    color: white;
+    padding: 9px 25px;
+    background: green;
+    border: solid 2px white;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.botoncin-submit:hover {
+    background-color: green;
+    color: black;
+    transform: scale(1.1);
+}
+
 .elcontainer {
     margin-left: 10%;
     margin-right: 10%;
@@ -75,24 +129,6 @@ img.logo {
     transition: all 0.3s;
 }
 
-.centrarEnPag button.botoncin {
-    font-family: 'Bahiana', cursive;
-    font-size: 30px;
-    color: white;
-    padding: 9px 25px;
-    background: #212629;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease 0s;
-}
-
-.centrarEnPag button:hover.botoncin {
-    background-color: #3e4041;
-    color: #ff0e0e;
-    transform: scale(1.1);
-}
-
 .centrar-contenido {
     align-items: center;
     justify-content: center;
@@ -154,6 +190,19 @@ img.logo {
 
 .elcontainer .mensaje h1{/*Mensaje de error con recuadro rojo*/
     background-color: rgba(206, 5, 5, 0.8);
+    color: white;
+    font-size: 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    padding: 5px;
+    border-radius: 5px;
+    width: 30%;
+    margin: auto;
+    text-align: center;
+    border: solid 2px white;
+}
+
+.elcontainer .mensaje-success h1{/*Mensaje de exito con recuadro verde*/
+    background-color: green;
     color: white;
     font-size: 20px;
     font-family: 'Barlow Condensed', sans-serif;

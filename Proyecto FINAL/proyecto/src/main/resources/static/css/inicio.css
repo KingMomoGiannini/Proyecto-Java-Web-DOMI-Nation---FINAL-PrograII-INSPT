@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bahiana&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bahiana&family=Bebas+Neue&family=Permanent+Marker&family=Tilt+Prism&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=New+Amsterdam&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Arsenal+SC:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 /**{
     box-sizing: border-box;
 }*/
@@ -9,6 +10,41 @@ body{
     max-width: 2000px;
     margin: auto;
     background-color: black;
+}
+.botoncin {
+    font-family: 'Bahiana', cursive;
+    font-size: 30px;
+    color: white;
+    padding: 9px 25px;
+    background: #212629;
+    border: solid 2px white;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.botoncin:hover {
+    background-color: #3e4041;
+    color: black;
+    transform: scale(1.1);
+}
+
+.boton-estilo {
+    font-family: 'Bahiana', cursive;
+    font-size: 35px;
+    color: white;
+    padding: 9px 25px;
+    background: #212629;
+    border: solid 2px white;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.boton-estilo:hover {
+    background-color: #3e4041;
+    color: black;
+    transform: scale(1.1);
 }
 
 .elcontainer{ 
@@ -51,7 +87,7 @@ body{
     text-align: center;
 }
 
-.centrarEnPag button.botoncin {
+.botoncin {
     font-family: 'Bahiana', cursive;
     font-size: 30px;
     color: white;
@@ -63,7 +99,7 @@ body{
     transition: all 0.3s ease 0s;
 }
 
-.centrarEnPag button:hover.botoncin {
+.botoncin:hover {
     background-color: #3e4041;
     color: #ff0e0e;
     transform: scale(1.1);
@@ -83,6 +119,7 @@ body{
 }
 
 .sede-container {
+    font-family: 'New Amsterdam', cursive;
     width: 30%; /* Ajusta el ancho de cada contenedor según tus preferencias */
     margin: 10px; /* Espaciado entre cada contenedor de sede */
     border: 1px solid #ddd; /* Borde alrededor de cada contenedor */
@@ -93,7 +130,7 @@ body{
     color: white; /* Color del texto dentro del contenedor */
 }
 
-.sede-container:hover {
+.elcontainer .sedes-row .sede-container:hover {
     background-color: black; /* Cambia el fondo al pasar el mouse sobre el contenedor */
 }
 
@@ -109,4 +146,19 @@ body{
     color: black;
     font-size: 30px;
     padding: 10px;
+}
+
+.new-amsterdam-font {
+    font-family: 'New Amsterdam', cursive;
+}
+
+.new-amsterdam-font-roja {
+    font-family: 'New Amsterdam', cursive;
+    font-size: 30px;
+    text-decoration: underline;
+    color: #ff0e0e;
+}
+.new-amsterdam-font-pmax {
+    font-family: 'Arsenal SC', cursive;
+    font-size: 25px;
 }

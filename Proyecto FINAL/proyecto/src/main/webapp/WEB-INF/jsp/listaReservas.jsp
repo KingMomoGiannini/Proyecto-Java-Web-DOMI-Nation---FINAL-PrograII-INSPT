@@ -55,10 +55,10 @@
                                     <p><strong style = "font-size:14px;text-decoration:underline">Monto a pagar: $</strong> ${reserva.getMonto()}</p>
                                     <p><strong style = "font-size:14px;text-decoration:underline">Duración: </strong> ${reserva.getDuracion()}Hs</p>
                                     <br><br>
-                                    <a href="${pageContext.request.contextPath}/reservas/edit?idReserva=${reserva.getIdReserva()}"><button class="botoncin">Editar Reserva</button></a>
+                                    <a href="${pageContext.request.contextPath}/reservas/edit?idReserva=${reserva.getIdReserva()}"><button class="boton-estilo">Editar Reserva</button></a>
 
                                     <br><br>
-                                    <a href="${pageContext.request.contextPath}/reservas/delete?idReserva=${reserva.getIdReserva()}"><button class="botoncin">Eliminar Reserva</button></a>
+                                    <a href="${pageContext.request.contextPath}/reservas/delete?idReserva=${reserva.getIdReserva()}"><button class="boton-estilo">Eliminar Reserva</button></a>
                                     <br><br>
 
                                 </div>
@@ -79,7 +79,7 @@
                         </div>
                         <br><br><br>
                         <div class="centrarEnPag">
-                            <a href="${pageContext.request.contextPath}/inicio"><button class="botoncin">Alquilar sala</button></a>
+                            <a href="${pageContext.request.contextPath}/inicio"><button class="boton-estilo">Alquilar sala</button></a>
                             <br><br><br>
                         </div>
                     </c:if>

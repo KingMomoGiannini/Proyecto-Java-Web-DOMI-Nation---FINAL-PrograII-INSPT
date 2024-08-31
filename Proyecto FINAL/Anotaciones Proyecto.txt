@@ -196,3 +196,24 @@ confusiones. Asi que en cuanto terminé con el grueso, me enfoqué en la lógica
 al tener acceso a todos los objetos que se relacionan, fue sencillo esta vez pensar bajo qué concepto una reserva puede existir, asi que dicté los termi
 nos para mandar excepciones. Luego hice el llamado a esta función en los métodos @PostMapping correspondientes ("/edit","/create"), de esta manera, antes 
 de realizar la reserva, la misma se valida y si todo esta bien, se realiza correctamente, sino, las excepciones se haran vigentes en el jsp de reservas.
+
+26/08
+Problema: vista de form de Login con sesion iniciada
+Testeando la aplicación, nunca me percaté de un error que estuvo a la vista pero que pasé por alto, sucede cuando un usuario entra en sesión y a su vez,
+sigue teniendo acceso al formulario de login, cosa que no debería ocurrir a menos que se de por finalizada la sesión, por ello, me dispuse a averiguar 
+sobre qué puedo hacer ante esta situación ya que en el pasado cuando vimos Servlets, esto lo solucionabamos utilizando filtros y utilizando el metodo
+"doFilter()" y en esta nueva ocasión utilizamos Controllers que generamos a traves del uso de frameworks (en este caso Spring e Hibernate), hasta el mo
+mento, encontré información sobre una interfaz "HandlerInterceptor" que contiene Spring, que luego veré como funciona.
+FALTA: Error 404 para urls u objetos no encontrados.
+30/08
+Actualización: Información ---> "https://refactorizando.com/handlerinterceptor-vs-filter-en-spring-2/"
+La interfaz HandlerInterceptor Opera a nivel del framework Spring MVC y se centra en interceptar y modificar el procesamiento de las solicitudes entran
+tes antes y después de que se ejecute el controlador y se renderice la vista. En esta ocasión pude implementarla perfectamente para evitar el acceso a
+el formulario de login y de registro del proyecto una vez iniciada la sesión con un usuario mediante la creación de la clase "LoginInterceptor", alli se
+sobreescribe el metodo "preHandle" el cual se ejecuta antes del interceptor, esto quiere decir que toma acción previa a interceptar la url que debe tomar
+el interceptor como tal, en este caso, adquiere desde la sesión un atributo fundamental, el usuario (solo existe una vez que se inicia la sesión), y si
+el mismo esta presente, se lo redirige a la pagina de inicio de la aplicación. 
+Ademas, para efectivizar la ejecución del interceptor se le dió vida a una nueva clase llamada "WebMvcConfig" que implementa otra interfaz llamada 
+"WebMvcConfigurer" propia de Spring Framework, para asi sobreescribir su método "addInterceptors()" y configurarlo para que posterior al inicio de la sesión
+intercepte a las URL pertenecientes al registro y el login de la aplicación ("/login", "/registrarse"), de esta manera evitamos posibles errores en la
+aplicación.

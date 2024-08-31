@@ -56,8 +56,8 @@
                                 </div>
                             </div>
                             <div class="centrarEnPag"><br><br><br>
-                                <button class="botoncin" type="submit" name="confirmCreate" value="true">Reservar</button>
-                                <a class="botoncin" href="/inicio">Cancelar</a>                            </div>
+                                <button class="botoncin-submit" type="submit" name="confirmCreate" value="true">Reservar</button>
+                                <a class="botoncin-cancel" href="/inicio">Cancelar</a>                            </div>
                         </c:when>
                         <c:when test="${action eq 'delete'}">
                             <input type="hidden" name="idReserva" value="${reserva.getIdReserva()}">
@@ -79,8 +79,8 @@
                             </div>
                             <br><br>
                             <div class="centrarEnPag">
-                                <button class="botoncin" type="submit" name="confirmDelete" value="true">Eliminar</button>
-                                <a class="botoncin" href="/inicio">Cancelar</a>
+                                <button class="botoncin-submit" type="submit" name="confirmDelete" value="true">Eliminar</button>
+                                <a class="botoncin-cancel" href="/inicio">Cancelar</a>
                             </div>
                         </c:when>
                         <c:when test="${action eq 'update'}">
@@ -100,8 +100,8 @@
                                 </div>
                             </div>
                             <div class="centrarEnPag"><br><br><br>
-                                <button class="botoncin" type="submit" name="confirmDelete" value="true">Editar</button>
-                                <a class="botoncin" href="/inicio">Cancelar</a>
+                                <button class="botoncin-submit" type="submit" name="confirmDelete" value="true">Editar</button>
+                                <a class="botoncin-cancel" href="/inicio">Cancelar</a>
                             </div>
                         </c:when>
                     </c:choose> 
