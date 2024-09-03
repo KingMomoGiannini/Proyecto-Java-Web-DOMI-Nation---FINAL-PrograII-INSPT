@@ -16,6 +16,7 @@
 
                 <c:choose>
                     <c:when test = "${not empty salas}">
+                        <br><br>
                         <c:choose>
                             <c:when test="${Exito == true}">
                                 <div class="mensaje-success">
@@ -52,8 +53,8 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <br><br>
-                                                <a href="${pageContext.request.contextPath}/salas/delete/${sala.getIdSala()}/${sucursal.getIdSucursal()}"><button class="boton-estilo">Eliminar sala</button></a>
-                                                <a href="${pageContext.request.contextPath}/salas/edit/${sala.getIdSala()}/${sucursal.getIdSucursal()}"><button class="boton-estilo">Editar sala</button></a>
+                                                <a href="${pageContext.request.contextPath}/salas/delete?idSala=${sala.getIdSala()}&idSucursal=${sucursal.getIdSucursal()}"><button class="boton-estilo">Eliminar sala</button></a>
+                                                <a href="${pageContext.request.contextPath}/salas/edit?idSala=${sala.getIdSala()}&idSucursal=${sucursal.getIdSucursal()}"><button class="boton-estilo">Editar sala</button></a>
                                                 <br><br>
                                             </c:otherwise>
                                         </c:choose>
@@ -64,7 +65,7 @@
                         </div>
                         <c:if test="${userLogueado.rol eq 'prestador'}">
                             <div class="centrarEnPag">
-                                <a href="${pageContext.request.contextPath}/salas/create?idSucursal=${sucursal.getIdSucursal()}"><button class="boton-estilo">Crear sala</button></a>
+                                <a href="${pageContext.request.contextPath}/salas/create?idSucursal=${sucursal.getIdSucursal()}&idPrestador=${userLogueado.getIdPrestador()}"><button class="boton-estilo">Crear sala</button></a>
                                 <br><br><br>
                             </div>
                         </c:if>
@@ -81,7 +82,7 @@
                             </div>
                             <br><br><br>
                             <div class="centrarEnPag">
-                                <a href="${pageContext.request.contextPath}/salas/create?idSucursal=${sucursal.getIdSucursal()}"><button class="boton-estilo">Crear sala</button></a>
+                                <a href="${pageContext.request.contextPath}/salas/create?idSucursal=${sucursal.getIdSucursal()}&idPrestador=${userLogueado.getIdPrestador()}"><button class="boton-estilo">Crear sala</button></a>
                                 <br><br><br>
                                 
                             </div>

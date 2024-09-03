@@ -27,7 +27,7 @@
                         <br><br>
                         <div class="centrarEnPag">
                             <button class="botoncin-submit" type="submit">Crear</button>
-                            <a class="botoncin-cancel" href="/salas/salasDisponibles/${sucursal.idSucursal}">Cancelar</a>
+                            <a class="botoncin-cancel" href="/salas/salasDisponibles?idSucursal=${sucursal.getIdSucursal()}&idPrestador=${userLogueado.getIdPrestador()}">Cancelar</a>
                         </div>
                     </form>
                 </c:when>
@@ -44,7 +44,7 @@
                         <br><br>
                         <div class="centrarEnPag">
                             <button class="botoncin" type="submit">Editar</button>
-                            <a class="botoncin-cancel" href="/salas/salasDisponibles/${sucursal.idSucursal}">Cancelar</a>
+                            <a class="botoncin-cancel" href="/salas/salasDisponibles?idSucursal=${sucursal.getIdSucursal()}&idPrestador=${userLogueado.getIdPrestador()}">Cancelar</a>
                         </div>
                     </form>
                 </c:when>
@@ -58,7 +58,7 @@
                         <br><br>
                         <div class="centrarEnPag">
                             <button class="botoncin" type="submit">Eliminar</button>
-                            <a class="botoncin-cancel" href="/salas/salasDisponibles/${sucursal.idSucursal}">Cancelar</a>
+                            <a class="botoncin-cancel" href="/salas/salasDisponibles?idSucursal=${sucursal.getIdSucursal()}&idPrestador=${userLogueado.getIdPrestador()}">Cancelar</a>
                         </div>
                     </form>
                 </c:when>

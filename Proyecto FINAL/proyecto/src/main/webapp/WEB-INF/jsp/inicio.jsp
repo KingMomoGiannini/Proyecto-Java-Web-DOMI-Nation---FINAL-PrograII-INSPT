@@ -17,7 +17,7 @@
         <div>
             <c:choose>
                 <c:when test="${userLogueado.getRol() == 'administrador'}">
-                    <br><br><br>
+                    <br><br>
                     <c:choose>
                         <c:when test="${sessionScope.Exito == true}">
                             <div class="mensaje-success">
@@ -123,7 +123,7 @@
                     
                 </c:when>
                 <c:when test="${userLogueado.getRol() == 'prestador'}">
-                    <br><br><br>
+                    <br><br>
                     <div>
                         <c:choose>
                             <c:when test="${sessionScope.Exito == true}">
@@ -179,7 +179,7 @@
                                                             </c:choose>
                                                         </c:forEach> 
                                                     </c:if>
-                                                    <a href="salas/salasDisponibles/${sede.getIdSucursal()}"><button class="boton-estilo">Ver Salas</button></a>
+                                                    <a href="salas/salasDisponibles?idSucursal=${sede.getIdSucursal()}&idPrestador=${userLogueado.getIdPrestador()}"><button class="boton-estilo">Ver Salas</button></a>
                                                     <a href="sedes/update?idSucursal=${sede.getIdSucursal()}"><button class="boton-estilo">Editar Sede</button></a>
                                                     <a href="sedes/delete?idSucursal=${sede.getIdSucursal()}"><button class="boton-estilo">Eliminar Sede</button></a>
                                                 </div>
@@ -200,7 +200,7 @@
                     <br><br><br>
                 </c:when> <%-- --%>   
                 <c:when test="${userLogueado.getRol() == 'cliente'}">
-                    <br><br><br>
+                    <br><br>
                     <c:choose>
                         <c:when test="${sessionScope.Exito == true}">
                             <div class="mensaje-success">
