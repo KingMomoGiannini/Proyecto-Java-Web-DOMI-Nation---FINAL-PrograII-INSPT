@@ -45,12 +45,14 @@ public class SucursalController {
     @GetMapping("/update")
     public String showEditForm(@RequestParam("idSucursal") int idSucursal, Model model, HttpSession session) throws Exception, ObjectNotFoundException{
         try {
-            Sucursal laSede = sucursalService.findByIdSucursal(idSucursal)
+            Prestador prestador = (Prestador) session.getAttribute("userLogueado");
+            Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
                     .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
-            Domicilio elDom = laSede.getDomicilio();
-            Prestador elPrestador = laSede.getPrestador();
+            validarSucuPrest(prestador, sucursal);
+            Domicilio elDom = sucursal.getDomicilio();
+            Prestador elPrestador = sucursal.getPrestador();
             model.addAttribute("elPrestador", elPrestador);
-            model.addAttribute("laSede", laSede);
+            model.addAttribute("laSede", sucursal);
             model.addAttribute("elDom", elDom);
             model.addAttribute("action", "update");
             return "formSedes";
@@ -65,8 +67,10 @@ public class SucursalController {
     @GetMapping("/delete")
     public String showDeleteForm(@RequestParam("idSucursal") int idSucursal, Model model, HttpSession session) {
         try{
+            Prestador prestador = (Prestador) session.getAttribute("userLogueado");
             Sucursal laSede = sucursalService.findByIdSucursal(idSucursal)
                                              .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
+            validarSucuPrest(prestador, laSede);
             Domicilio elDom = laSede.getDomicilio();
             Prestador elPrestador = laSede.getPrestador();
             model.addAttribute("elPrestador",elPrestador);
@@ -96,10 +100,8 @@ public class SucursalController {
                              @RequestParam String altura,
                              HttpSession session) {
         try {
-            System.out.println("el id del prestador es " + idPrestador);
             Prestador elPrestador = prestadorService.findByIdPrestador(idPrestador)
                                                     .orElseThrow(() -> new ObjectNotFoundException("Prestador no encontrado con id: " + idPrestador));
-            System.out.println("el nombre del prestador es: " + elPrestador.getNombre());
             Sucursal laSede = obtenerSucursalDesdeRequest(nomSede, salas, celular, horaInicio, horaCierre, elPrestador);
             sucursalService.save(laSede);
             Domicilio elDom = obtenerDomicilioDesdeRequest(provincia, localidad, partido, calle, altura, laSede);
@@ -196,5 +198,10 @@ public class SucursalController {
         session.setAttribute("domiciliosDeSedes", domicilioService.findAll());
         session.setAttribute("lasReservas", reservaService.findAll());
 
+    }
+    private void validarSucuPrest(Prestador prestador, Sucursal sucursal){
+        if (sucursal.getPrestador().getIdPrestador() != prestador.getIdPrestador()){
+            throw new ObjectNotFoundException("Sucursal no encontrada");
+        }
     }
 }

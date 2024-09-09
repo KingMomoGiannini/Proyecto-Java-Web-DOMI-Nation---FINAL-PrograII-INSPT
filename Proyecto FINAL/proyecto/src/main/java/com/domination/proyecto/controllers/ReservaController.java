@@ -42,6 +42,7 @@ public class ReservaController {
     @GetMapping("/create")
     public String createReservaForm(@RequestParam("idSala") int idSala, Model model, HttpSession session) {
         try {
+            Usuario usuario = (Usuario) session.getAttribute("userLogueado");
             Sala sala = salaService.findById(idSala).orElseThrow(() -> new ObjectNotFoundException("Sala no encontrada"));
             Sucursal sucursal = sala.getSucursal();
             model.addAttribute("sucursal", sucursal);
@@ -59,8 +60,10 @@ public class ReservaController {
     @GetMapping("/listaReservas")// lista de reservas hechas en las sucursales del prestador
     public String listReservasSucursal(@RequestParam("idPrestador") int idPrestador, HttpSession sesion, Model model) {
         try {
-            Prestador prestador = prestadorService.findByIdPrestador(idPrestador)
-                    .orElseThrow(() -> new ObjectNotFoundException("Prestador no encontrado"));
+            Prestador prestador = (Prestador) sesion.getAttribute("userLogueado");
+            if (prestador.getIdPrestador() != idPrestador) {
+                return "redirect:/reservas/listaReservas?idPrestador=" + prestador.getIdPrestador();
+            }
             List<Reserva> reservas = new LinkedList<>();
             List<Sucursal> sucursales = prestador.getSucursales();
             for (Sucursal sucursal : sucursales) {
@@ -82,10 +85,22 @@ public class ReservaController {
     }
 
     @GetMapping("/admin/listaReservas")// lista de todas las reservas
-    public String listReservasTotales(@RequestParam("idAdministrador") int idAdministrador, Model model) {
-        List<Reserva> reservas = reservaService.findAll();
-        model.addAttribute("reservas", reservas);
-        return "listaReservas";
+    public String listReservasTotales(@RequestParam("idAdministrador") int idAdministrador, Model model, HttpSession session) {
+        try {
+            Administrador administrador = (Administrador) session.getAttribute("userLogueado");
+            if (administrador.getIdAdministrador() != idAdministrador) {
+                return "redirect:/reservas/admin/listaReservas?idAdministrador=" + administrador.getIdAdministrador();
+            }
+            List<Reserva> reservas = reservaService.findAll();
+            model.addAttribute("reservas", reservas);
+            return "listaReservas";
+        }
+        catch (ObjectNotFoundException e) {
+            session.setAttribute("Exito", true);
+            session.setAttribute("mensajeExito", e.getMessage());
+            return "redirect:/inicio";
+        }
+
     }
 
 

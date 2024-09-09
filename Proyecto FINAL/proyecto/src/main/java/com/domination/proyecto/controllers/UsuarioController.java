@@ -47,17 +47,23 @@ public class UsuarioController {
 
     @GetMapping("/MiCuenta/edit")
     public String showEditForm(@RequestParam("idUsuario") int idUsuario, Model model, HttpSession session){
-        Usuario usuarioSesion = (Usuario) session.getAttribute("userLogueado");
-        int idUsuarioSesion = usuarioSesion.getIdUsuario();
-        if (idUsuario != idUsuarioSesion) {
-            return "redirect:/usuarios/MiCuenta/edit?idUsuario=" + idUsuarioSesion;
+        try{
+            Usuario usuarioSesion = (Usuario) session.getAttribute("userLogueado");
+            int idUsuarioSesion = usuarioSesion.getIdUsuario();
+            if (idUsuario != idUsuarioSesion) {
+                return "redirect:/usuarios/MiCuenta/edit?idUsuario=" + idUsuarioSesion;
+            }
+            Usuario usuario = usuarioService.findById(idUsuario)
+                                            .orElseThrow(() -> new ObjectNotFoundException("Usuario no encontrado"));
+            if(usuario != null) {
+                setearFormAttributes(usuario, "edit", model);
+            }
+            return "formUsuarios";
+        }catch (ObjectNotFoundException e) {
+            session.setAttribute("Exito", false);
+            session.setAttribute("mensajeError", e.getMessage());
+            return "redirect:/inicio";
         }
-        Usuario usuario = usuarioService.findById(idUsuario)
-                                        .orElseThrow(() -> new ObjectNotFoundException("Usuario no encontrado"));
-        if(usuario != null) {
-            setearFormAttributes(usuario, "edit", model);
-        }
-        return "formUsuarios";
     }
 
     @GetMapping("/delete")
