@@ -43,7 +43,7 @@ public class SucursalController {
     }
 
     @GetMapping("/update")
-    public String showEditForm(@RequestParam("idSucursal") int idSucursal, Model model, HttpSession session) throws Exception, ObjectNotFoundException{
+    public String showEditForm(@RequestParam("idSucursal") int idSucursal, Model model, HttpSession session){
         try {
             Prestador prestador = (Prestador) session.getAttribute("userLogueado");
             Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
@@ -58,8 +58,8 @@ public class SucursalController {
             return "formSedes";
         }
         catch (ObjectNotFoundException e) {
-            session.setAttribute("Error",false);
-            session.setAttribute("mensajeError",e.getMessage());
+            session.setAttribute("Exito",false);
+            session.setAttribute("mensajeExito",e.getMessage());
             return "redirect:/inicio";
         }
     }
