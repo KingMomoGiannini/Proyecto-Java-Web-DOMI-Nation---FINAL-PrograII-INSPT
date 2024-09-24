@@ -2,6 +2,7 @@ package com.domination.proyecto.services;
 
 import com.domination.proyecto.models.Cliente;
 import com.domination.proyecto.models.Prestador;
+import com.domination.proyecto.models.Usuario;
 import com.domination.proyecto.repositories.PrestadorRepository;
 import com.domination.proyecto.repositories.UsuarioRepository;
 import java.util.List;
@@ -38,7 +39,11 @@ public class PrestadorService {
     public Prestador findByNombreUsuarioAndPassword(String nombreUsuario, String password) {
         return prestadorRepository.findByNombreUsuarioAndPassword(nombreUsuario, password);
     }
-    
+
+    public Prestador findByIdUsuario(int idUsuario) {
+        return prestadorRepository.findByIdUsuario(idUsuario);
+    }
+
     public Optional<Prestador> findByIdPrestador(int idPrestador){
         return prestadorRepository.findByIdPrestador(idPrestador);
     }

@@ -48,19 +48,17 @@ public class InicioController {
     //Método que muestra la página de inicio
     @GetMapping("/")
     public String mostrarInicio(){
-
         return "index";
-
     }
 
     @GetMapping("/inicio")
     public String inicio(HttpSession session, Model model, HttpServletRequest req) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        // Obtén el nombre de usuario autenticado
+        // Obtengon el nombre de usuario autenticado
         String username = authentication.getName();
 
-        // Utiliza el nombre de usuario para obtener el usuario desde tu servicio
+        // Utilizo el nombre de usuario para obtener el usuario desde el servicio
         Usuario userLogueado = usuarioService.findByNombreUsuario(username);
         Administrador adminLogueado = null;
         // Añade el usuario o admin a la sesion

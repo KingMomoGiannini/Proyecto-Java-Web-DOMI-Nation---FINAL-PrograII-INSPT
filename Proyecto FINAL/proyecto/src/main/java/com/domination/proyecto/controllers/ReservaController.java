@@ -51,7 +51,7 @@ public class ReservaController {
             model.addAttribute("action", "create");
             return "formReservas";
         }catch (ObjectNotFoundException e){
-            session.setAttribute("Exito", true);
+            session.setAttribute("Exito", false);
             session.setAttribute("mensajeExito", e.getMessage());
             return "redirect:/inicio";
         }
@@ -78,7 +78,7 @@ public class ReservaController {
             return "listaReservas";
         }
         catch (ObjectNotFoundException e) {
-            sesion.setAttribute("Exito", true);
+            sesion.setAttribute("Exito", false);
             sesion.setAttribute("mensajeExito", e.getMessage());
             return "redirect:/inicio";
         }
@@ -96,7 +96,7 @@ public class ReservaController {
             return "listaReservas";
         }
         catch (ObjectNotFoundException e) {
-            session.setAttribute("Exito", true);
+            session.setAttribute("Exito", false);
             session.setAttribute("mensajeExito", e.getMessage());
             return "redirect:/inicio";
         }
@@ -119,7 +119,7 @@ public class ReservaController {
             return "listaReservas";
         }
         catch (ObjectNotFoundException e) {
-            session.setAttribute("Exito", true);
+            session.setAttribute("Exito", false);
             session.setAttribute("mensajeExito", e.getMessage());
             return "redirect:/inicio";
         }
@@ -128,20 +128,22 @@ public class ReservaController {
     @GetMapping("/edit")
     public String editReservaForm(@RequestParam("idReserva") int idReserva, Model model, HttpSession session) {
         try {
-            Reserva reserva = reservaService.findByIdReserva(idReserva)
-                    .orElseThrow(() -> new ObjectNotFoundException("Reserva no encontrada"));
-            Sala sala = reserva.getSala();
-            Sucursal sucursal = sala.getSucursal();
-            Cliente cliente = reserva.getCliente();
-            model.addAttribute("reserva", reserva);
-            model.addAttribute("sala", sala);
-            model.addAttribute("sucursal", sucursal);
-            model.addAttribute("cliente", cliente);
-            model.addAttribute("action", "update");
+            if (session.getAttribute("userLogueado") instanceof Cliente) {
+                Cliente cliente = (Cliente) session.getAttribute("userLogueado");
+                setAtributosEditReserva(model, idReserva);
+            }
+            else if (session.getAttribute("userLogueado") instanceof Prestador) {
+                Prestador prestador = (Prestador) session.getAttribute("userLogueado");
+                setAtributosEditReserva(model, idReserva);
+            }
+            else if(session.getAttribute("userLogueado") instanceof Administrador){
+                Administrador administrador = (Administrador) session.getAttribute("userLogueado");
+                setAtributosEditReserva(model, idReserva);
+            }
             return "formReservas";
         }
         catch (ObjectNotFoundException e) {
-            session.setAttribute("Exito", true);
+            session.setAttribute("Exito", false);
             session.setAttribute("mensajeExito", e.getMessage());
             return "redirect:/inicio";
         }
@@ -163,7 +165,7 @@ public class ReservaController {
             return "formReservas";
         }
         catch (ObjectNotFoundException e) {
-            session.setAttribute("Exito", true);
+            session.setAttribute("Exito", false);
             session.setAttribute("mensajeExito", e.getMessage());
             return "redirect:/inicio";
         }
@@ -172,6 +174,7 @@ public class ReservaController {
     @PostMapping("/create")
     public String createReserva(HttpSession session, HttpServletRequest req, Model model) throws Exception {
         try {
+            String redireccion = redirSegunUsuario(session);
             Reserva reserva = obtenerReservaDesdeRequest(req);
             Sala sala = reserva.getSala();
             Sucursal sucursal = sala.getSucursal();
@@ -179,18 +182,19 @@ public class ReservaController {
             reservaService.saveReserva(reserva);
             session.setAttribute("Exito", true);
             session.setAttribute("mensaje", "La reserva ha sido creada exitosamente");
-            return "redirect:/reservas/misReservas?idCliente=" + reserva.getCliente().getIdCliente();
+            return redireccion;
         } catch (Exception e) {
-            session.setAttribute("Exito", true);
-            session.setAttribute("mensaje", "Error al crear la reserva");
+            session.setAttribute("Exito", false);
+            session.setAttribute("mensaje", e.getMessage());
             session.setAttribute("error", e.getMessage());
             return "redirect:/reservas/create?idSala=" + req.getParameter("idSala");
         }
     }
 
     @PostMapping("/update")
-    public String updateReserva(HttpSession session, HttpServletRequest req, Model model) throws Exception {
+    public String updateReserva(HttpSession session, HttpServletRequest req, Model model){
         try {
+            String redireccion = redirSegunUsuario(session);
             Reserva reserva = obtenerReservaDesdeRequest(req);
             Sala sala = reserva.getSala();
             Sucursal sucursal = sala.getSucursal();
@@ -198,10 +202,10 @@ public class ReservaController {
             reservaService.saveReserva(reserva);
             session.setAttribute("Exito", true);
             session.setAttribute("mensaje", "La reserva ha sido actualizada exitosamente");
-            return "redirect:/reservas/misReservas?idCliente=" + reserva.getCliente().getIdCliente();
+            return redireccion;
         } catch (Exception e) {
-            session.setAttribute("Exito", true);
-            session.setAttribute("mensaje", "Error al actualizar la reserva");
+            session.setAttribute("Exito", false);
+            session.setAttribute("mensaje", e.getMessage());
             session.setAttribute("error", e.getMessage());
             return "redirect:/reservas/edit?idReserva=" + req.getParameter("idReserva");
         }
@@ -210,14 +214,14 @@ public class ReservaController {
     @PostMapping("/delete")
     public String deleteReserva(HttpSession session, @RequestParam("idReserva") int idReserva,@RequestParam("idCliente") int idCliente ,Model model) {
         try {
+            String redireccion = redirSegunUsuario(session);
             reservaService.deleteByIdReserva(idReserva);
             session.setAttribute("Exito", true);
             session.setAttribute("mensaje", "La reserva ha sido eliminada exitosamente");
             return "redirect:/reservas/misReservas?idCliente="+ idCliente;
         } catch (Exception e) {
-            session.setAttribute("Exito", true);
+            session.setAttribute("Exito", false);
             session.setAttribute("mensaje", "Error al eliminar la reserva");
-            session.setAttribute("error", e.getMessage());
             return "redirect:/reservas/delete?idReserva=" + idReserva;
         }
     }
@@ -282,6 +286,36 @@ public class ReservaController {
                 throw new Exception("Ya se realizó una reserva en ese horario para esta sala.");
             }
         }
+    }
+
+    public void setAtributosEditReserva(Model model, int idReserva) {
+        Reserva reserva = reservaService.findByIdReserva(idReserva)
+                .orElseThrow(() -> new ObjectNotFoundException("Reserva no encontrada"));
+        Sala sala = reserva.getSala();
+        Sucursal sucursal = sala.getSucursal();
+        Cliente cliente = reserva.getCliente();
+        model.addAttribute("reserva", reserva);
+        model.addAttribute("sala", sala);
+        model.addAttribute("sucursal", sucursal);
+        model.addAttribute("cliente", cliente);
+        model.addAttribute("action", "update");
+    }
+
+    public String redirSegunUsuario(HttpSession session){
+        String redireccion = null;
+        if (session.getAttribute("userLogueado") instanceof Cliente) {
+            Cliente cliente = (Cliente) session.getAttribute("userLogueado");
+            redireccion = "redirect:/reservas/misReservas?idCliente="+cliente.getIdCliente();
+        }
+        else if (session.getAttribute("userLogueado") instanceof Prestador) {
+            Prestador prestador = (Prestador) session.getAttribute("userLogueado");
+            redireccion = "redirect:/reservas/listaReservas?idPrestador="+ prestador.getIdPrestador();
+        }
+        else if(session.getAttribute("userLogueado") instanceof Administrador){
+            Administrador administrador = (Administrador) session.getAttribute("userLogueado");
+            redireccion = "redirect:/reservas/admin/listaReservas?idAdministrador="+administrador.getIdAdministrador();
+        }
+        return redireccion;
     }
 
 }

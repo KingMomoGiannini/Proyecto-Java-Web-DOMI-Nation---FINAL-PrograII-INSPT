@@ -67,7 +67,7 @@
                     <h3 class="fuentePrincFondo">Datos de la sede</h3>
                     <div class="inter-texto">
                         <label class="fuenteMin" for="nomSede">Nombre del local:</label>
-                        <input class="text-box-ajuste" type="text" name="nomSede" id="nombre" value="${laSede.nombre}">
+                        <input class="text-box-ajuste" type="text" id="nombre" name="nomSede" value="${laSede.nombre}" required>
                         <label class="fuenteMin" for="cantSalas">Cantidad de salas:</label>
                         <select name="salas" id="salas">
                             <c:forEach var="i" begin="1" end="10">
@@ -98,7 +98,6 @@
                     <br><br>
                     <div class="centrarEnPag">
                         <button class="botoncin-submit" type="submit">Enviar</button>
-                        <button class="botoncin" type="reset">Limpiar Formulario</button>
                         <a class="botoncin-cancel" href="/inicio">Cancelar</a>
                     </div>
                     <br>

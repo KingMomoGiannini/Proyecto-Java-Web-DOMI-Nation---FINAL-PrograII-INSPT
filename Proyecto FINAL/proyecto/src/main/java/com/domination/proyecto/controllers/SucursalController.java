@@ -10,11 +10,15 @@ import com.domination.proyecto.services.SucursalService;
 import com.domination.proyecto.services.PrestadorService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,6 +53,7 @@ public class SucursalController {
             Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
                     .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
             validarSucuPrest(prestador, sucursal);
+            System.out.println("nombre de sucursal: " + sucursal.getNombre());
             Domicilio elDom = sucursal.getDomicilio();
             Prestador elPrestador = sucursal.getPrestador();
             model.addAttribute("elPrestador", elPrestador);
@@ -110,12 +115,18 @@ public class SucursalController {
             session.setAttribute("mensajeExito", "La sucursal ha sido creada exitosamente");
             setAttributesForSuccess(session, laSede, elDom);
             return "redirect:/inicio";
-        } catch (ObjectNotFoundException e) {
+        }catch (ObjectNotFoundException e) {
             e.printStackTrace();
             session.setAttribute("Exito", false);
             session.setAttribute("mensajeExito", "Error al crear la sucursal");
             return "redirect:/inicio";
         }
+        catch (DataIntegrityViolationException e) { //cuando se lance una excepcion SQL por tener un valor duplicado (como el nombre de la sucursal)
+            session.setAttribute("Exito", false);
+            session.setAttribute("mensajeExito", "Error al crear la sucursal. El nombre de la sucursal ya existe.");
+            return "redirect:/inicio";
+        }
+
     }
 
     @PostMapping("/update")

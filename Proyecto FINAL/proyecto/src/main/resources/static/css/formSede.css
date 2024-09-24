@@ -188,6 +188,19 @@ img.logo {
     border-radius: 5px; /* Ajuste del borde redondeado */
 }
 
+.mensaje h1{/*Mensaje de error con recuadro rojo*/
+    background-color: rgba(206, 5, 5, 0.8);
+    color: white;
+    font-size: 30px;
+    font-family: 'Barlow Condensed', sans-serif;
+    padding: 5px;
+    border-radius: 5px;
+    width: 30%;
+    margin: auto;
+    text-align: center;
+    border: solid 2px white;
+}
+
 .elcontainer .mensaje h1{/*Mensaje de error con recuadro rojo*/
     background-color: rgba(206, 5, 5, 0.8);
     color: white;

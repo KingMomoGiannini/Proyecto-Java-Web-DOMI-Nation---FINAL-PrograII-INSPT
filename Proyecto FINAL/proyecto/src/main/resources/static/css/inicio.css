@@ -70,7 +70,31 @@ body{
     background-repeat: no-repeat;
     background-attachment: initial;
 
-} 
+}
+
+.container-error {
+    margin: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 20px;
+    /*background-color: #f8d7da; /* Fondo rojo claro para indicar error */
+    border: 1px solid #f5c6cb; /* Borde rojo claro */
+    border-radius: 5px;
+}
+
+.container-error img {
+    margin-right: 50px;
+    max-width: 400px; /* Ajusta el tamaño máximo de la imagen */
+    height: auto;
+}
+
+.container-error .error-message h1 {
+    font-family: 'Bahiana', cursive;
+    color: #721c24; /* Color del texto de error */
+    font-size: 50px;
+}
 
 .container-inicial h1{/*titulo de bienvenida con fondo oscuro*/
     font-family: 'Bahiana', cursive;
@@ -174,4 +198,23 @@ body{
 .new-amsterdam-font-pmax {
     font-family: 'Arsenal SC', cursive;
     font-size: 25px;
+}
+
+.container-error {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box; /* Asegura que el padding y el border se incluyan en el ancho total */
+    padding: 20px; /* Ajusta el padding según sea necesario */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+}
+
+.error-image {
+    margin-right: 20px;
+}
+
+.error-message {
+    text-align: center;
 }

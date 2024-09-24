@@ -71,8 +71,27 @@
                         </c:if>
                     </c:when>
                     <c:when test= "${empty salas}">
+                        <c:choose>
+
+                            <c:when test="${Exito == true}">
+                                <br><br>
+                                <div class="mensaje-success">
+                                    <h1>${mensaje}</h1>
+                                </div>
+                                <br><br>
+                            </c:when>
+                            <c:when test="${Exito == false}">
+                                <br><br>
+                                <div class="mensaje">
+                                    <h1>${mensaje}</h1>
+                                </div>
+                                <br><br>
+                            </c:when>
+                        </c:choose>
+                        <c:remove var="mensaje" scope="session"/>
+                        <c:remove var="Exito" scope="session"/>
                         <div class="mensaje">
-                            <br><br><br>
+                            <br><br>
                             <h1>No hay salas disponibles</h1>
                         </div>
                         <c:if test="${userLogueado.rol eq 'prestador'}">

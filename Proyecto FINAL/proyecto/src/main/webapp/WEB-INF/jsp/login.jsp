@@ -12,9 +12,9 @@
     <c:import url ="navbar.jsp" />
     <br><br>
     <c:if test="${sessionScope.hayError == true }">
-            <div class="mensajeError">
-            <h1>${sessionScope.mensajeError}</h1>
-            <br><br><br>
+            <div class="mensaje">
+                <h1>${sessionScope.mensajeError}</h1>
+            <br><br>
         </div>
     </c:if>
     <c:remove var="mensajeError" scope="session"/>

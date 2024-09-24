@@ -41,8 +41,13 @@ public class UsuarioController {
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
-        model.addAttribute("action", "create");
-        return "formUsuarios";
+        try {
+            model.addAttribute("action", "create");
+            return "formUsuarios";
+        }
+        catch (Exception e) {
+            return "redirect:/inicio";
+        }
     }
 
     @GetMapping("/MiCuenta/edit")
@@ -63,7 +68,12 @@ public class UsuarioController {
             session.setAttribute("Exito", false);
             session.setAttribute("mensajeError", e.getMessage());
             return "redirect:/inicio";
+        }catch (DataIntegrityViolationException ex) {
+            session.setAttribute("Exito", false);
+            session.setAttribute("mensaje", "Ya existe un usuario con ese nombre.");
+            return "formUsuarios"; // Devuelve al formulario de registro
         }
+
     }
 
     @GetMapping("/delete")
@@ -74,17 +84,11 @@ public class UsuarioController {
             if(usuario != null) {
                 setearFormAttributes(usuario, "delete", model);
             }
-        }
-        catch (DataIntegrityViolationException ex) {
-                session.setAttribute("Exito", false);
-                session.setAttribute("mensaje", ex.getMessage());
-            }
-        catch (Exception e) {
+        }catch (Exception e) {
                 session.setAttribute("Exito", false);
                 session.setAttribute("mensajeExito", e.getMessage());
                 return "redirect:/inicio";
-            }
-
+        }
         return "formUsuarios";
     }
 
@@ -107,7 +111,7 @@ public class UsuarioController {
         }
         catch (DataIntegrityViolationException ex) {
             session.setAttribute("Exito", false);
-            session.setAttribute("mensaje", ex.getMessage());
+            session.setAttribute("mensaje","Ya existe un usuario con ese nombre.");
             return "formUsuarios"; // Devuelve al formulario de registro
         }
         catch (Exception e) {
@@ -142,7 +146,7 @@ public class UsuarioController {
         }
         catch (DataIntegrityViolationException ex) {
             session.setAttribute("Exito", false);
-            session.setAttribute("mensaje", ex.getMessage());
+            session.setAttribute("mensaje","Ya existe un usuario con ese nombre.");
             return "formUsuarios"; // Devuelve al formulario de registro
         }
         catch (Exception e) {

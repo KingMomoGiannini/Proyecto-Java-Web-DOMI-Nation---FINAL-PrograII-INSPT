@@ -30,6 +30,7 @@
             </div>
             <c:choose>
                 <c:when test = "${not empty reservas}">
+                <br>
                     <c:choose>
                         <c:when test="${Exito == true}">
                             <div class="mensaje-success">

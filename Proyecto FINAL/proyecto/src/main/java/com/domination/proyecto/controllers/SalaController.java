@@ -1,10 +1,8 @@
 package com.domination.proyecto.controllers;
 
 import com.domination.proyecto.exceptions.ObjectNotFoundException;
-import com.domination.proyecto.models.Prestador;
-import com.domination.proyecto.models.Sala;
-import com.domination.proyecto.models.Sucursal;
-import com.domination.proyecto.models.Reserva;
+import com.domination.proyecto.models.*;
+import com.domination.proyecto.services.PrestadorService;
 import com.domination.proyecto.services.SalaService;
 import com.domination.proyecto.services.SucursalService;
 import com.domination.proyecto.services.ReservaService;
@@ -29,6 +27,9 @@ public class SalaController {
     @Autowired
     private ReservaService reservaService;
 
+    @Autowired
+    private PrestadorService prestadorService;
+
     @GetMapping("/create")
     public String showCreateForm(@RequestParam("idSucursal") int idSucursal, @RequestParam("idPrestador") int idPrestador, Model model, HttpSession session ) {
         try {
@@ -36,7 +37,7 @@ public class SalaController {
             Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
                     .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada" ));
             if (idPrestador != elUser.getIdPrestador()){
-                idPrestador = elUser.getIdPrestador();
+                return "redirect:/salas/salasDisponibles?idSucursal=" + idSucursal+"&idPrestador="+elUser.getIdPrestador();
             }
             validarSalaSucuPrest(elUser, sucursal);
             model.addAttribute("sucursal", sucursal);
@@ -53,13 +54,25 @@ public class SalaController {
     @GetMapping("/salasDisponibles")
     public String listSalasDisponibles(@RequestParam("idSucursal") int idSucursal, @RequestParam("idPrestador") int idPrestador, Model model, HttpSession session) {
         try{
-            Prestador elUser = (Prestador)session.getAttribute("userLogueado");
             Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
                     .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada" ));
-            if (idPrestador != elUser.getIdPrestador()){
-                idPrestador = elUser.getIdPrestador();
+            if (session.getAttribute("userLogueado") instanceof Administrador){
+                Administrador elUser = (Administrador) session.getAttribute("userLogueado");
+                validarSalaSucuPrest(sucursal.getPrestador(), sucursal);
             }
-            validarSalaSucuPrest(elUser, sucursal);
+            else if (session.getAttribute("userLogueado") instanceof Usuario){
+                Usuario elUser = (Usuario) session.getAttribute("userLogueado");
+                if (elUser.getRol().equals("prestador")){
+                    Prestador prestador = prestadorService.findByIdUsuario(elUser.getIdUsuario());
+                    if (idPrestador != prestador.getIdPrestador()){
+                        return "redirect:/salas/salasDisponibles?idSucursal=" + idSucursal+"&idPrestador="+prestador.getIdPrestador();
+                    }
+                    validarSalaSucuPrest(prestador, sucursal);
+                }
+                else if ((elUser.getRol().equals("cliente")) && sucursal.getPrestador().getIdPrestador() != idPrestador){
+                    throw new ObjectNotFoundException("Sucursal no encontrada");
+                }
+            }
             List<Sala> salas = salaService.findSalasBySucursal(sucursal);
             model.addAttribute("sucursal", sucursal);
             model.addAttribute("salas", salas);
@@ -112,16 +125,27 @@ public class SalaController {
     }
 
     @PostMapping("/create")
-    public String createSala(@ModelAttribute Sala sala, Model model, HttpSession session) {
+    public String createSala(@RequestParam("idSucursal") int idSucursal, @RequestParam("idPrestador") int idPrestador, @ModelAttribute Sala sala, Model model, HttpSession session) {
         try {
+            /*Prestador elPrestador = (Prestador)session.getAttribute("userLogueado");
+            if (elPrestador.getIdPrestador() != idPrestador){
+                idPrestador = elPrestador.getIdPrestador();
+            }*/
+            Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
+                    .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
+            sala.setSucursal(sucursal);
+            repeticionNumSalas(sucursal, sala);
             salaService.save(sala);
+            if (sala == null) {
+                throw new ObjectNotFoundException("Error al crear la Sala");
+            }
             session.setAttribute("Exito", true);
             session.setAttribute("mensaje", "La Sala ha sido creada exitosamente");
-            return "redirect:/salas/salasDisponibles/" + sala.getSucursal().getIdSucursal();
-        } catch (Exception e) {
-            session.setAttribute("Exito", true);
-            session.setAttribute("mensaje", "Error al crear la Sala");
-            return "redirect:/salas/salasDisponibles/" + sala.getSucursal().getIdSucursal();
+            return "redirect:/salas/salasDisponibles?idSucursal=" + idSucursal+"&idPrestador="+idPrestador;
+        } catch (ObjectNotFoundException e) {
+            session.setAttribute("Exito", false);
+            session.setAttribute("mensaje", e.getMessage());
+            return "redirect:/salas/salasDisponibles?idSucursal=" + idSucursal+"&idPrestador="+idPrestador;
         }
     }
 
@@ -131,19 +155,20 @@ public class SalaController {
             Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
                     .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
             sala.setSucursal(sucursal);
+            repeticionNumSalas(sucursal, sala);
             salaService.save(sala);
             session.setAttribute("Exito", true);
             session.setAttribute("mensaje", "La Sala ha sido actualizada exitosamente");
-            return "redirect:/salas/salasDisponibles/" + sala.getSucursal().getIdSucursal();
+            return "redirect:/salas/salasDisponibles?idSucursal=" + sala.getSucursal().getIdSucursal()+"&idPrestador="+sala.getSucursal().getPrestador().getIdPrestador();
         } catch (Exception e) {
-            session.setAttribute("Exito", true);
+            session.setAttribute("Exito", false);
             session.setAttribute("mensaje", "Error al actualizar la Sala");
-            return "redirect:/salas/salasDisponibles/" + sala.getSucursal().getIdSucursal();
+            return "redirect:/salas/salasDisponibles?idSucursal=" + sala.getSucursal().getIdSucursal()+"&idPrestador="+sala.getSucursal().getPrestador().getIdPrestador();
         }
     }
 
     @PostMapping("/delete")
-    public String deleteSala(@RequestParam("idSala") int idSala, Model model, HttpSession session) {
+    public String deleteSala(@RequestParam("idSala") int idSala, @RequestParam("idSucursal") int idSucursal, Model model, HttpSession session) {
         try {
             Sala sala = salaService.findById(idSala)
                                    .orElseThrow(() -> new ObjectNotFoundException("Sala no encontrada con id: " + idSala));
@@ -161,12 +186,15 @@ public class SalaController {
             salaService.deleteById(idSala);
             session.setAttribute("Exito", true);
             session.setAttribute("mensaje", "La sala ha sido eliminada exitosamente");
-            return "redirect:/salas/salasDisponibles/" + sala.getSucursal().getIdSucursal();
-        } catch (Exception e) {
-            session.setAttribute("Exito", true);
+            return "redirect:/salas/salasDisponibles?idSucursal=" + sala.getSucursal().getIdSucursal()+"&idPrestador="+sala.getSucursal().getPrestador().getIdPrestador();
+        } catch (ObjectNotFoundException e) {
+            Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
+                    .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada"));
+            session.setAttribute("Exito", false);
             session.setAttribute("mensaje", "Error al eliminar la Sala");
-            return "redirect:/salas/salasDisponibles/" + idSala;
+            return "redirect:/salas/salasDisponibles?idSucursal=" + idSucursal+"&idPrestador="+sucursal.getPrestador().getIdPrestador();
         }
+
     }
     //metodo para validar si la sucursal le pertenece al prestador en sesión
     private void validarSalaSucuPrest(Prestador prestador, Sucursal sucursal){
@@ -181,6 +209,28 @@ public class SalaController {
         }
         if (sala.getSucursal().getIdSucursal() != sucursal.getIdSucursal()){
             throw new ObjectNotFoundException("Sala no encontrada");
+        }
+
+    }
+
+    private void repeticionNumSalas(Sucursal sucursal, Sala sala){
+        List<Sala> salas = sucursal.getSalas();
+        if (salas.size() >= sucursal.getCantSalas()){
+            throw new ObjectNotFoundException("No se pueden crear más salas en esta sucursal");
+        }
+        else if (salas.isEmpty()){
+            if (sala.getNumSala() <= 0  || sala.getNumSala() > sucursal.getCantSalas() || sala.getNumSala() > 10){
+                throw new ObjectNotFoundException("Por favor, Coloque un número de sala válido");
+            }
+        }
+        //si se repite el numero de sala en la misma sucursal tirar una excepcion
+        for (Sala s : salas) {
+            if (sala.getNumSala() <= 0  || sala.getNumSala() > sucursal.getCantSalas() || sala.getNumSala() > 10){
+                throw new ObjectNotFoundException("Por favor, Coloque un número de sala válido");
+            }
+            else if (s.getNumSala() == sala.getNumSala()) {
+                throw new ObjectNotFoundException("Ya existe una sala con ese número en esta sucursal");
+            }
         }
 
     }

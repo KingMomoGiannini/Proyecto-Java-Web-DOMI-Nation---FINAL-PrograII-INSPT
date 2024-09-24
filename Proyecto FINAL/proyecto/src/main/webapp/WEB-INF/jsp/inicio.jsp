@@ -46,8 +46,6 @@
                         </div>
                         <div class="sedes-row">
                             <c:forEach items ="${sedesDelUsuario}" var="sede">
-
-
                                         <div class="sede-container">
                                             <div style="color:white">
                                                 <h1 class="new-amsterdam-font">Sucursal</h1>
@@ -77,7 +75,7 @@
                                                     </c:forEach> 
                                                 </c:if>
                                                 <a href="sedes/delete?idSucursal=${sede.getIdSucursal()}"><button class="boton-estilo">Eliminar Sede</button></a>
-                                                <a href="salas/salasDisponibles/${sede.getIdSucursal()}"><button class="boton-estilo">Ver Salas</button></a>
+                                                <a href="salas/salasDisponibles?idSucursal=${sede.getIdSucursal()}&idPrestador=${sede.getPrestador().getIdPrestador()}"><button class="boton-estilo">Ver Salas</button></a>
                                             </div>
                                         </div>
 
@@ -254,7 +252,7 @@
                                                     </c:choose>
                                                 </c:forEach> 
                                             </c:if>
-                                            <a href="salas/salasDisponibles/${sede.getIdSucursal()}"><button class="boton-estilo">Ver Salas</button></a>
+                                            <a href="salas/salasDisponibles?idSucursal=${sede.getIdSucursal()}&idPrestador=${sede.getPrestador().getIdPrestador()}"><button class="boton-estilo">Ver Salas</button></a>
                                         </div>
                                     </div>
                                     <c:if test = "${empty domiciliosDeSedes}">

@@ -18,6 +18,7 @@
             <div class="container-inicial">
                 <h1>Formulario de Reserva</h1>
             </div>
+            <br>
             <c:choose>
                 <c:when test="${Exito eq 'true'}">
                     <div class="mensaje-success">
@@ -30,24 +31,10 @@
                     </div>
                 </c:when>
             </c:choose>
-            <div class="mensaje">
-                <br><br><br>
-                <c:if test="${sessionScope.Exito == true}">
-                    <div class="mensaje">
-                        <h1>${sessionScope.mensaje}</h1>
-                    </div>
-                </c:if>
-                <br>
-                <c:if test="${error != null}">
-                    <div class="mensaje">
-                        <h1>${sessionScope.error}</h1>
-                    </div>
-                </c:if>
-                <c:remove var="mensaje" scope="session"/>
-                <c:remove var="Exito" scope="session"/>
-                <c:remove var="error" scope="session"/>
-                <br><br>
-            </div>
+            <br>
+            <c:remove var="mensaje" scope="session"/>
+            <c:remove var="Exito" scope="session"/>
+            <c:remove var="error" scope="session"/>
                 <form action= "${pageContext.request.contextPath}/reservas/${action}" method="post">
                     <input type="hidden" name="action" value="${action}">
                     <c:choose>

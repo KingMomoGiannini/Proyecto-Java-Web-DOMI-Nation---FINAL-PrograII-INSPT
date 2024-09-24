@@ -17,7 +17,8 @@
             <c:choose>
                 <c:when test="${action eq 'create'}">
                     <form action="${pageContext.request.contextPath}/salas/create" method="post">
-                        <input type="hidden" name="sucursal.idSucursal" value="${sucursal.idSucursal}">
+                        <input type="hidden" name="idSucursal" value="${sucursal.idSucursal}">
+                        <input type="hidden" name="idPrestador" value="${userLogueado.idPrestador}">
                         <label class="fuenteMin" for="numSala">Numero de sala:
                             <input class="text-box-ajuste" type="text" name="numSala" required>
                         </label>
