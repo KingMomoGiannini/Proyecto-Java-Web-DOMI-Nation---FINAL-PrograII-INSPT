@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="/css/inicio.css">
         <title>Lista de reservas</title>
     </head>
-    <body>
+    <body style ="background-color: black">
         <c:import url="navbar.jsp"/>
         <input type="hidden" name="" value="${action}">
         <input type="hidden" name="action" value="${action}">

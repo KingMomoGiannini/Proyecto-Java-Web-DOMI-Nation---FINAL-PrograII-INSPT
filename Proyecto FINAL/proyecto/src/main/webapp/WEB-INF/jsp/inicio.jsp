@@ -75,6 +75,7 @@
                                                     </c:forEach> 
                                                 </c:if>
                                                 <a href="sedes/delete?idSucursal=${sede.getIdSucursal()}"><button class="boton-estilo">Eliminar Sede</button></a>
+                                                <a href="sedes/update?idSucursal=${sede.getIdSucursal()}"><button class="boton-estilo">Editar Sede</button></a>
                                                 <a href="salas/salasDisponibles?idSucursal=${sede.getIdSucursal()}&idPrestador=${sede.getPrestador().getIdPrestador()}"><button class="boton-estilo">Ver Salas</button></a>
                                             </div>
                                         </div>
@@ -99,6 +100,14 @@
                                         <div style="color:white">
                                             <h1 class="new-amsterdam-font">Datos del usuario</h1>
                                             <p class = "new-amsterdam-font-pmax">ID de usuario: ${user.getIdUsuario()}</p>
+                                            <c:choose>
+                                                <c:when test="${user.getRol() == 'prestador'}">
+                                                    <p class = "new-amsterdam-font-pmax">ID de prestador: ${user.getIdPrestador()}</p>
+                                                </c:when>
+                                                <c:when test="${user.getRol() == 'cliente'}">
+                                                    <p class = "new-amsterdam-font-pmax">ID de cliente: ${user.getIdCliente()}</p>
+                                                </c:when>
+                                            </c:choose>
                                             <p class = "new-amsterdam-font-pmax">Nombre de usuario: ${user.getNombreUsuario()}</p>
                                             <p class = "new-amsterdam-font-pmax">Nombre: ${user.getNombre()}</p>
                                             <p class = "new-amsterdam-font-pmax">Apellido: ${user.getApellido()} </p>

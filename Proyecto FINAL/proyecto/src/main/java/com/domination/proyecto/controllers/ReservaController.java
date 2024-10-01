@@ -218,7 +218,7 @@ public class ReservaController {
             reservaService.deleteByIdReserva(idReserva);
             session.setAttribute("Exito", true);
             session.setAttribute("mensaje", "La reserva ha sido eliminada exitosamente");
-            return "redirect:/reservas/misReservas?idCliente="+ idCliente;
+            return redireccion;
         } catch (Exception e) {
             session.setAttribute("Exito", false);
             session.setAttribute("mensaje", "Error al eliminar la reserva");
@@ -276,14 +276,16 @@ public class ReservaController {
 
         // buscamos entre todas las reservas de la sala
         for (Reserva reservaExistente : reservasExistentes) {
-            // si la nueva reserva se hace en un horario que se solapa con los horarios de una reserva existente, mandamos una excepción
-            if ((reserva.getHoraInicio().isAfter(reservaExistente.getHoraInicio()) && reserva.getHoraInicio().isBefore(reservaExistente.getHoraFin())) ||
-                    (reserva.getHoraFin().isAfter(reservaExistente.getHoraInicio()) && reserva.getHoraFin().isBefore(reservaExistente.getHoraFin()))) {
-                throw new Exception("La sala se encuentra ocupada entre las horas " + reservaExistente.getHoraInicio() + " y " + reservaExistente.getHoraFin() + " por otra reserva.");
-            }
-            //Si la nueva reserva es igual a alguna reserva existente, mandamos otra excepción
-            if (reserva.getHoraInicio().isEqual(reservaExistente.getHoraInicio()) && reserva.getHoraFin().isEqual(reservaExistente.getHoraFin())) {
-                throw new Exception("Ya se realizó una reserva en ese horario para esta sala.");
+            // si la nueva reserva se hace en un horario que se solapa con los horarios de una reserva existente, mandamos una excepción a menos que se edite una reserva existente
+            if (reserva.getIdReserva()!= reservaExistente.getIdReserva()){
+                if ((reserva.getHoraInicio().isAfter(reservaExistente.getHoraInicio()) && reserva.getHoraInicio().isBefore(reservaExistente.getHoraFin())) ||
+                        (reserva.getHoraFin().isAfter(reservaExistente.getHoraInicio()) && reserva.getHoraFin().isBefore(reservaExistente.getHoraFin()))) {
+                    throw new Exception("La sala se encuentra ocupada entre las horas " + reservaExistente.getHoraInicio() + " y " + reservaExistente.getHoraFin() + " por otra reserva.");
+                }
+                //Si la nueva reserva es igual a alguna reserva existente, mandamos otra excepción
+                if (reserva.getHoraInicio().isEqual(reservaExistente.getHoraInicio()) && reserva.getHoraFin().isEqual(reservaExistente.getHoraFin())) {
+                    throw new Exception("Ya se realizó una reserva en ese horario para esta sala.");
+                }
             }
         }
     }

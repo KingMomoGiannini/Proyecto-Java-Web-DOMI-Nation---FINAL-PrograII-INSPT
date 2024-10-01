@@ -45,7 +45,14 @@
                         <br><br>
                         <div class="centrarEnPag">
                             <button class="botoncin" type="submit">Editar</button>
-                            <a class="botoncin-cancel" href="/salas/salasDisponibles?idSucursal=${sucursal.getIdSucursal()}&idPrestador=${userLogueado.getIdPrestador()}">Cancelar</a>
+                            <c:choose>
+                                <c:when test="${userLogueado.rol eq 'prestador'}">
+                                    <a class="botoncin-cancel" href="/salas/salasDisponibles?idSucursal=${sucursal.getIdSucursal()}&idPrestador=${userLogueado.getIdPrestador()}">Cancelar</a>
+                                </c:when>
+                                <c:when test="${userLogueado.rol eq 'administrador'}">
+                                    <a class="botoncin-cancel" href="/salas/salasDisponibles?idSucursal=${sucursal.getIdSucursal()}&idPrestador=${sucursal.getPrestador().getIdPrestador()}">Cancelar</a>
+                                </c:when>
+                            </c:choose>
                         </div>
                     </form>
                 </c:when>
@@ -59,7 +66,14 @@
                         <br><br>
                         <div class="centrarEnPag">
                             <button class="botoncin" type="submit">Eliminar</button>
-                            <a class="botoncin-cancel" href="/salas/salasDisponibles?idSucursal=${sucursal.getIdSucursal()}&idPrestador=${userLogueado.getIdPrestador()}">Cancelar</a>
+                            <c:choose>
+                                <c:when test="${userLogueado.rol eq 'prestador'}">
+                                    <a class="botoncin-cancel" href="/salas/salasDisponibles?idSucursal=${sucursal.getIdSucursal()}&idPrestador=${userLogueado.getIdPrestador()}">Cancelar</a>
+                                </c:when>
+                                <c:when test="${userLogueado.rol eq 'administrador'}">
+                                    <a class="botoncin-cancel" href="/salas/salasDisponibles?idSucursal=${sucursal.getIdSucursal()}&idPrestador=${sucursal.getPrestador().getIdPrestador()}">Cancelar</a>
+                                </c:when>
+                            </c:choose>
                         </div>
                     </form>
                 </c:when>

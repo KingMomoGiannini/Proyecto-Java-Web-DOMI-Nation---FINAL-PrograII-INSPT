@@ -1,5 +1,6 @@
 package com.domination.proyecto.controllers;
 
+import com.domination.proyecto.exceptions.ObjectNotFoundException;
 import com.domination.proyecto.models.Administrador;
 import com.domination.proyecto.models.Cliente;
 import com.domination.proyecto.models.Prestador;
@@ -42,8 +43,12 @@ public class RegistroController {
                                @RequestParam String email, @RequestParam String user, @RequestParam String pass, 
                                @RequestParam(required = false) String tipoUsuario, Model model) {
         try {
-            Administrador administrador = administradorService.getDefaultAdministrador(); // Obtener el administrador adecuado
+            String redireccion = null;
+            Administrador administrador = administradorService.getDefaultAdministrador(); // Obtener el administrador semi hardcodeado
             pass = passwordEncoder.encode(pass);
+            if (user.equals(administradorService.getDefaultAdministrador().getNombreUsuario()) || user.equals("Admin") || user.equals("ADMIN")){
+                throw new ObjectNotFoundException("El nombre de usuario que intentas utilizar no es valido.");
+            }
             if ("prestador".equals(tipoUsuario)) {
                 // Si el checkbox se encuentra tildado, crea un usuario de tipo prestador
                 Prestador elPrestador = new Prestador(user, nomCliente, apeCliente, email, pass, celular,tipoUsuario);
@@ -66,9 +71,12 @@ public class RegistroController {
         } catch (DataIntegrityViolationException ex) {
             model.addAttribute("error", "El nombre de usuario ya existe. Por favor, elige otro.");
             return "registro"; // Devuelve al formulario de registro
+        } catch (ObjectNotFoundException ex){
+            model.addAttribute("error", ex.getMessage());
+            return "registro";
         } catch (Exception ex) {
             model.addAttribute("error", "Hubo un problema con el registro: " + ex.getMessage());
-            return "error"; // Vista de error (puedes crear una vista error.jsp para manejar esto)
+            return "registro";
         }
     }
 }

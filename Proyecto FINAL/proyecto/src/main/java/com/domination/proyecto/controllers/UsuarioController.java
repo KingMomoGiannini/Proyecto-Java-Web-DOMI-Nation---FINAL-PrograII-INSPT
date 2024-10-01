@@ -1,6 +1,7 @@
 package com.domination.proyecto.controllers;
 
 import com.domination.proyecto.exceptions.ObjectNotFoundException;
+import com.domination.proyecto.models.Administrador;
 import com.domination.proyecto.models.Cliente;
 import com.domination.proyecto.models.Prestador;
 import com.domination.proyecto.models.Usuario;
@@ -40,10 +41,21 @@ public class UsuarioController {
     }
 
     @GetMapping("/create")
-    public String showCreateForm(Model model) {
+    public String showCreateForm(Model model,HttpSession session) {
         try {
+            String redir = null;
+            if(session.getAttribute("userLogueado") instanceof Administrador){
+                model.addAttribute("action", "create");
+                redir =  "formUsuarios";
+            }
+            else if(session.getAttribute("userLogueado") instanceof Cliente){
+                redir = "redirect:/usuarios/MiCuenta/edit?idUsuario=" + ((Cliente) session.getAttribute("userLogueado")).getIdUsuario();
+            }
+            else if(session.getAttribute("userLogueado") instanceof Prestador){
+                redir = "redirect:/usuarios/MiCuenta/edit?idUsuario=" + ((Prestador) session.getAttribute("userLogueado")).getIdUsuario();
+            }
             model.addAttribute("action", "create");
-            return "formUsuarios";
+            return redir;
         }
         catch (Exception e) {
             return "redirect:/inicio";
@@ -53,10 +65,15 @@ public class UsuarioController {
     @GetMapping("/MiCuenta/edit")
     public String showEditForm(@RequestParam("idUsuario") int idUsuario, Model model, HttpSession session){
         try{
+            //String redir = null;
+            if(session.getAttribute("userLogueado") instanceof Administrador){
+                throw new ObjectNotFoundException("Todavía no está disponible esta función.");
+            }
             Usuario usuarioSesion = (Usuario) session.getAttribute("userLogueado");
             int idUsuarioSesion = usuarioSesion.getIdUsuario();
             if (idUsuario != idUsuarioSesion) {
                 return "redirect:/usuarios/MiCuenta/edit?idUsuario=" + idUsuarioSesion;
+                //redir = "redirect:/usuarios/MiCuenta/edit?idUsuario=" + idUsuarioSesion;
             }
             Usuario usuario = usuarioService.findById(idUsuario)
                                             .orElseThrow(() -> new ObjectNotFoundException("Usuario no encontrado"));
@@ -64,6 +81,7 @@ public class UsuarioController {
                 setearFormAttributes(usuario, "edit", model);
             }
             return "formUsuarios";
+            //return redir;
         }catch (ObjectNotFoundException e) {
             session.setAttribute("Exito", false);
             session.setAttribute("mensajeError", e.getMessage());
@@ -79,17 +97,25 @@ public class UsuarioController {
     @GetMapping("/delete")
     public String showDeleteForm(@RequestParam("idUsuario") int idUsuario, Model model, HttpSession session) {
         try{
-            Usuario usuario = usuarioService.findById(idUsuario)
-                                            .orElseThrow(() -> new ObjectNotFoundException("Usuario no encontrado"));
-            if(usuario != null) {
-                setearFormAttributes(usuario, "delete", model);
+            String redir = null;
+            if (session.getAttribute("userLogueado") instanceof Administrador) {
+                Usuario usuario = usuarioService.findById(idUsuario)
+                                                .orElseThrow(() -> new ObjectNotFoundException("Usuario no encontrado"));
+                if(usuario != null) {
+                    setearFormAttributes(usuario, "delete", model);
+                    redir = "formUsuarios";
+                }
             }
-        }catch (Exception e) {
+            else {
+                throw new ObjectNotFoundException("No tenes permisos para realizar esta acción todavía.");
+            }
+            return redir;
+
+        }catch (ObjectNotFoundException e) {
                 session.setAttribute("Exito", false);
                 session.setAttribute("mensajeExito", e.getMessage());
                 return "redirect:/inicio";
         }
-        return "formUsuarios";
     }
 
     @PostMapping("/create")
@@ -98,6 +124,7 @@ public class UsuarioController {
                             @RequestParam String telefono, Model model, HttpSession session) {
         try {
             password = passwordEncoder.encode(password);
+            noAdminNombre(nombreUsuario);
             if("cliente".equals(tipoUsuario)){
                 Cliente usuario = new Cliente(nombreUsuario, nombre, apellido, email, password, telefono, tipoUsuario);
                 usuario.setAdministrador(administradorService.getDefaultAdministrador());
@@ -128,6 +155,7 @@ public class UsuarioController {
         try {
             Usuario usuario = usuarioService.findById(idUsuario)
                     .orElseThrow(() -> new ObjectNotFoundException("Usuario no encontrado"));
+            noAdminNombre(nombreUsuario);
             if(usuario != null) {
                 password = passwordEncoder.encode(password);
                 usuario.setNombre(nombre);
@@ -180,5 +208,11 @@ public class UsuarioController {
     private void setearSuccessAttributes(String mensaje, HttpSession session){
         session.setAttribute("Exito", true);
         session.setAttribute("mensajeExito", mensaje);
+    }
+
+    private void noAdminNombre(String nombreUsuario) {
+        if (nombreUsuario.equals("admin") || nombreUsuario.equals("Admin") || nombreUsuario.equals("ADMIN")) {
+            throw new DataIntegrityViolationException("No se puede crear un usuario con ese nombre de usuario");
+        }
     }
 }

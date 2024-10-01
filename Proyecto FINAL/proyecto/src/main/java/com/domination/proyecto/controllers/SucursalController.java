@@ -1,6 +1,7 @@
 package com.domination.proyecto.controllers;
 
 import com.domination.proyecto.exceptions.ObjectNotFoundException;
+import com.domination.proyecto.models.Administrador;
 import com.domination.proyecto.models.Domicilio;
 import com.domination.proyecto.models.Sucursal;
 import com.domination.proyecto.models.Prestador;
@@ -49,17 +50,17 @@ public class SucursalController {
     @GetMapping("/update")
     public String showEditForm(@RequestParam("idSucursal") int idSucursal, Model model, HttpSession session){
         try {
-            Prestador prestador = (Prestador) session.getAttribute("userLogueado");
             Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
                     .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
-            validarSucuPrest(prestador, sucursal);
-            System.out.println("nombre de sucursal: " + sucursal.getNombre());
-            Domicilio elDom = sucursal.getDomicilio();
-            Prestador elPrestador = sucursal.getPrestador();
-            model.addAttribute("elPrestador", elPrestador);
-            model.addAttribute("laSede", sucursal);
-            model.addAttribute("elDom", elDom);
-            model.addAttribute("action", "update");
+            if (session.getAttribute("userLogueado") instanceof Administrador) {
+                Prestador prestador = sucursal.getPrestador();
+                validarSucuPrest(prestador, sucursal);
+            }
+            else if (session.getAttribute("userLogueado") instanceof Prestador) {
+                Prestador prestador = (Prestador) session.getAttribute("userLogueado");
+                validarSucuPrest(prestador, sucursal);
+            }
+            establecerAtributos(model, sucursal.getPrestador(), sucursal, sucursal.getDomicilio(), "update");
             return "formSedes";
         }
         catch (ObjectNotFoundException e) {
@@ -72,16 +73,18 @@ public class SucursalController {
     @GetMapping("/delete")
     public String showDeleteForm(@RequestParam("idSucursal") int idSucursal, Model model, HttpSession session) {
         try{
-            Prestador prestador = (Prestador) session.getAttribute("userLogueado");
+            //Prestador prestador = (Prestador) session.getAttribute("userLogueado");
             Sucursal laSede = sucursalService.findByIdSucursal(idSucursal)
                                              .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
-            validarSucuPrest(prestador, laSede);
-            Domicilio elDom = laSede.getDomicilio();
-            Prestador elPrestador = laSede.getPrestador();
-            model.addAttribute("elPrestador",elPrestador);
-            model.addAttribute("laSede", laSede);
-            model.addAttribute("elDom", elDom);
-            model.addAttribute("action", "delete");
+            if (session.getAttribute("userLogueado") instanceof Administrador) {
+                Prestador prestador = laSede.getPrestador();
+                validarSucuPrest(prestador, laSede);
+            }
+            else if (session.getAttribute("userLogueado") instanceof Prestador) {
+                Prestador prestador = (Prestador) session.getAttribute("userLogueado");
+                validarSucuPrest(prestador, laSede);
+            }
+            establecerAtributos(model, laSede.getPrestador(), laSede, laSede.getDomicilio(), "delete");
         }
         catch (ObjectNotFoundException e) {
             session.setAttribute("Exito", false);
@@ -163,6 +166,11 @@ public class SucursalController {
             session.setAttribute("mensajeExito", "Error al actualizar la sucursal");
             return "redirect:/inicio";
         }
+        catch (DataIntegrityViolationException e) { //cuando se lance una excepcion SQL por tener un valor duplicado (como el nombre de la sucursal)
+            session.setAttribute("Exito", false);
+            session.setAttribute("mensajeExito", "Error al actualizar la sucursal. El nombre de la sucursal ya existe.");
+            return "redirect:/inicio";
+        }
     }
 
     @PostMapping("/delete")
@@ -214,5 +222,12 @@ public class SucursalController {
         if (sucursal.getPrestador().getIdPrestador() != prestador.getIdPrestador()){
             throw new ObjectNotFoundException("Sucursal no encontrada");
         }
+    }
+
+    private void establecerAtributos(Model model, Prestador elPrestador, Sucursal laSede, Domicilio elDom, String action){
+        model.addAttribute("elPrestador",elPrestador);
+        model.addAttribute("laSede", laSede);
+        model.addAttribute("elDom", elDom);
+        model.addAttribute("action", action);
     }
 }

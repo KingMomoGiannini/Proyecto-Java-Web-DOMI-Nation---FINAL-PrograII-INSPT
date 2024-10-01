@@ -88,15 +88,18 @@ public class SalaController {
     @GetMapping("/edit")
     public String showEditForm(@RequestParam("idSala") int idSala, @RequestParam("idSucursal") int idSucursal, Model model, HttpSession session) {
         try {
-            Prestador elUser = (Prestador)session.getAttribute("userLogueado");
             Sala sala = salaService.findById(idSala)
                     .orElseThrow(() -> new ObjectNotFoundException("Sala no encontrada"));
             Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
                     .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
-            validarSalaSucuPrest(elUser, sucursal, sala);
-            model.addAttribute("sala", sala);
-            model.addAttribute("sucursal", sucursal);
-            model.addAttribute("action", "update");
+            if (session.getAttribute("userLogueado") instanceof Administrador){
+                validarSalaSucuPrest(sucursal.getPrestador(), sucursal, sala);
+            }
+            else if (session.getAttribute("userLogueado") instanceof Prestador){
+                Prestador elUser = (Prestador) session.getAttribute("userLogueado");
+                validarSalaSucuPrest(elUser, sucursal, sala);
+            }
+            setAtributosModelo(sala, sucursal, model, "update");
             return "formSalas";
         }catch (ObjectNotFoundException e){
             session.setAttribute("Exito", false);
@@ -108,14 +111,18 @@ public class SalaController {
     @GetMapping("/delete")
     public String showDeleteForm(@RequestParam("idSala") int idSala, @RequestParam("idSucursal") int idSucursal, Model model, HttpSession session) {
         try{
-
             Sala sala = salaService.findById(idSala)
-                                   .orElseThrow(() -> new ObjectNotFoundException("Sala no encontrada con id: " + idSala));
+                    .orElseThrow(() -> new ObjectNotFoundException("Sala no encontrada con id: " + idSala));
             Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
-                                               .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
-            model.addAttribute("sala", sala);
-            model.addAttribute("sucursal", sucursal);
-            model.addAttribute("action", "delete");
+                    .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
+            if (session.getAttribute("userLogueado") instanceof Administrador){
+                validarSalaSucuPrest(sucursal.getPrestador(), sucursal, sala);
+            }
+            else if (session.getAttribute("userLogueado") instanceof Prestador){
+                Prestador elUser = (Prestador) session.getAttribute("userLogueado");
+                validarSalaSucuPrest(elUser, sucursal, sala);
+            }
+            setAtributosModelo(sala, sucursal, model, "delete");
             return "formSalas";
         }catch (ObjectNotFoundException e){
             session.setAttribute("Exito", false);
@@ -134,7 +141,7 @@ public class SalaController {
             Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
                     .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
             sala.setSucursal(sucursal);
-            repeticionNumSalas(sucursal, sala);
+            repeticionNumSalas(sucursal, sala, "create");
             salaService.save(sala);
             if (sala == null) {
                 throw new ObjectNotFoundException("Error al crear la Sala");
@@ -150,19 +157,24 @@ public class SalaController {
     }
 
     @PostMapping("/update")
-    public String updateSala(@RequestParam("idSucursal") int idSucursal,@ModelAttribute Sala sala, Model model, HttpSession session) {
+    public String updateSala(@RequestParam("idSucursal") int idSucursal,
+                             @RequestParam("idSala") int idSala,
+                             @ModelAttribute Sala sala, Model model, HttpSession session) {
         try {
             Sucursal sucursal = sucursalService.findByIdSucursal(idSucursal)
                     .orElseThrow(() -> new ObjectNotFoundException("Sucursal no encontrada con id: " + idSucursal));
+            Sala salaActual = salaService.findById(sala.getIdSala())
+                    .orElseThrow(() -> new ObjectNotFoundException("Sala no encontrada con id: " + sala.getIdSala()));
             sala.setSucursal(sucursal);
-            repeticionNumSalas(sucursal, sala);
+            sala.setIdSala(idSala);
+            repeticionNumSalas(sucursal, sala,"update");
             salaService.save(sala);
             session.setAttribute("Exito", true);
             session.setAttribute("mensaje", "La Sala ha sido actualizada exitosamente");
             return "redirect:/salas/salasDisponibles?idSucursal=" + sala.getSucursal().getIdSucursal()+"&idPrestador="+sala.getSucursal().getPrestador().getIdPrestador();
         } catch (Exception e) {
             session.setAttribute("Exito", false);
-            session.setAttribute("mensaje", "Error al actualizar la Sala");
+            session.setAttribute("mensaje", e.getMessage());
             return "redirect:/salas/salasDisponibles?idSucursal=" + sala.getSucursal().getIdSucursal()+"&idPrestador="+sala.getSucursal().getPrestador().getIdPrestador();
         }
     }
@@ -171,7 +183,7 @@ public class SalaController {
     public String deleteSala(@RequestParam("idSala") int idSala, @RequestParam("idSucursal") int idSucursal, Model model, HttpSession session) {
         try {
             Sala sala = salaService.findById(idSala)
-                                   .orElseThrow(() -> new ObjectNotFoundException("Sala no encontrada con id: " + idSala));
+                    .orElseThrow(() -> new ObjectNotFoundException("Sala no encontrada con id: " + idSala));
             /* Versión del algoritmo que verifica si la sala tiene reservas asociadas antes de eliminarla
 
             List<Reserva> reservas = reservaService.findReservasBySala(sala);
@@ -213,26 +225,35 @@ public class SalaController {
 
     }
 
-    private void repeticionNumSalas(Sucursal sucursal, Sala sala){
+    private void repeticionNumSalas(Sucursal sucursal, Sala sala, String action){
+        int MAX_SALAS = 10;
+        int MIN_SALAS = 1;
         List<Sala> salas = sucursal.getSalas();
-        if (salas.size() >= sucursal.getCantSalas()){
+
+        if (salas.size() >= sucursal.getCantSalas() && action.equals("create")){
             throw new ObjectNotFoundException("No se pueden crear más salas en esta sucursal");
         }
         else if (salas.isEmpty()){
-            if (sala.getNumSala() <= 0  || sala.getNumSala() > sucursal.getCantSalas() || sala.getNumSala() > 10){
+            if (sala.getNumSala() < MIN_SALAS  || sala.getNumSala() > sucursal.getCantSalas() || sala.getNumSala() > MAX_SALAS){
                 throw new ObjectNotFoundException("Por favor, Coloque un número de sala válido");
             }
         }
-        //si se repite el numero de sala en la misma sucursal tirar una excepcion
+        //si se repite el numero de sala en la misma sucursal tira una excepcion
         for (Sala s : salas) {
-            if (sala.getNumSala() <= 0  || sala.getNumSala() > sucursal.getCantSalas() || sala.getNumSala() > 10){
+            if (sala.getNumSala() < MIN_SALAS  || sala.getNumSala() > sucursal.getCantSalas() || sala.getNumSala() > MAX_SALAS){
                 throw new ObjectNotFoundException("Por favor, Coloque un número de sala válido");
             }
-            else if (s.getNumSala() == sala.getNumSala()) {
+            else if (s.getNumSala() == sala.getNumSala() &&  s.getIdSala() != sala.getIdSala()){
                 throw new ObjectNotFoundException("Ya existe una sala con ese número en esta sucursal");
             }
         }
 
+    }
+
+    private void setAtributosModelo( Sala sala, Sucursal sucursal, Model model, String action){
+        model.addAttribute("sala", sala);
+        model.addAttribute("sucursal", sucursal);
+        model.addAttribute("action", action);
     }
 
 }
