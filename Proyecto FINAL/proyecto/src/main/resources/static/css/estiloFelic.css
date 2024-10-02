@@ -2,62 +2,63 @@
 @import url('https://fonts.googleapis.com/css2?family=Bahiana&family=Bebas+Neue&family=Permanent+Marker&family=Tilt+Prism&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bahiana&family=Barlow+Condensed&family=Bebas+Neue&family=Permanent+Marker&family=Tilt+Prism&display=swap');
 
-* {
-    box-sizing: border-box;
-}
-
-body{
-    max-width: 1000px;
+.clase-maestra{
     background-color: black;
-    font-family: 'Bahiana', cursive;
+    max-width: 2000px;
     display: flex;
+    flex-direction: column;
     margin: auto;
 }
 
-.container-texto{
+.container-texto {
     background-color: grey;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
     margin:auto;
-    padding-bottom: 15px;
+    padding: 15px;
     border-style: double;
     border-radius: 10px;
-    width: 900px;
+    width: 90%;
+    max-width: 900px;
     position: static;
 }
 
+.fuentePrincFondo{
+    background-color:  rgba(206, 5, 5, 0.8);
+    font-family: 'Bahiana', cursive;
+    color: black;
+    font-size: 30px;
+    padding: 10px;
+
+}
 .container-texto h1{
     font-size: 50px;
 }
 
-.container-texto .parrafin {
+.parrafin p1{
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 25px;
     margin: 5px;
 }
 
-.botoncin button {
+.botoncin{
     font-family: 'Bahiana', cursive;
     font-size: 30px;
     color: white;
     padding: 9px 25px;
     background: #212629;
-    border: none;
+    border: solid 2px white;
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s ease 0s;
     position:static;
 }
 
-.botoncin button:hover{
+.botoncin:hover{
     background-color: #3e4041;
-    color: #ff0e0e;
+    color: white;
     transform: scale(1.1);
 }
 
-.fuentePrincFondo{
-    background-color:  rgba(206, 5, 5, 0.8);
-    color: black;
-    font-size: 30px;
-    padding: 10px;
-
-}

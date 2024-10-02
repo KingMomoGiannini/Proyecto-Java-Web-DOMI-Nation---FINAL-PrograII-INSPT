@@ -216,7 +216,7 @@ img.logo {
 
 .elcontainer .mensaje-success h1{/*Mensaje de exito con recuadro verde*/
     background-color: green;
-    color: rgb(18, 41, 18);
+    color: white;
     font-size: 30px;
     font-family: 'Barlow Condensed', sans-serif;
     padding: 5px;

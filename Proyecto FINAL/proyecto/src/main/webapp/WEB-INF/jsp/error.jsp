@@ -4,6 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/inicio.css">
         <title>Error</title>
     </head>
@@ -12,10 +13,11 @@
         <div class="elcontainer">
             <br><br>
             <div class="container-error">
-                <img src="${pageContext.request.contextPath}/img/error.jpg" alt="Error">
+                <img class="error-image" src="${pageContext.request.contextPath}/img/error.jpg" alt="Error">
                 <div class="error-message">
                     <h1>SE TE CAYÓ UN ERROR, MASTER. </h1>
                     <h1>LA URL QUE ESTAS INTENTANDO BUSCAR NO EXISTE.</h1>
+                    <img style="width: 100px; height: 100px;" src="${pageContext.request.contextPath}/img/error-icon-4.png" alt="Error">
                 </div>
             </div>
             <br><br>

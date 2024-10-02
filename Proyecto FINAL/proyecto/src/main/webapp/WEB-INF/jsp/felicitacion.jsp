@@ -5,9 +5,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Usuario creado</title>
+        <link rel="stylesheet" href="/css/navbar.css">
         <link rel="stylesheet" href="/css/estiloFelic.css">
     </head>
-<body>
+<body class="clase-maestra">
+    <c:import url="navbar.jsp"/>
+    <br><br>
     <div class="container-texto">
         <h1 class="fuentePrincFondo">Felicitaciones ${elUsuario.nombre}! </h1>
         <div class="parrafin">
@@ -17,11 +20,11 @@
             </p1>
         </div>
         <br><br>
-        <div class="botoncin">
-            
-            <a href="${pageContext.request.contextPath}/"><button type="submit">Volver al inicio</button></a>&nbsp;&nbsp;
-            <a href="${pageContext.request.contextPath}/ingresar"><button type="submit">ingresar</button></a>
+        <div>
+            <a href="${pageContext.request.contextPath}/"><button class="botoncin" type="submit">Volver al inicio</button></a>&nbsp;&nbsp;
+            <a href="${pageContext.request.contextPath}/ingresar"><button class="botoncin" type="submit">ingresar</button></a>
         </div>
     </div><br>
+    <c:import url="footer.jsp"/>
 </body>
 </html>
