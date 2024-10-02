@@ -2,6 +2,7 @@ package com.domination.proyecto.services;
 
 import com.domination.proyecto.exceptions.ObjectNotFoundException;
 import com.domination.proyecto.models.Cliente;
+import com.domination.proyecto.models.Prestador;
 import com.domination.proyecto.models.Reserva;
 import com.domination.proyecto.models.Sala;
 import com.domination.proyecto.repositories.ClienteRepository;
@@ -52,6 +53,16 @@ public class ReservaService {
     
     public List<Reserva> findAll(){
         return reservaRepository.findAll();
+    }
+
+    public List<Reserva> findByPrestador(Prestador prestador){
+        List<Reserva> todas = reservaRepository.findAll();
+        for(Reserva r : todas){
+            if(r.getSala().getSucursal().getPrestador().equals(prestador)){
+                todas.add(r);
+            }
+        }
+        return todas;
     }
 
     public void deleteReservasBySala(Sala sala) {

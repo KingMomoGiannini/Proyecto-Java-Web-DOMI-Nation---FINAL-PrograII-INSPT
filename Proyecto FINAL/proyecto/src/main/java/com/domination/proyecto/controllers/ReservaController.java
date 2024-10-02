@@ -64,16 +64,7 @@ public class ReservaController {
             if (prestador.getIdPrestador() != idPrestador) {
                 return "redirect:/reservas/listaReservas?idPrestador=" + prestador.getIdPrestador();
             }
-            List<Reserva> reservas = new LinkedList<>();
-            List<Sucursal> sucursales = prestador.getSucursales();
-            for (Sucursal sucursal : sucursales) {
-                List<Sala> salas = sucursal.getSalas();
-                for (Sala sala : salas) {
-                    for (Reserva reserva : sala.getReservas()) {
-                        reservas.add(reserva);
-                    }
-                }
-            }
+            List<Reserva> reservas = reservaService.findByPrestador(prestador);
             model.addAttribute("reservas", reservas);
             return "listaReservas";
         }
@@ -128,18 +119,7 @@ public class ReservaController {
     @GetMapping("/edit")
     public String editReservaForm(@RequestParam("idReserva") int idReserva, Model model, HttpSession session) {
         try {
-            if (session.getAttribute("userLogueado") instanceof Cliente) {
-                Cliente cliente = (Cliente) session.getAttribute("userLogueado");
-                setAtributosEditReserva(model, idReserva);
-            }
-            else if (session.getAttribute("userLogueado") instanceof Prestador) {
-                Prestador prestador = (Prestador) session.getAttribute("userLogueado");
-                setAtributosEditReserva(model, idReserva);
-            }
-            else if(session.getAttribute("userLogueado") instanceof Administrador){
-                Administrador administrador = (Administrador) session.getAttribute("userLogueado");
-                setAtributosEditReserva(model, idReserva);
-            }
+            setAtributosEditReserva(model, idReserva, "update");
             return "formReservas";
         }
         catch (ObjectNotFoundException e) {
@@ -152,16 +132,7 @@ public class ReservaController {
     @GetMapping("/delete")
     public String deleteReservaForm(@RequestParam("idReserva") int idReserva, Model model, HttpSession session) {
         try {
-            Reserva reserva = reservaService.findByIdReserva(idReserva)
-                    .orElseThrow(() -> new ObjectNotFoundException("Reserva no encontrada"));
-            Sala sala = reserva.getSala();
-            Sucursal sucursal = sala.getSucursal();
-            Cliente cliente = reserva.getCliente();
-            model.addAttribute("reserva", reserva);
-            model.addAttribute("sala", sala);
-            model.addAttribute("sucursal", sucursal);
-            model.addAttribute("cliente", cliente);
-            model.addAttribute("action", "delete");
+            setAtributosEditReserva(model, idReserva, "delete");
             return "formReservas";
         }
         catch (ObjectNotFoundException e) {
@@ -290,7 +261,7 @@ public class ReservaController {
         }
     }
 
-    public void setAtributosEditReserva(Model model, int idReserva) {
+    public void setAtributosEditReserva(Model model, int idReserva, String action) {
         Reserva reserva = reservaService.findByIdReserva(idReserva)
                 .orElseThrow(() -> new ObjectNotFoundException("Reserva no encontrada"));
         Sala sala = reserva.getSala();
@@ -300,7 +271,7 @@ public class ReservaController {
         model.addAttribute("sala", sala);
         model.addAttribute("sucursal", sucursal);
         model.addAttribute("cliente", cliente);
-        model.addAttribute("action", "update");
+        model.addAttribute("action", action);
     }
 
     public String redirSegunUsuario(HttpSession session){
