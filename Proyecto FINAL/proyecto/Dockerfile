@@ -7,10 +7,9 @@ RUN mvn -DskipTests=true -B clean package
 # Copia el artefacto (jar o war ejecutable) con nombre estándar
 RUN cp target/*.[jw]ar app.jar
 
-# Etapa de runtime
-FROM eclipse-temurin:17-jre
-WORKDIR /app
-COPY --from=build /app/app.jar /app/app.jar
+# Runtime con Tomcat 10 (Jakarta EE), compatible con Spring Boot 3
+FROM tomcat:10.1-jdk17-temurin
+RUN rm -rf /usr/local/tomcat/webapps/*
+COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
 EXPOSE 8080
-ENV JAVA_OPTS=""
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]
+CMD ["catalina.sh", "run"]
