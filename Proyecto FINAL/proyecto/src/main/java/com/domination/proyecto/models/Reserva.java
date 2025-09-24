@@ -38,6 +38,9 @@ public class Reserva {
     @JoinColumn(name = "cliente_idcliente", referencedColumnName = "id_cliente")
     private Cliente cliente;
 
+    @Column(name = "fecha_reserva")
+    private LocalDateTime fechaReserva;
+
     public Reserva() {
     }
 
@@ -72,6 +75,8 @@ public class Reserva {
     public LocalDateTime getHoraFin() {
         return horaFin;
     }
+
+    public LocalDateTime getFechaReserva(){return fechaReserva;}
 
     public double getMonto() {
         return monto;
@@ -112,7 +117,11 @@ public class Reserva {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    
+
+    public void setFechaReserva(LocalDateTime fechaReserva){
+        this.fechaReserva = fechaReserva;
+    }
+
     public LocalTime getHoraMinutoInicio(){
         return this.horaInicio.toLocalTime();
     }

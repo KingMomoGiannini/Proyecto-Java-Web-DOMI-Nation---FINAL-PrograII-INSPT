@@ -13,6 +13,7 @@ import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -147,6 +148,7 @@ public class ReservaController {
         try {
             String redireccion = redirSegunUsuario(session);
             Reserva reserva = obtenerReservaDesdeRequest(req);
+            reserva.setFechaReserva(LocalDateTime.now());
             Sala sala = reserva.getSala();
             Sucursal sucursal = sala.getSucursal();
             validarReserva(reserva, sucursal);
@@ -206,7 +208,7 @@ public class ReservaController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime horaInicio = LocalDateTime.parse(fechaStr + " " + horaInicioStr, formatter);
         LocalDateTime horaFin = LocalDateTime.parse(fechaStr + " " + horaFinStr, formatter);
-        //calculamos la duración entre la hora de inicio y de fín 
+        //calculamos la duración entre la hora de inicio y de fín
         Duration duracionReserva = Duration.between(horaInicio, horaFin);
         //pasamos la duración a minutos
         long minutos = duracionReserva.toMinutes();
@@ -222,6 +224,7 @@ public class ReservaController {
         Sala laSala = salaService.findById(idSala)
                                  .orElseThrow(() -> new ObjectNotFoundException("sala no encontrada"));
         double monto = (laSala.getValorHora() * duracion);//multiplicamos el valor hora de la sala por el tiempo en horas.
+
         Reserva reserva = new Reserva(duracion,horaInicio,horaFin,monto,laSala,cliente);
         if (req.getParameter("idReserva") != null) {
             int idReserva = Integer.parseInt(req.getParameter("idReserva"));

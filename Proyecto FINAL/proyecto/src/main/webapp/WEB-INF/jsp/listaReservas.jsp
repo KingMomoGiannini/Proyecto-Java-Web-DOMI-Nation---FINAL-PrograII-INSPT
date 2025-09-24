@@ -58,6 +58,7 @@
                                     <h2 class="new-amsterdam-font-roja">ID de Reserva: ${reserva.getIdReserva()}</h2>
                                     <p class="new-amsterdam-font-pmax">ID de Cliente:</strong> ${reserva.getCliente().getIdCliente()}</p>
                                     <p class="new-amsterdam-font-pmax">ID de Sala:</strong> ${reserva.getSala().getIdSala()}</p>
+                                    <p class="new-amsterdam-font-pmax">Fecha de Reserva:</strong> ${reserva.getFechaReserva()}</p>
                                     <p class="new-amsterdam-font-pmax">Hora de entrada:</strong> ${reserva.getHoraInicio()}</p>
                                     <p class="new-amsterdam-font-pmax">Hora de salida:</strong> ${reserva.getHoraFin()}</p>
                                     <p class="new-amsterdam-font-pmax">Monto a pagar: $</strong> ${reserva.getMonto()}</p>

@@ -67,7 +67,8 @@
                                 <input class="text-box-ajuste" type="text" value="ID de reserva:  ${reserva.getIdReserva()}" readonly>
                                 <input class="text-box-ajuste" type="text" name="idSala" value="ID de la sala:  ${sala.getIdSala()}" readonly>
                                 <input class="text-box-ajuste" type="text" value="Reserva en:  ${sala.getSucursal().nombre}" readonly>
-                                <input class="text-box-ajuste" type="text" value="Fecha :  ${reserva.getSoloFecha()}" readonly>                                
+                                <input class="text-box-ajuste" type="text" value="Fecha en la que reservó: ${reserva.getFechaReserva()}" readonly>
+                                <input class="text-box-ajuste" type="text" value="Fecha :  ${reserva.getSoloFecha()}" readonly>
                                 <input class="text-box-ajuste" type="text" value="Desde las :  ${reserva.getHoraMinutoInicio()} hs" readonly>
                                 <input class="text-box-ajuste" type="text" value="Hasta las :  ${reserva.getHoraMinutoFin()} hs" readonly>
                                 <input class="text-box-ajuste" type="text" value="Monto a pagar:  $${reserva.getMonto()}" readonly>
