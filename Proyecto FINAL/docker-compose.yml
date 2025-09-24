@@ -1,0 +1,37 @@
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: domination-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "1614"
+      MYSQL_DATABASE: "gestion_domination"
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./DER y BDD/gestion_domination.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro"
+      - domination-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p1614"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  app:
+    build:
+      context: ./proyecto
+      dockerfile: Dockerfile
+    container_name: domination-app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/gestion_domination?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "1614"
+      SPRING_JPA_HIBERNATE_DDL_AUTO: "validate"
+    ports:
+      - "8080:8080"
+
+volumes:
+  domination-mysql-data:
